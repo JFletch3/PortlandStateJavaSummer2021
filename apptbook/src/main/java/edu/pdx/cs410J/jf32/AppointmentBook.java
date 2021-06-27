@@ -1,32 +1,38 @@
 package edu.pdx.cs410J.jf32;
 
+import edu.pdx.cs410J.AbstractAppointment;
 import edu.pdx.cs410J.AbstractAppointmentBook;
+
+import java.util.ArrayList;
 import java.util.Collection;
 
 
-public class AppointmentBook<T extends AbstractAppointmentBook>{
-
+public class AppointmentBook extends AbstractAppointmentBook<Appointment>
+{
     String ownerName;
-    Collection<T> appointments;
+    Collection<Appointment> appointments;
 
     public AppointmentBook(String Owner)
     {
         ownerName = Owner;
+        appointments = new ArrayList<Appointment>();
     }
 
+    @Override
     public String getOwnerName()
     {
         return ownerName;
     }
 
-    public void addAppointment(T appt)
+    @Override
+    public Collection<Appointment> getAppointments()
     {
-        appointments.add(appt);
+        return appointments;
     }
 
-    public Collection<T> getAppointments()
-    {
 
-        return appointments;
+    public void addAppointment(Appointment appt)
+    {
+        appointments.add(appt);
     }
 }
