@@ -8,25 +8,19 @@ public class Appointment extends AbstractAppointment {
   private String startTime;
   private String endTime;
 
-//  public Appointment(String desc, String start, String end)
-//  {
-//    description = desc;
-//    startTime = start;
-//    endTime = end;
-//  }
   public void setDescription(String description)
   {
     this.description = description;
   }
 
-  public void setStartTime(String startTime)
+  public void setStartTime(String startDate,  String startTime)
   {
-    this.startTime = startTime;
+    this.startTime = startDate  + " " + startTime;
   }
 
-  public void setEndTime(String endTime)
+  public void setEndTime(String endDate,  String endTime)
   {
-    this.endTime = endTime;
+    this.endTime = endDate + " " + endTime;
   }
 
   @Override
