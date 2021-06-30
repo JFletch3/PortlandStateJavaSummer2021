@@ -26,19 +26,30 @@ public class Appointment extends AbstractAppointment {
   @Override
   public String getBeginTimeString()
   {
+    if (startTime == null)
+    {
+      throw new UnsupportedOperationException("StartTime is null.");
+    }
     return startTime;
   }
 
   @Override
   public String getEndTimeString()
   {
-    //throw new UnsupportedOperationException("This method is not implemented yet");
+    if (endTime == null)
+    {
+      throw new UnsupportedOperationException("StartTime is null.");
+    }
     return endTime;
   }
 
   @Override
   public String getDescription()
   {
+    if (description == null)
+    {
+      return "Description is not implemented.";
+    }
     return description;
   }
 }

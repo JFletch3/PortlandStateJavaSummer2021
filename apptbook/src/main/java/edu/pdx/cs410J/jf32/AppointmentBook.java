@@ -10,17 +10,31 @@ import java.util.Collection;
 public class AppointmentBook extends AbstractAppointmentBook<Appointment>
 {
     String ownerName;
-    Collection<Appointment> appointments;
+    Collection<Appointment> appointments = new ArrayList<Appointment>();
 
-    public AppointmentBook(String Owner)
+//    public AppointmentBook(String Owner)
+//    {
+//        ownerName = Owner;
+//        appointments = new ArrayList<Appointment>();
+//    }
+
+    public void setOwnerName(String ownerName)
     {
-        ownerName = Owner;
-        appointments = new ArrayList<Appointment>();
+        this.ownerName = ownerName;
     }
+
+//    public void setAppointments(Collection<Appointment> appointments)
+//    {
+//        this.appointments = appointments;
+//    }
 
     @Override
     public String getOwnerName()
     {
+        if (ownerName == null)
+        {
+            throw new UnsupportedOperationException("Owner Name is null.");
+        }
         return ownerName;
     }
 

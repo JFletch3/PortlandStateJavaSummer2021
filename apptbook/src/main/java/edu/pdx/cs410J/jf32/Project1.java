@@ -10,9 +10,17 @@ public class Project1 {
   public static void main(String[] args) {
 
     Collection<Appointment> appts;
-    AppointmentBook newAppointmentBook = new AppointmentBook(args[0]);
+    AppointmentBook newAppointmentBook = new AppointmentBook();
     Appointment appointment = new Appointment();
 
+    if (args.length != 6)
+    {
+      throw new UnsupportedOperationException("Invalid amount of CL arguments. There must be 6 args " +
+                                              "- Owner, Description, Start date, Start time" +
+                                              ", End date and End time.");
+    }
+
+    newAppointmentBook.setOwnerName(args[0]);
     appointment.setDescription(args[1]);
     appointment.setStartTime(args[2], args[3]);
     appointment.setEndTime(args[4], args[5]);
@@ -26,12 +34,6 @@ public class Project1 {
     {
       System.out.println(ap.toString());
     }
-
-
-//    for (String arg : args) {
-//      System.out.println(arg);
-//    }
-
 
     System.exit(1);
   }
