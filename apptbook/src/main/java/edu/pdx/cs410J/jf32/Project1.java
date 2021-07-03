@@ -1,7 +1,10 @@
 package edu.pdx.cs410J.jf32;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collection;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 /**
  * The main class for the CS410J appointment book Project
  */
@@ -24,14 +27,40 @@ public class Project1 {
                       "Leave -README off the argument list if you would like the program to run fully.");
   }
 
+  public static void checkDateFormat(String date)
+  {
+    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy");
+    dFormat.setLenient(false);
+
+    try
+    {
+      dFormat.parse(date);
+    }
+    catch (ParseException e)
+    {
+      System.err.println("Date format not correct: " + date + " --- Should be mm/dd/yyyy");
+      System.exit(1);
+    }
+  }
 
   public static void main(String[] args) {
-
 
     Collection<Appointment> appts;
     AppointmentBook newAppointmentBook = new AppointmentBook();
     Appointment appointment = new Appointment();
     int printOption = 0;
+
+
+    if (args.length == 0)
+    {
+      System.err.println("Missing command line arguments.");
+      System.exit(1);
+    }
+    else if (args.length < 6)
+    {
+      System.err.println("Insufficient number of arguments.");
+      System.exit(1);
+    }
 
     for(String ap : args)
     {
@@ -40,25 +69,39 @@ public class Project1 {
         readME();
         System.exit(1);
       }
-      else if (ap.toUpperCase().contains("-PRINT"))
-      {
-        printOption = 1;
-      }
     }
 
-    if (args.length == 0)
+    if(!args[0].toUpperCase().contains("-PRINT"))
     {
-      throw new UnsupportedOperationException("Invalid amount of CL arguments." +
-                                              "Owner, Description, Start date, Start time, End date and End time.");
-    }
+      for (String ap : args)
+      {
+        if (ap.toUpperCase().contains("-PRINT"))
+        {
+          System.err.println("Option -PRINT is in the wrong location in the argument list.");
+          System.exit(1);
+        }
+      }
 
-    newAppointmentBook.setOwnerName(args[0]);
-    appointment.setDescription(args[1]);
-    appointment.setStartTime(args[2], args[3]);
-    appointment.setEndTime(args[4], args[5]);
+      checkDateFormat(args[2]);
+      checkDateFormat(args[4]);
+
+      newAppointmentBook.setOwnerName(args[0]);
+      appointment.setDescription(args[1]);
+      appointment.setStartTime(args[2], args[3]);
+      appointment.setEndTime(args[4], args[5]);
+    }
+    else if (args[0].toUpperCase().contains("-PRINT"))
+    {
+      printOption = 1;
+      checkDateFormat(args[3]);
+      checkDateFormat(args[5]);
+      newAppointmentBook.setOwnerName(args[1]);
+      appointment.setDescription(args[2]);
+      appointment.setStartTime(args[3], args[4]);
+      appointment.setEndTime(args[5], args[6]);
+    }
 
     newAppointmentBook.addAppointment(appointment);
-
     appts = newAppointmentBook.getAppointments();
 
     System.out.println(newAppointmentBook);

@@ -25,11 +25,6 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment>
         appointments = new ArrayList<Appointment>();
     }
 
-//    public void setAppointments(Collection<Appointment> appointments)
-//    {
-//        this.appointments = appointments;
-//    }
-
     @Override
     public String getOwnerName()
     {

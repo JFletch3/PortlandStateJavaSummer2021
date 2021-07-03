@@ -24,9 +24,23 @@ class Project1IT extends InvokeMainTestCase {
    */
   @Test
   void testNoCommandLineArguments() {
-  //  MainMethodResult result = invokeMain();
- //   assertThat(result.getExitCode(), equalTo(1));
- //   assertThat(result.getTextWrittenToStandardError(), containsString("Missing command line arguments"));
+    MainMethodResult result = invokeMain();
+    assertThat(result.getExitCode(), equalTo(1));
+    assertThat(result.getTextWrittenToStandardError(), containsString("Missing command line arguments"));
   }
+
+  @Test
+  void testNotEnoughArguements() {
+    MainMethodResult result = invokeMain("joe");
+    assertThat(result.getExitCode(), equalTo(1));
+    assertThat(result.getTextWrittenToStandardError(), containsString("Insufficient number of arguments."));
+  }
+//
+//  @Test
+//  void testNotEnoughArguements() {
+//    MainMethodResult result = invokeMain("joe");
+//    assertThat(result.getExitCode(), equalTo(1));
+//    assertThat(result.getTextWrittenToStandardError(), containsString("Insufficient number of arguments."));
+//  }
 
 }
