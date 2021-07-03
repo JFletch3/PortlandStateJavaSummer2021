@@ -7,17 +7,49 @@ import java.util.Collection;
  */
 public class Project1 {
 
+
+  public static void readME()
+  {
+    System.out.println("Project 1 - CS410 - Joe Fletcher\n" +
+                      "This is an Appointment book program which creates an Appointment book and an Appointment based on arguments.\n" +
+                      "Command line arguments:\n" +
+                      "\tOwner, Appointment Description (wrapped in quotes), Start date, Start time, End date, End time.\n" +
+                      "\tEX: Joe \"First appointment\" 06/01/2021 1:00 06/01/2021 2:00\n" +
+                      "NOTE: AM / PM are not needed for this program.\n" +
+                      "Along with the command line arguments you may enter two optional arguments at the front of the command line\n" +
+                      "\t-README  -PRINT\n" +
+                      "\t-README\t\tPrints out this statement.\n" +
+                      "\t-PRINT\t\tWill print out the details of your appointment book and appointment.\n" +
+                      "Its worth noting that if you have -README as an option, the program will ONLY print this out.\n" +
+                      "Leave -README off the argument list if you would like the program to run fully.");
+  }
+
+
   public static void main(String[] args) {
+
 
     Collection<Appointment> appts;
     AppointmentBook newAppointmentBook = new AppointmentBook();
     Appointment appointment = new Appointment();
+    int printOption = 0;
 
-    if (args.length != 6)
+    for(String ap : args)
     {
-      throw new UnsupportedOperationException("Invalid amount of CL arguments. There must be 6 args " +
-                                              "- Owner, Description, Start date, Start time" +
-                                              ", End date and End time.");
+      if (ap.toUpperCase().contains("-README"))
+      {
+        readME();
+        System.exit(1);
+      }
+      else if (ap.toUpperCase().contains("-PRINT"))
+      {
+        printOption = 1;
+      }
+    }
+
+    if (args.length == 0)
+    {
+      throw new UnsupportedOperationException("Invalid amount of CL arguments." +
+                                              "Owner, Description, Start date, Start time, End date and End time.");
     }
 
     newAppointmentBook.setOwnerName(args[0]);
@@ -30,9 +62,13 @@ public class Project1 {
     appts = newAppointmentBook.getAppointments();
 
     System.out.println(newAppointmentBook);
-    for(Appointment ap : appts)
+
+    if (printOption == 1)
     {
-      System.out.println(ap.toString());
+      for(Appointment ap : appts)
+      {
+        System.out.println(ap.toString());
+      }
     }
 
     System.exit(1);

@@ -10,7 +10,7 @@ import java.util.Collection;
 public class AppointmentBook extends AbstractAppointmentBook<Appointment>
 {
     String ownerName;
-    Collection<Appointment> appointments = new ArrayList<Appointment>();
+    Collection<Appointment> appointments;
 
 //    public AppointmentBook(String Owner)
 //    {
@@ -18,9 +18,11 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment>
 //        appointments = new ArrayList<Appointment>();
 //    }
 
+    //SetOwner - Along with initializing the appointments collection to a new arraylist.
     public void setOwnerName(String ownerName)
     {
         this.ownerName = ownerName;
+        appointments = new ArrayList<Appointment>();
     }
 
 //    public void setAppointments(Collection<Appointment> appointments)
@@ -41,6 +43,10 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment>
     @Override
     public Collection<Appointment> getAppointments()
     {
+        if (appointments == null)
+        {
+            throw new UnsupportedOperationException("Appointments is null.");
+        }
         return appointments;
     }
 
