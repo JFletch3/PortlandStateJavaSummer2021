@@ -108,14 +108,13 @@ public class Project1 {
 
     if (printOption == 1)
     {
-      System.out.println("test1234");
       System.exit(1);
-      //    System.out.println(newAppointmentBook);
+          System.out.println(newAppointmentBook);
 
-//      for(Appointment ap : appts)
-//      {
-//        System.out.println(ap.toString());
-//      }
+      for(Appointment ap : appts)
+      {
+        System.out.println(ap.toString());
+      }
     }
 
     System.exit(1);
