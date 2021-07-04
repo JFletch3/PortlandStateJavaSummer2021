@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * A unit test for code in the <code>Project1</code> class.  This is different
@@ -28,4 +29,5 @@ class Project1Test {
       assertThat(line, containsString("This is a README file!"));
     }
   }
+
 }

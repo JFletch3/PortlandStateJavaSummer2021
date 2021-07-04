@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.jf32;
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -38,7 +39,8 @@ public class Project1 {
     }
     catch (ParseException e)
     {
-      System.err.println("Date format not correct: " + date + " --- Should be mm/dd/yyyy");
+      System.err.println("Date format and/or Date is not valid: " + date + " --- Format Should be mm/dd/yyyy" +
+              "and date should be a real date.");
       System.exit(1);
     }
   }
@@ -49,7 +51,6 @@ public class Project1 {
     AppointmentBook newAppointmentBook = new AppointmentBook();
     Appointment appointment = new Appointment();
     int printOption = 0;
-
 
     if (args.length == 0)
     {
@@ -104,14 +105,17 @@ public class Project1 {
     newAppointmentBook.addAppointment(appointment);
     appts = newAppointmentBook.getAppointments();
 
-    System.out.println(newAppointmentBook);
 
     if (printOption == 1)
     {
-      for(Appointment ap : appts)
-      {
-        System.out.println(ap.toString());
-      }
+      System.out.println("test1234");
+      System.exit(1);
+      //    System.out.println(newAppointmentBook);
+
+//      for(Appointment ap : appts)
+//      {
+//        System.out.println(ap.toString());
+//      }
     }
 
     System.exit(1);
