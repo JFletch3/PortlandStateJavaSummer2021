@@ -2,6 +2,7 @@ package edu.pdx.cs410J.jf32;
 
 import edu.pdx.cs410J.AbstractAppointment;
 
+
 /**
  * This class is represents a <code>Appointment</code>.
  */
@@ -16,7 +17,7 @@ public class Appointment extends AbstractAppointment {
    */
   private String startTime;
   /**
-   * Appointment End Time. 
+   * Appointment End Time.
    */
   private String endTime;
 
