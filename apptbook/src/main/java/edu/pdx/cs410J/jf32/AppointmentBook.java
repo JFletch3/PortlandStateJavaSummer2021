@@ -6,25 +6,32 @@ import edu.pdx.cs410J.AbstractAppointmentBook;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
+/**
+ * This class is represents a <code>AppointmentBook</code>.
+ */
 public class AppointmentBook extends AbstractAppointmentBook<Appointment>
 {
     String ownerName;
     Collection<Appointment> appointments;
 
-//    public AppointmentBook(String Owner)
-//    {
-//        ownerName = Owner;
-//        appointments = new ArrayList<Appointment>();
-//    }
-
-    //SetOwner - Along with initializing the appointments collection to a new arraylist.
+    /**
+     * Sets the <code>AppointmentBook</code> Owner name
+     *
+     * @param ownerName
+     *        AppointmentBook Owner name.
+     */
     public void setOwnerName(String ownerName)
     {
         this.ownerName = ownerName;
         appointments = new ArrayList<Appointment>();
     }
 
+    /**
+     * Gets the <code>AppointmentBook</code> Owner name
+     *
+     * @return ownerName
+     *          AppointmerntBook Owner name
+     */
     @Override
     public String getOwnerName()
     {
@@ -35,6 +42,12 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment>
         return ownerName;
     }
 
+    /**
+     * Gets the <code>AppointmentBook</code> Collection of Appointments
+     *
+     * @return appointments
+     *          AppointmerntBook Collection of Appointments.
+     */
     @Override
     public Collection<Appointment> getAppointments()
     {
@@ -45,7 +58,12 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment>
         return appointments;
     }
 
-
+    /**
+     *  Adds an <code>Appointment</code> to the  <code>AppointmentBook</code> Collection
+     *
+     * @param  appt
+     *         An Appointment.
+     */
     public void addAppointment(Appointment appt)
     {
         appointments.add(appt);

@@ -7,11 +7,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 /**
- * The main class for the CS410J appointment book Project
+ * The main class for the CS410J appointment book Project 1
  */
 public class Project1 {
 
-
+  /**
+   * Readme function to print a simple readme about the program
+   * to the standard out.
+   */
   public static void readME()
   {
     System.out.println("Project 1 - CS410 - Joe Fletcher\n" +
@@ -28,6 +31,11 @@ public class Project1 {
                       "Leave -README off the argument list if you would like the program to run fully.");
   }
 
+  /**
+   * Method to check the date format to make sure the date is valid.
+   * @param date
+   *      The date passed in from the commandline arguments.
+   */
   public static void checkDateFormat(String date)
   {
     DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -45,6 +53,12 @@ public class Project1 {
     }
   }
 
+  /**
+   * Main method that parses commmand line arguments and
+   * creates an <code>AppointmentBook<\code> based on the Owner argument
+   * Followed by creating an <code>Appointment<</code> and loading the <code>Appointment</code>
+   * into the newly created <code>AppointmentBook</code>.
+   */
   public static void main(String[] args) {
 
     Collection<Appointment> appts;
