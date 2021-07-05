@@ -55,7 +55,7 @@ public class Project1 {
 
   /**
    * Main method that parses Command line arguments and
-   * creates an <code>AppointmentBook<\code> based on the Owner argument
+   * creates an <code>AppointmentBook</code> based on the Owner argument
    * Followed by creating an Appointment and loading the Appointment
    * into the newly created AppointmentBook.
    * @param args

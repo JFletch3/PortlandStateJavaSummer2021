@@ -7,8 +7,17 @@ import edu.pdx.cs410J.AbstractAppointment;
  */
 public class Appointment extends AbstractAppointment {
 
+  /**
+   * Appointment description
+   */
   private String description;
+  /**
+   * Appointment Start Time
+   */
   private String startTime;
+  /**
+   * Appointment End Time. 
+   */
   private String endTime;
 
   /**

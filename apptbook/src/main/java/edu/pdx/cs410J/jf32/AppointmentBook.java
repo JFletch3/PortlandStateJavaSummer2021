@@ -11,7 +11,13 @@ import java.util.Collection;
  */
 public class AppointmentBook extends AbstractAppointmentBook<Appointment>
 {
+    /**
+     * Appointment Book Owner name
+     */
     String ownerName;
+    /**
+     * Appointment book collection of appointments.
+     */
     Collection<Appointment> appointments;
 
     /**
