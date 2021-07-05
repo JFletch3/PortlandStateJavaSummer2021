@@ -66,6 +66,15 @@ public class Project1 {
     Appointment appointment = new Appointment();
     int printOption = 0;
 
+    for(String ap : args)
+    {
+      if (ap.toUpperCase().contains("-README"))
+      {
+        readME();
+        System.exit(1);
+      }
+    }
+
     if (args.length == 0)
     {
       System.err.println("Missing command line arguments.");
@@ -77,14 +86,7 @@ public class Project1 {
       System.exit(1);
     }
 
-    for(String ap : args)
-    {
-      if (ap.toUpperCase().contains("-README"))
-      {
-        readME();
-        System.exit(1);
-      }
-    }
+
 
     if(!args[0].toUpperCase().contains("-PRINT"))
     {
