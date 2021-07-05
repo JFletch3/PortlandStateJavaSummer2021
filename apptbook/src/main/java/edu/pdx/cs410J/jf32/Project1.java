@@ -124,9 +124,7 @@ public class Project1 {
 
     if (printOption == 1)
     {
-      System.exit(1);
-          System.out.println(newAppointmentBook);
-
+      System.out.println(newAppointmentBook);
       for(Appointment ap : appts)
       {
         System.out.println(ap.toString());
