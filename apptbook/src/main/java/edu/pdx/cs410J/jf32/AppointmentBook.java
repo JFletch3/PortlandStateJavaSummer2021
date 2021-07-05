@@ -30,7 +30,7 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment>
      * Gets the <code>AppointmentBook</code> Owner name
      *
      * @return ownerName
-     *          AppointmerntBook Owner name
+     *          AppointmentBook Owner name
      */
     @Override
     public String getOwnerName()
@@ -46,7 +46,7 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment>
      * Gets the <code>AppointmentBook</code> Collection of Appointments
      *
      * @return appointments
-     *          AppointmerntBook Collection of Appointments.
+     *          AppointmentBook Collection of Appointments.
      */
     @Override
     public Collection<Appointment> getAppointments()
@@ -59,7 +59,7 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment>
     }
 
     /**
-     *  Adds an <code>Appointment</code> to the  <code>AppointmentBook</code> Collection
+     *  Adds an Appointment to the  <code>AppointmentBook</code> Collection
      *
      * @param  appt
      *         An Appointment.

@@ -54,10 +54,12 @@ public class Project1 {
   }
 
   /**
-   * Main method that parses commmand line arguments and
+   * Main method that parses Command line arguments and
    * creates an <code>AppointmentBook<\code> based on the Owner argument
-   * Followed by creating an <code>Appointment<</code> and loading the <code>Appointment</code>
-   * into the newly created <code>AppointmentBook</code>.
+   * Followed by creating an Appointment and loading the Appointment
+   * into the newly created AppointmentBook.
+   * @param args
+   *        Command line arguments.
    */
   public static void main(String[] args) {
 

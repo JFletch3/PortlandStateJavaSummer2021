@@ -83,7 +83,7 @@ public class Appointment extends AbstractAppointment {
    * Gets the <code>Appointment</code> Description
    *
    * @return description
-   *         <code>Appointment</code> Description
+   *         Appointment Description
    */
   @Override
   public String getDescription()
