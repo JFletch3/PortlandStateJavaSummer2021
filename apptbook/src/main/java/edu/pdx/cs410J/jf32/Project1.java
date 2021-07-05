@@ -17,7 +17,7 @@ public class Project1 {
    */
   public static void readME()
   {
-    System.out.println("Project 1 - CS410 - Joe Fletcher\n" +
+    System.out.println("\n\nProject 1 - CS410 - Joe Fletcher\n" +
                       "This is an Appointment book program which creates an Appointment book and an Appointment based on arguments.\n" +
                       "Command line arguments:\n" +
                       "\tOwner, Appointment Description (wrapped in quotes), Start date, Start time, End date, End time.\n" +
@@ -28,7 +28,7 @@ public class Project1 {
                       "\t-README\t\tPrints out this statement.\n" +
                       "\t-PRINT\t\tWill print out the details of your appointment book and appointment.\n" +
                       "Its worth noting that if you have -README as an option, the program will ONLY print this out.\n" +
-                      "Leave -README off the argument list if you would like the program to run fully.");
+                      "Leave -README off the argument list if you would like the program to run fully.\n\n");
   }
 
   /**
