@@ -71,7 +71,7 @@ public class Project2 {
         Text.setFileDir("C:\\Users\\Joe\\Desktop\\CS410\\PortlandStateJavaSummer2021\\apptbook\\AppointmentBook.txt"); //Later to be changed to the file dir from command line.
         try
         {
-            Text.parse();
+            newAppointmentBook = Text.parse();
         }
         catch (ParserException e)
         {
@@ -114,10 +114,10 @@ public class Project2 {
             checkDateFormat(args[2]);
             checkDateFormat(args[4]);
 
-            newAppointmentBook.setOwnerName(args[0]);
-            appointment.setDescription(args[1]);
-            appointment.setStartTime(args[2], args[3]);
-            appointment.setEndTime(args[4], args[5]);
+//            newAppointmentBook.setOwnerName(args[0]);
+//            appointment.setDescription(args[1]);
+//            appointment.setStartTime(args[2], args[3]);
+//            appointment.setEndTime(args[4], args[5]);
         }
         else if (args[0].toUpperCase().contains("-PRINT"))
         {
@@ -130,7 +130,7 @@ public class Project2 {
 //            appointment.setEndTime(args[5], args[6]);
         }
 
-        newAppointmentBook.addAppointment(appointment);
+//        newAppointmentBook.addAppointment(appointment);
         appts = newAppointmentBook.getAppointments();
 
 

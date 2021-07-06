@@ -32,24 +32,26 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
             {
                 if (line.contains("app_book"))
                 {
+                    System.out.println(line.substring(line.lastIndexOf("=")+1));
                     newAppointmentBook.setOwnerName(line.substring(line.lastIndexOf("=")+1));
                 }
                 else if (line.contains("app_desc"))
                 {
+                    System.out.println(line.substring(line.lastIndexOf("=")+1));
                     newAppointment.setDescription(line.substring(line.lastIndexOf("=")+1));
                 }
                 else if (line.contains("app_start"))
                 {
-                    newAppointment.setStartTime(line.substring(line.lastIndexOf("=")+1),line.substring(line.lastIndexOf(" ")+1));
+                    System.out.println(line.substring(line.lastIndexOf("=")+1));
+                    newAppointment.setStartTime(line.substring(line.lastIndexOf("=")+1),"");
                 }
                 else if (line.contains("app_end"))
                 {
-                    newAppointment.setEndTime(line.substring(line.lastIndexOf("=")+1),line.substring(line.lastIndexOf(" ")+1));
+                    System.out.println(line.substring(line.lastIndexOf("=")+1));
+                    newAppointment.setEndTime(line.substring(line.lastIndexOf("=")+1),"");
                 }
-                //System.out.println(line);
-                System.out.println(line.substring(line.lastIndexOf("=")+1));
-                // Need to check the line of code -
-                //
+
+                newAppointmentBook.addAppointment(newAppointment);
             }
         }
         catch (IOException e)
