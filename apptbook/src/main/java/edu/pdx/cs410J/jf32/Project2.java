@@ -53,6 +53,50 @@ public class Project2 {
     }
 
     /**
+     * Method to check the length of arguments and error if the length is 0 or less then min.
+     * @param args
+     *      String array of the command line arguments
+     */
+    public static void checkCLArgCount(String[] args)
+    {
+        if (args.length == 0)
+        {
+            System.err.println("Missing command line arguments.");
+            System.exit(1);
+        }
+        else if (args.length < 6)
+        {
+            System.err.println("Insufficient number of arguments.");
+            System.exit(1);
+        }
+    }
+
+    /**
+     * Method to check the if the -print option was entered in the arguments
+     * @param args
+     *      String array of the command line arguments
+     */
+    public static int checkForPrintOption(String [] args)
+    {
+        if(!args[0].toUpperCase().contains("-PRINT"))
+        {
+            for (String ap : args)
+            {
+                if (ap.toUpperCase().contains("-PRINT"))
+                {
+                    System.err.println("Option -PRINT is in the wrong location in the argument list.");
+                    System.exit(1);
+                }
+            }
+        }
+        else
+        {
+            return 1;
+        }
+        return 0;
+    }
+
+    /**
      * Main method that parses Command line arguments and
      * creates an <code>AppointmentBook</code> based on the Owner argument
      * Followed by creating an Appointment and loading the Appointment
@@ -68,7 +112,10 @@ public class Project2 {
         int printOption = 0;
 
         TextParser Text = new TextParser();
+        TextDumper TextDump = new TextDumper();
         Text.setFileDir("C:\\Users\\Joe\\Desktop\\CS410\\PortlandStateJavaSummer2021\\apptbook\\AppointmentBook.txt"); //Later to be changed to the file dir from command line.
+        TextDump.setFileDir("C:\\Users\\Joe\\Desktop\\CS410\\PortlandStateJavaSummer2021\\apptbook\\AppointmentBook.txt");  //Later to be changed to the file dir from command line.
+
         try
         {
             newAppointmentBook = Text.parse();
@@ -77,6 +124,7 @@ public class Project2 {
         {
             //System.out.println("Parser Error");
         }
+
 
         for(String ap : args)
         {
@@ -87,18 +135,8 @@ public class Project2 {
             }
         }
 
-        if (args.length == 0)
-        {
-            System.err.println("Missing command line arguments.");
-            System.exit(1);
-        }
-        else if (args.length < 6)
-        {
-            System.err.println("Insufficient number of arguments.");
-            System.exit(1);
-        }
-
-
+        checkCLArgCount(args);
+        printOption = checkForPrintOption(args);
 
         if(!args[0].toUpperCase().contains("-PRINT"))
         {
