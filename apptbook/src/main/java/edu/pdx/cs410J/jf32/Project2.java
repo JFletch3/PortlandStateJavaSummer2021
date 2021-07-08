@@ -76,11 +76,19 @@ public class Project2 {
      * Method to check the if the -print option was entered in the arguments
      * @param args
      *      String array of the command line arguments
+     * @return 1/0
+     *          1 = -PRINT is set properly.
+     *          0 = -PRINT is not set.
      */
     public static int checkForPrintOption(String [] args)
     {
-        if(!args[0].toUpperCase().contains("-PRINT"))
+        if(args[0].toUpperCase().contains("-PRINT"))
         {
+            return 1;
+        }
+        else
+        {
+
             for (String ap : args)
             {
                 if (ap.toUpperCase().contains("-PRINT"))
@@ -90,11 +98,68 @@ public class Project2 {
                 }
             }
         }
+
+        return 0;
+    }
+
+    /**
+     * Method to check the if the -print option was entered in the arguments
+     * @param args
+     *      String array of the command line arguments
+     * @param PrintOp
+     *      Print option variable returned from checkForPrintOption method.
+     * @return newAppointmentBook
+     *      Newly created appointment book.
+     */
+    public static AppointmentBook makeAppointmentBook(String [] args, int PrintOp)
+    {
+        AppointmentBook newAppointmentBook = new AppointmentBook();
+
+        if (PrintOp == 0)
+        {
+            newAppointmentBook.setOwnerName(args[0]);
+        }
         else
         {
-            return 1;
+            newAppointmentBook.setOwnerName(args[1]);
         }
-        return 0;
+
+        return newAppointmentBook;
+    }
+
+
+    /**
+     * Method to check the if the -print option was entered in the arguments
+     * @param args
+     *      String array of the command line arguments
+     * @param PrintOp
+     *      Print option variable returned from checkForPrintOption method.
+     * @return newAppointmentBook
+     *      Newly created appointment.
+     */
+    public static Appointment makeAppointment(String [] args, int PrintOp)
+    {
+        Appointment newAppointment = new Appointment();
+
+        if (PrintOp == 0)
+        {
+            checkDateFormat(args[2]);
+            checkDateFormat(args[4]);
+
+            newAppointment.setDescription(args[1]);
+            newAppointment.setStartTime(args[2], args[3]);
+            newAppointment.setEndTime(args[4], args[5]);
+        }
+        else
+        {
+            checkDateFormat(args[3]);
+            checkDateFormat(args[5]);
+            newAppointment.setDescription(args[2]);
+            newAppointment.setStartTime(args[3], args[4]);
+            newAppointment.setEndTime(args[5], args[6]);
+        }
+
+        return newAppointment;
     }
 
     /**
@@ -117,6 +182,12 @@ public class Project2 {
         Text.setFileDir("C:\\Users\\Joe\\Desktop\\CS410\\PortlandStateJavaSummer2021\\apptbook\\AppointmentBook.txt"); //Later to be changed to the file dir from command line.
         TextDump.setFileDir("C:\\Users\\Joe\\Desktop\\CS410\\PortlandStateJavaSummer2021\\apptbook\\AppointmentBook.txt");  //Later to be changed to the file dir from command line.
 
+
+        //File does not exist - Create new file, write new appointment to file.
+        //File exists - Take in new appoointment and write it out to the file
+
+
+
         try
         {
             newAppointmentBook = Text.parse();
@@ -138,6 +209,19 @@ public class Project2 {
 
         checkCLArgCount(args);
         printOption = checkForPrintOption(args);
+        newAppointmentBook = makeAppointmentBook(args, printOption);
+
+        //The logic here will need to change based on the new arguments.
+        if (printOption == 0)
+        {
+           //Call make appointment function with 0 as owner
+            newAppointmentBook =  makeAppointmentBook(args, printOption);
+        }
+        else
+        {
+            //call make appoint function with args 1 as owner.
+            newAppointmentBook = makeAppointmentBook(args, printOption);
+        }
 
         if(!args[0].toUpperCase().contains("-PRINT"))
         {
