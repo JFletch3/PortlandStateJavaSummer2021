@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.jf32;
 
 import edu.pdx.cs410J.ParserException;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -152,24 +153,33 @@ public class Project2 {
             checkDateFormat(args[2]);
             checkDateFormat(args[4]);
 
-//            newAppointmentBook.setOwnerName(args[0]);
-//            appointment.setDescription(args[1]);
-//            appointment.setStartTime(args[2], args[3]);
-//            appointment.setEndTime(args[4], args[5]);
+            newAppointmentBook.setOwnerName(args[0]);
+            appointment.setDescription(args[1]);
+            appointment.setStartTime(args[2], args[3]);
+            appointment.setEndTime(args[4], args[5]);
         }
         else if (args[0].toUpperCase().contains("-PRINT"))
         {
             printOption = 1;
-//            checkDateFormat(args[3]);
-//            checkDateFormat(args[5]);
-//            newAppointmentBook.setOwnerName(args[1]);
-//            appointment.setDescription(args[2]);
-//            appointment.setStartTime(args[3], args[4]);
-//            appointment.setEndTime(args[5], args[6]);
+            checkDateFormat(args[3]);
+            checkDateFormat(args[5]);
+            newAppointmentBook.setOwnerName(args[1]);
+            appointment.setDescription(args[2]);
+            appointment.setStartTime(args[3], args[4]);
+            appointment.setEndTime(args[5], args[6]);
         }
 
-//        newAppointmentBook.addAppointment(appointment);
+        newAppointmentBook.addAppointment(appointment);
         appts = newAppointmentBook.getAppointments();
+
+        try
+        {
+            TextDump.dump(newAppointmentBook);
+        }
+        catch(IOException e)
+        {
+
+        }
 
 
         if (printOption == 1)
