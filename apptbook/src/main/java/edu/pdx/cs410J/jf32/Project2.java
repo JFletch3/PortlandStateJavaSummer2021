@@ -65,7 +65,7 @@ public class Project2 {
             System.err.println("Missing command line arguments.");
             System.exit(1);
         }
-        else if (args.length < 6)
+        else if (args.length < 6) //TODO Need to update this so it captures the correct amount of arguemtns.
         {
             System.err.println("Insufficient number of arguments.");
             System.exit(1);
@@ -113,6 +113,7 @@ public class Project2 {
      */
     public static AppointmentBook makeAppointmentBook(String [] args, int PrintOp)
     {
+        //TODO  Need to check this for when there are more then one option entered
         AppointmentBook newAppointmentBook = new AppointmentBook();
 
         if (PrintOp == 0)
@@ -139,6 +140,7 @@ public class Project2 {
      */
     public static Appointment makeAppointment(String [] args, int PrintOp)
     {
+        //TODO  Need to check this for when there are more then one option entered
         Appointment newAppointment = new Appointment();
 
         if (PrintOp == 0)
@@ -177,27 +179,18 @@ public class Project2 {
         Appointment appointment = new Appointment();
         int printOption = 0;
 
-        TextParser Text = new TextParser();
+        TextParser TextRead = new TextParser();
         TextDumper TextDump = new TextDumper();
-        Text.setFileDir("C:\\Users\\Joe\\Desktop\\CS410\\PortlandStateJavaSummer2021\\apptbook\\AppointmentBook.txt"); //Later to be changed to the file dir from command line.
-        TextDump.setFileDir("C:\\Users\\Joe\\Desktop\\CS410\\PortlandStateJavaSummer2021\\apptbook\\AppointmentBook.txt");  //Later to be changed to the file dir from command line.
 
+
+        TextDump.setFileDir("C:\\Users\\Joe\\Desktop\\CS410\\PortlandStateJavaSummer2021\\apptbook\\AppointmentBook.txt");  //Later to be changed to the file dir from command line.
 
         //File does not exist - Create new file, write new appointment to file.
         //File exists - Take in new appoointment and write it out to the file
 
-
-
-        try
-        {
-            newAppointmentBook = Text.parse();
-        }
-        catch (ParserException e)
-        {
-            //System.out.println("Parser Error");
-        }
-
-
+        //------------------------------------------------------------
+        //-README check - leave this here, its just a print and exit
+        // This needs to be the first thing checked.
         for(String ap : args)
         {
             if (ap.toUpperCase().contains("-README"))
@@ -206,52 +199,28 @@ public class Project2 {
                 System.exit(1);
             }
         }
+        checkCLArgCount(args);
+        //-----------------------------------------------------------
 
+        //-----------------------------------------------------------
+        //TODO this needs to only run if the otption -textFile is set.
+        // If -textFile is set, the next variable will be the directory.
+        // setFileDir needs to be the file directory.
+        // This will read in the appointment book
+        try
+        {
+            TextRead.setFileDir("C:\\Users\\Joe\\Desktop\\CS410\\PortlandStateJavaSummer2021\\apptbook\\AppointmentBook.txt"); //Later to be changed to the file dir from command line.
+            newAppointmentBook = TextRead.parse();
+        }
+        catch (ParserException e){}
+        //-----------------------------------------------------------
+
+
+        //--
         checkCLArgCount(args);
         printOption = checkForPrintOption(args);
         newAppointmentBook = makeAppointmentBook(args, printOption);
-
-        //The logic here will need to change based on the new arguments.
-        if (printOption == 0)
-        {
-           //Call make appointment function with 0 as owner
-            newAppointmentBook =  makeAppointmentBook(args, printOption);
-        }
-        else
-        {
-            //call make appoint function with args 1 as owner.
-            newAppointmentBook = makeAppointmentBook(args, printOption);
-        }
-
-        if(!args[0].toUpperCase().contains("-PRINT"))
-        {
-            for (String ap : args)
-            {
-                if (ap.toUpperCase().contains("-PRINT"))
-                {
-                    System.err.println("Option -PRINT is in the wrong location in the argument list.");
-                    System.exit(1);
-                }
-            }
-
-            checkDateFormat(args[2]);
-            checkDateFormat(args[4]);
-
-            newAppointmentBook.setOwnerName(args[0]);
-            appointment.setDescription(args[1]);
-            appointment.setStartTime(args[2], args[3]);
-            appointment.setEndTime(args[4], args[5]);
-        }
-        else if (args[0].toUpperCase().contains("-PRINT"))
-        {
-            printOption = 1;
-            checkDateFormat(args[3]);
-            checkDateFormat(args[5]);
-            newAppointmentBook.setOwnerName(args[1]);
-            appointment.setDescription(args[2]);
-            appointment.setStartTime(args[3], args[4]);
-            appointment.setEndTime(args[5], args[6]);
-        }
+        appointment = makeAppointment(args, printOption);
 
         newAppointmentBook.addAppointment(appointment);
         appts = newAppointmentBook.getAppointments();
