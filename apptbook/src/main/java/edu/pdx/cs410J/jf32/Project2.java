@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public class Project2 {
 
@@ -58,14 +61,14 @@ public class Project2 {
      * @param args
      *      String array of the command line arguments
      */
-    public static void checkCLArgCount(String[] args)
+    public static void checkCLArgCount(List<String> args)
     {
-        if (args.length == 0)
+        if (args.size() == 0)
         {
             System.err.println("Missing command line arguments.");
             System.exit(1);
         }
-        else if (args.length < 6) //TODO Need to update this so it captures the correct amount of arguemtns.
+        else if (args.size() < 6) //TODO Need to update this so it captures the correct amount of argumtns.
         {
             System.err.println("Insufficient number of arguments.");
             System.exit(1);
@@ -106,24 +109,14 @@ public class Project2 {
      * Method to check the if the -print option was entered in the arguments
      * @param args
      *      String array of the command line arguments
-     * @param PrintOp
-     *      Print option variable returned from checkForPrintOption method.
      * @return newAppointmentBook
      *      Newly created appointment book.
      */
-    public static AppointmentBook makeAppointmentBook(String [] args, int PrintOp)
+    public static AppointmentBook makeAppointmentBook(List<String> args)
     {
-        //TODO  Need to check this for when there are more then one option entered
         AppointmentBook newAppointmentBook = new AppointmentBook();
 
-        if (PrintOp == 0)
-        {
-            newAppointmentBook.setOwnerName(args[0]);
-        }
-        else
-        {
-            newAppointmentBook.setOwnerName(args[1]);
-        }
+        newAppointmentBook.setOwnerName(args.get(0));
 
         return newAppointmentBook;
     }
@@ -133,35 +126,90 @@ public class Project2 {
      * Method to check the if the -print option was entered in the arguments
      * @param args
      *      String array of the command line arguments
-     * @param PrintOp
-     *      Print option variable returned from checkForPrintOption method.
      * @return newAppointmentBook
      *      Newly created appointment.
      */
-    public static Appointment makeAppointment(String [] args, int PrintOp)
+    public static Appointment makeAppointment(List<String> args)
     {
-        //TODO  Need to check this for when there are more then one option entered
         Appointment newAppointment = new Appointment();
 
-        if (PrintOp == 0)
-        {
-            checkDateFormat(args[2]);
-            checkDateFormat(args[4]);
+        checkDateFormat(args.get(2));
+        checkDateFormat(args.get(4));
 
-            newAppointment.setDescription(args[1]);
-            newAppointment.setStartTime(args[2], args[3]);
-            newAppointment.setEndTime(args[4], args[5]);
-        }
-        else
-        {
-            checkDateFormat(args[3]);
-            checkDateFormat(args[5]);
-            newAppointment.setDescription(args[2]);
-            newAppointment.setStartTime(args[3], args[4]);
-            newAppointment.setEndTime(args[5], args[6]);
-        }
+        newAppointment.setDescription(args.get(1));
+        newAppointment.setStartTime(args.get(2), args.get(3));
+        newAppointment.setEndTime(args.get(4), args.get(5));
 
         return newAppointment;
+    }
+
+    /**
+     * Method to get the file name if -testFile is used as an option
+     * @param args
+     *      String array of the command line arguments
+     * @return fileName
+     *      name of the file passed in on the command line arguments
+     */
+    public static String getFileName(String[] args)
+    {
+        String fileName = "";
+
+        for (int i = 0; i < args.length; i++)
+        {
+            if (args[i].toUpperCase().contains("-TEXTFILE"))
+            {
+
+                fileName = args[i+1];
+                System.out.println("text file name: " + args[i+1]);
+            }
+        }
+
+        return fileName;
+    }
+
+    /**
+     * Method to create an array list of the command line arguments
+     * slicing off the options.
+     * @param args
+     *      String array of the command line arguments
+     * @return slicedArgs
+     *      Array list of just the arguments without the options.
+     */
+    public static List<String> argumentSlicer(String [] args)
+    {
+
+        List<String> slicedArgs = new ArrayList<String>();
+        int printop = 0;
+        int textop = 0;
+        int increment = 0;
+
+        for (String arg : args)
+        {
+            if (arg.toUpperCase().contains("-PRINT"))
+            {
+                printop = 1;
+            } else if (arg.toUpperCase().contains("-TEXTFILE"))
+            {
+                textop = 1;;
+            }
+        }
+
+        if (printop == 1 && textop == 1)
+        {
+            increment = 3;
+        }
+        else if (printop == 1)
+        {
+            increment = 1;
+        }
+        else if (textop == 1)
+        {
+            increment = 2;
+        }
+
+        slicedArgs.addAll(Arrays.asList(args).subList(increment, args.length));
+
+        return slicedArgs;
     }
 
     /**
@@ -175,18 +223,14 @@ public class Project2 {
     public static void main(String[] args){
 
         Collection<Appointment> appts;
-        AppointmentBook newAppointmentBook = new AppointmentBook();
-        Appointment appointment = new Appointment();
+        AppointmentBook newAppointmentBook;
+        Appointment appointment ;
+        List<String> CLArguments;
         int printOption = 0;
-
+        int textOption = 0;
+        String fileName = "";
         TextParser TextRead = new TextParser();
         TextDumper TextDump = new TextDumper();
-
-
-        TextDump.setFileDir("C:\\Users\\Joe\\Desktop\\CS410\\PortlandStateJavaSummer2021\\apptbook\\AppointmentBook.txt");  //Later to be changed to the file dir from command line.
-
-        //File does not exist - Create new file, write new appointment to file.
-        //File exists - Take in new appoointment and write it out to the file
 
         //------------------------------------------------------------
         //-README check - leave this here, its just a print and exit
@@ -199,31 +243,51 @@ public class Project2 {
                 System.exit(1);
             }
         }
-        checkCLArgCount(args);
         //-----------------------------------------------------------
 
+
         //-----------------------------------------------------------
-        //TODO this needs to only run if the otption -textFile is set.
-        // If -textFile is set, the next variable will be the directory.
-        // setFileDir needs to be the file directory.
-        // This will read in the appointment book
-        try
+        printOption = checkForPrintOption(args);    //Get Print option - 1 print 0 no print
+        fileName = getFileName(args);               //Get File name
+        CLArguments =  argumentSlicer(args);        //Sliced arguments without the options
+        checkCLArgCount(CLArguments);
+
+        //If file name IS NOT entered - Proceed like normal.
+        if (fileName.equals(""))
         {
-            TextRead.setFileDir("C:\\Users\\Joe\\Desktop\\CS410\\PortlandStateJavaSummer2021\\apptbook\\AppointmentBook.txt"); //Later to be changed to the file dir from command line.
-            newAppointmentBook = TextRead.parse();
+            newAppointmentBook = makeAppointmentBook(CLArguments);
+            appointment = makeAppointment(CLArguments);
+
+            newAppointmentBook.addAppointment(appointment);
+            appts = newAppointmentBook.getAppointments();
+
+            //Create new file and write to it
         }
-        catch (ParserException e){}
-        //-----------------------------------------------------------
+        //If file name IS entered -- Parse or create new file
+        else
+        {
+            //Try to get the appointment book from the passed in fileName.
+            try
+            {
+                TextRead.setFileDir(fileName); //Later to be changed to the file dir from command line.
+                newAppointmentBook = TextRead.parse();
+            }
+            catch (ParserException e){}
+        }
 
-
-        //--
-        checkCLArgCount(args);
-        printOption = checkForPrintOption(args);
-        newAppointmentBook = makeAppointmentBook(args, printOption);
-        appointment = makeAppointment(args, printOption);
+        newAppointmentBook = makeAppointmentBook(CLArguments);
+        appointment = makeAppointment(CLArguments);
 
         newAppointmentBook.addAppointment(appointment);
         appts = newAppointmentBook.getAppointments();
+
+
+
+
+
+        //-----------------------------------------------------------
+
+        //Write to file / printout based on options.
 
         try
         {
@@ -234,7 +298,6 @@ public class Project2 {
 
         }
 
-
         if (printOption == 1)
         {
             System.out.println(newAppointmentBook);
@@ -243,6 +306,7 @@ public class Project2 {
                 System.out.println(ap.toString());
             }
         }
+        //-----------------------------------------------------------
 
         System.exit(1);
     }
