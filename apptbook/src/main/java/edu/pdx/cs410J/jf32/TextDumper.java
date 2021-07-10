@@ -31,7 +31,7 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
             for (Appointment ap : appointments)
             {
                 ApptBookFile.write("--NEW APPOINTMENT--\n");
-                ApptBookFile.write("app_des=" + ap.getDescription() + "\n");
+                ApptBookFile.write("app_desc=" + ap.getDescription() + "\n");
                 ApptBookFile.write("app_start=" + ap.getBeginTimeString() +"\n");
                 ApptBookFile.write("app_end=" + ap.getEndTimeString() + "\n");
             }

@@ -259,16 +259,7 @@ public class Project2 {
             appointment = makeAppointment(CLArguments);
 
             newAppointmentBook.addAppointment(appointment);
-            appts = newAppointmentBook.getAppointments();
-
         }
-        //If file name IS entered -- Parse or create new file
-        //if file does not exists - Create a new file with owners name. filename + CLArguments[0]
-        //have it kick back the newly created appointment book and create a new appointment,
-        // then dump it to the new file.
-        //if file does exists, read in the appointment book, kick it back to newAppointment book
-        // and add the new appointment,
-        // Dump it back to the text file. print if needed.
         else
         {
             File appBookFile = new File(fileName);
@@ -296,27 +287,32 @@ public class Project2 {
                     System.out.println("The File owner and Owner passed in from the command line do not match.");
                     System.exit(1);
                 }
-
             }
-
+            System.out.println("Creating appointment and assigning it to appointment book.");
             appointment = makeAppointment(CLArguments);
             newAppointmentBook.addAppointment(appointment);
-
         }
 
-        System.exit(1);
         //-----------------------------------------------------------
-
-        //Write to file / printout based on options.
-
-        try
+        //Check if the fileName is null.
+        // If it is not null - Dump out the info.
+        // If it is null do nothing as they didnt pass in the -textFile option
+        if (!fileName.equals(""))
         {
-            TextDump.dump(newAppointmentBook);
+            try
+            {
+                TextDump.setFileDir(fileName);
+                TextDump.dump(newAppointmentBook);
+            }
+            catch(IOException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        catch(IOException ignored) {}
 
+        //check for the print option. if set to 1, print out the information.
         if (printOption == 1)
         {
+            appts = newAppointmentBook.getAppointments();
             System.out.println(newAppointmentBook);
             for(Appointment ap : appts)
             {

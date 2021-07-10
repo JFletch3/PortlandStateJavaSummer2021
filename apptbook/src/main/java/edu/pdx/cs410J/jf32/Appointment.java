@@ -42,7 +42,15 @@ public class Appointment extends AbstractAppointment {
    */
   public void setStartTime(String startDate,  String startTime)
   {
-    this.startTime = startDate  + " " + startTime;
+    if (startTime.equals(""))
+    {
+      this.startTime = startDate;
+    }
+    else
+    {
+      this.startTime = startDate  + " " + startTime;
+    }
+
   }
 
   /**
@@ -55,7 +63,15 @@ public class Appointment extends AbstractAppointment {
    */
   public void setEndTime(String endDate,  String endTime)
   {
-    this.endTime = endDate + " " + endTime;
+    if (endTime.equals(""))
+    {
+      this.endTime = endDate;
+    }
+    else
+    {
+      this.endTime = endDate + " " + endTime;
+    }
+
   }
 
   /**

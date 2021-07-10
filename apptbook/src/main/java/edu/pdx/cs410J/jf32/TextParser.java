@@ -4,6 +4,8 @@ import edu.pdx.cs410J.AppointmentBookParser;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TextParser implements AppointmentBookParser<AppointmentBook> {
 
@@ -106,6 +108,7 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
         AppointmentBook newAppointmentBook = new AppointmentBook();
         Appointment newAppointment = new Appointment();
         File appBookFile = new File(fileName);
+        List<String> FileInfo = new ArrayList<String>();
 
         System.out.println("Appointment book exists - Creating appointment book with apts.");
 
@@ -115,41 +118,31 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
 
             while ((line = reader.readLine()) != null)
             {
-                if (line.contains("app_book"))
-                {
-                    //System.out.println(line.substring(line.lastIndexOf("=")+1));
-                    newAppointmentBook.setOwnerName(line.substring(line.lastIndexOf("=")+1));
-                }
-
-                if (line.contains("--NEW APPOINTMENT--"))
-                {
-                    newAppointment = new Appointment();
-                }
-                else
-                {
-                    if (line.contains("app_desc"))
-                    {
-                        //System.out.println(line.substring(line.lastIndexOf("=")+1));
-                        newAppointment.setDescription(line.substring(line.lastIndexOf("=")+1));
-                    }
-                    else if (line.contains("app_start"))
-                    {
-                        //System.out.println(line.substring(line.lastIndexOf("=")+1));
-                        newAppointment.setStartTime(line.substring(line.lastIndexOf("=")+1),"");
-                    }
-                    else if (line.contains("app_end"))
-                    {
-                        //System.out.println(line.substring(line.lastIndexOf("=")+1));
-                        newAppointment.setEndTime(line.substring(line.lastIndexOf("=")+1),"");
-                    }
-                    newAppointmentBook.addAppointment(newAppointment);
-                }
+                FileInfo.add(line);
             }
         }
         catch (IOException e)
         {
             System.out.println("no file found");
         }
+
+        for (int i = 0; i < FileInfo.size(); i++)
+        {
+            if (FileInfo.get(i).contains("app_book"))
+            {
+                //System.out.println(line.substring(line.lastIndexOf("=")+1));
+                newAppointmentBook.setOwnerName(FileInfo.get(i).substring(FileInfo.get(i).lastIndexOf("=")+1));
+            }
+            else if (FileInfo.get(i).contains("--NEW APPOINTMENT--"))
+            {
+                newAppointment = new Appointment();
+                newAppointment.setDescription(FileInfo.get(i+1).substring(FileInfo.get(i+1).lastIndexOf("=")+1));
+                newAppointment.setStartTime(FileInfo.get(i+2).substring(FileInfo.get(i+2).lastIndexOf("=")+1), "");
+                newAppointment.setEndTime(FileInfo.get(i+3).substring(FileInfo.get(i+3).lastIndexOf("=")+1), "");
+                newAppointmentBook.addAppointment(newAppointment);
+            }
+        }
+
         return newAppointmentBook;
     }
 }
