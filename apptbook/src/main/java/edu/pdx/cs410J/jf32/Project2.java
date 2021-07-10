@@ -221,12 +221,13 @@ public class Project2 {
     public static void main(String[] args){
 
         Collection<Appointment> appts = new ArrayList<>();
+        List<String> CLArguments;
         AppointmentBook newAppointmentBook = new AppointmentBook();
         Appointment appointment = new Appointment();
-        List<String> CLArguments;
         int printOption = 0;
         int textOption = 0;
         String fileName = "";
+        Boolean CorrectFileOwner = false;
         TextParser TextRead = new TextParser();
         TextDumper TextDump = new TextDumper();
 
@@ -270,26 +271,32 @@ public class Project2 {
         // Dump it back to the text file. print if needed.
         else
         {
-            File appBookFile = new File(fileName + CLArguments.get(0));
+            File appBookFile = new File(fileName);
+            TextRead.setFileName(fileName);
+
             if(!appBookFile.exists())
             {
-                TextRead.setFileName(fileName);
-
-                try
-                {
-                    newAppointmentBook = TextRead.parse();
-                }
-                catch (ParserException ignored){}
+                newAppointmentBook = TextRead.CreateEmptyBook();
                 newAppointmentBook.setOwnerName(CLArguments.get(0));
             }
             else
             {
-                TextRead.setFileName(fileName);
-                try
+                TextRead.setFileOwner(CLArguments.get(0));
+                CorrectFileOwner = TextRead.FileIsRightOwner(fileName);
+                if (CorrectFileOwner)
                 {
-                    newAppointmentBook = TextRead.parse();
+                    try
+                    {
+                        newAppointmentBook = TextRead.parse();
+                    }
+                    catch (ParserException ignored){}
                 }
-                catch (ParserException ignored){}
+                else
+                {
+                    System.out.println("The File owner and Owner passed in from the command line do not match.");
+                    System.exit(1);
+                }
+
             }
 
             appointment = makeAppointment(CLArguments);
@@ -297,7 +304,7 @@ public class Project2 {
 
         }
 
-
+        System.exit(1);
         //-----------------------------------------------------------
 
         //Write to file / printout based on options.

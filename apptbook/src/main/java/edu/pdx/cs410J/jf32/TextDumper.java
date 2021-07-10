@@ -21,20 +21,6 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
     @Override
     public void dump(AppointmentBook book) throws IOException
     {
-
-     //   File ApptBookFile = new File(FileDir);
-
-//        try
-//        {
-//            if (ApptBookFile.createNewFile())
-//            {
-//                System.out.println("Created new file at:" + ApptBookFile.getName());
-//            }
-//        }
-//        catch (IOException e)
-//        {
-//            System.out.println("File already exists.");
-//        }
         try
         {
             Collection<Appointment> appointments;
@@ -44,6 +30,7 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
 
             for (Appointment ap : appointments)
             {
+                ApptBookFile.write("--NEW APPOINTMENT--\n");
                 ApptBookFile.write("app_des=" + ap.getDescription() + "\n");
                 ApptBookFile.write("app_start=" + ap.getBeginTimeString() +"\n");
                 ApptBookFile.write("app_end=" + ap.getEndTimeString() + "\n");
