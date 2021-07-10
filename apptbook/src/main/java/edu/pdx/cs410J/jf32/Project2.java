@@ -1,8 +1,8 @@
 package edu.pdx.cs410J.jf32;
 
 import edu.pdx.cs410J.ParserException;
-import org.w3c.dom.Text;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -85,6 +85,7 @@ public class Project2 {
      */
     public static int checkForPrintOption(String [] args)
     {
+        //TODO this needs to look at spots 0 or 2 as the textfile can be the first argument
         if(args[0].toUpperCase().contains("-PRINT"))
         {
             return 1;
@@ -120,7 +121,6 @@ public class Project2 {
 
         return newAppointmentBook;
     }
-
 
     /**
      * Method to check the if the -print option was entered in the arguments
@@ -158,9 +158,7 @@ public class Project2 {
         {
             if (args[i].toUpperCase().contains("-TEXTFILE"))
             {
-
                 fileName = args[i+1];
-                System.out.println("text file name: " + args[i+1]);
             }
         }
 
@@ -222,9 +220,9 @@ public class Project2 {
      */
     public static void main(String[] args){
 
-        Collection<Appointment> appts;
-        AppointmentBook newAppointmentBook;
-        Appointment appointment ;
+        Collection<Appointment> appts = new ArrayList<>();
+        AppointmentBook newAppointmentBook = new AppointmentBook();
+        Appointment appointment = new Appointment();
         List<String> CLArguments;
         int printOption = 0;
         int textOption = 0;
@@ -249,10 +247,11 @@ public class Project2 {
         //-----------------------------------------------------------
         printOption = checkForPrintOption(args);    //Get Print option - 1 print 0 no print
         fileName = getFileName(args);               //Get File name
-        CLArguments =  argumentSlicer(args);        //Sliced arguments without the options
+        CLArguments = argumentSlicer(args);         //Sliced arguments without the options
         checkCLArgCount(CLArguments);
 
-        //If file name IS NOT entered - Proceed like normal.
+
+        //If file name IS NOT entered - Proceed like normal - No text file.
         if (fileName.equals(""))
         {
             newAppointmentBook = makeAppointmentBook(CLArguments);
@@ -261,28 +260,42 @@ public class Project2 {
             newAppointmentBook.addAppointment(appointment);
             appts = newAppointmentBook.getAppointments();
 
-            //Create new file and write to it
         }
         //If file name IS entered -- Parse or create new file
+        //if file does not exists - Create a new file with owners name. filename + CLArguments[0]
+        //have it kick back the newly created appointment book and create a new appointment,
+        // then dump it to the new file.
+        //if file does exists, read in the appointment book, kick it back to newAppointment book
+        // and add the new appointment,
+        // Dump it back to the text file. print if needed.
         else
         {
-            //Try to get the appointment book from the passed in fileName.
-            try
+            File appBookFile = new File(fileName + CLArguments.get(0));
+            if(!appBookFile.exists())
             {
-                TextRead.setFileDir(fileName); //Later to be changed to the file dir from command line.
-                newAppointmentBook = TextRead.parse();
+                TextRead.setFileName(fileName);
+
+                try
+                {
+                    newAppointmentBook = TextRead.parse();
+                }
+                catch (ParserException ignored){}
+                newAppointmentBook.setOwnerName(CLArguments.get(0));
             }
-            catch (ParserException e){}
+            else
+            {
+                TextRead.setFileName(fileName);
+                try
+                {
+                    newAppointmentBook = TextRead.parse();
+                }
+                catch (ParserException ignored){}
+            }
+
+            appointment = makeAppointment(CLArguments);
+            newAppointmentBook.addAppointment(appointment);
+
         }
-
-        newAppointmentBook = makeAppointmentBook(CLArguments);
-        appointment = makeAppointment(CLArguments);
-
-        newAppointmentBook.addAppointment(appointment);
-        appts = newAppointmentBook.getAppointments();
-
-
-
 
 
         //-----------------------------------------------------------
@@ -293,10 +306,7 @@ public class Project2 {
         {
             TextDump.dump(newAppointmentBook);
         }
-        catch(IOException e)
-        {
-
-        }
+        catch(IOException ignored) {}
 
         if (printOption == 1)
         {
