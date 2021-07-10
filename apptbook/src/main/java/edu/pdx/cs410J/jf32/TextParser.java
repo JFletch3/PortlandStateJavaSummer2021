@@ -91,9 +91,6 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
         {
             e.printStackTrace();
         }
-
-        System.out.println("No appointment book - Sending empty appointment book back. file name: " + fileName);
-
         return newEmptyBook;
     }
 
@@ -109,8 +106,6 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
         Appointment newAppointment = new Appointment();
         File appBookFile = new File(fileName);
         List<String> FileInfo = new ArrayList<String>();
-
-        System.out.println("Appointment book exists - Creating appointment book with apts.");
 
         try
         {

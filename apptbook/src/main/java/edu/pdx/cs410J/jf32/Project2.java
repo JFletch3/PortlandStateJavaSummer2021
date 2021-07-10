@@ -288,7 +288,6 @@ public class Project2 {
                     System.exit(1);
                 }
             }
-            System.out.println("Creating appointment and assigning it to appointment book.");
             appointment = makeAppointment(CLArguments);
             newAppointmentBook.addAppointment(appointment);
         }
@@ -316,6 +315,7 @@ public class Project2 {
             System.out.println(newAppointmentBook);
             for(Appointment ap : appts)
             {
+
                 System.out.println(ap.toString());
             }
         }
