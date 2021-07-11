@@ -7,6 +7,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is represents a <code>Appointment</code>.
+ * its purpose is to read in a file provided from the command line
+ * and create an appointmentbook and appointments based on the file.
+ * If no file is available it will create a new file.
+ */
 public class TextParser implements AppointmentBookParser<AppointmentBook> {
 
     private String fileName;
