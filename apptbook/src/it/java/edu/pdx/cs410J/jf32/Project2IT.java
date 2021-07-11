@@ -21,6 +21,13 @@ class Project2IT extends InvokeMainTestCase {
     }
 
     @Test
+    void testNoCommandLineArguments() {
+        MainMethodResult result = invokeMain();
+        assertThat(result.getExitCode(), equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Missing command line arguments"));
+    }
+
+    @Test
     void testDateFormatReturn() {
         MainMethodResult result = invokeMain("Joe", "\"test\"", "fakeDate", "1:00", "6/2/2021", "2:00");
         assertThat(result.getExitCode(), equalTo(1));

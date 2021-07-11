@@ -22,14 +22,16 @@ public class Project2 {
     {
         System.out.println("\n\nProject 2 - CS410 - Joe Fletcher\n" +
                 "This is an Appointment book program which creates an Appointment book and an Appointment based on arguments.\n" +
+                "The program allows you to submit a file to create an appointment.\n" +
                 "Command line arguments:\n" +
                 "\tOwner, Appointment Description (wrapped in quotes), Start date, Start time, End date, End time.\n" +
                 "\tEX: Joe \"First appointment\" 06/01/2021 1:00 06/01/2021 2:00\n" +
                 "NOTE: AM / PM are not needed for this program.\n" +
                 "Along with the command line arguments you may enter two optional arguments at the front of the command line\n" +
-                "\t-README  -PRINT\n" +
+                "\t-README  -PRINT -textFile file\n " +
                 "\t-README\t\tPrints out this statement.\n" +
                 "\t-PRINT\t\tWill print out the details of your appointment book and appointment.\n" +
+                "\t-textFile\t\tIndicates that there is a file name being passed in with the 'file' argument after the option" +
                 "Its worth noting that if you have -README as an option, the program will ONLY print this out.\n" +
                 "Leave -README off the argument list if you would like the program to run fully.\n\n");
     }
@@ -234,6 +236,11 @@ public class Project2 {
         //------------------------------------------------------------
         //-README check - leave this here, its just a print and exit
         // This needs to be the first thing checked.
+        if (args.length == 0)
+        {
+            System.err.println("Missing command line arguments.");
+            System.exit(1);
+        }
         for(String ap : args)
         {
             if (ap.toUpperCase().contains("-README"))
@@ -315,7 +322,6 @@ public class Project2 {
             System.out.println(newAppointmentBook);
             for(Appointment ap : appts)
             {
-
                 System.out.println(ap.toString());
             }
         }
