@@ -68,9 +68,9 @@ public class Project2 {
             System.err.println("Missing command line arguments.");
             System.exit(1);
         }
-        else if (args.size() < 6) //TODO Need to update this so it captures the correct amount of argumtns.
+        else if (args.size() != 6) //TODO Need to update this so it captures the correct amount of argumtns.
         {
-            System.err.println("Insufficient number of arguments.");
+            System.err.println("Number of arguments is incorrect. Please check command line arguments.");
             System.exit(1);
         }
     }
@@ -227,7 +227,7 @@ public class Project2 {
         int printOption = 0;
         int textOption = 0;
         String fileName = "";
-        Boolean CorrectFileOwner = false;
+        boolean CorrectFileOwner = false;
         TextParser TextRead = new TextParser();
         TextDumper TextDump = new TextDumper();
 
