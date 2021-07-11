@@ -7,6 +7,7 @@ import java.io.StringWriter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TextDumperTest
 {
@@ -27,8 +28,14 @@ public class TextDumperTest
         assertThat(dumpedText, containsString(owner));
     }
 
+    @Test
     void dumperSetFileDirReturnsCorrectDir()
     {
-        
+        String fileDir = "TestFileDir";
+        TextDumper dumper = new TextDumper();
+        dumper.setFileDir(fileDir);
+        assertEquals(fileDir, dumper.FileDir);
     }
+
+
 }
