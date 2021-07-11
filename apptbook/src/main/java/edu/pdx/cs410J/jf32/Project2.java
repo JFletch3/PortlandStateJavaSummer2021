@@ -4,6 +4,7 @@ import edu.pdx.cs410J.ParserException;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -308,6 +309,7 @@ public class Project2 {
             try
             {
                 TextDump.setFileDir(fileName);
+                TextDump.setWriter(new StringWriter());
                 TextDump.dump(newAppointmentBook);
             }
             catch(IOException e) {

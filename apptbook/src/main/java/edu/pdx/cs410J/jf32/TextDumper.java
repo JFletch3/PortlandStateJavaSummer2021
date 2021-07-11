@@ -4,18 +4,23 @@ import edu.pdx.cs410J.AbstractAppointmentBook;
 import edu.pdx.cs410J.AppointmentBookDumper;
 
 import javax.swing.plaf.synth.SynthSpinnerUI;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Collection;
 
 public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
 
     String FileDir;
+    Writer ApptBookFile;
+
 
     public void setFileDir(String Dir)
     {
         FileDir = Dir;
+    }
+
+    public void setWriter(Writer write)
+    {
+        ApptBookFile = write;
     }
 
     @Override
@@ -24,7 +29,8 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
         try
         {
             Collection<Appointment> appointments;
-            FileWriter ApptBookFile = new FileWriter(FileDir);
+            //FileWriter ApptBookFile = new FileWriter(FileDir);
+            ApptBookFile = new FileWriter(FileDir);
             appointments = book.getAppointments();
             ApptBookFile.write("app_book_owner=" + book.getOwnerName() + "\n");
 
