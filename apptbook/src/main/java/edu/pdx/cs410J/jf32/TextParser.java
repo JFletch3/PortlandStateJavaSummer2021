@@ -4,6 +4,7 @@ import edu.pdx.cs410J.AppointmentBookParser;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.*;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,12 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
 
     private String fileName;
     private String fileOwner;
+    private BufferedReader reader;
+
+    public void setReader(Reader read)
+    {
+        reader = new BufferedReader(read);
+    }
 
     /**
      * Method to set the file name.
@@ -100,6 +107,8 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
         return newEmptyBook;
     }
 
+
+
     /**
      * Method to Parse a file if it exists and create an
      * appointment book based on the details from file.
@@ -115,6 +124,7 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
 
         try
         {
+
             BufferedReader reader = new BufferedReader(new FileReader(appBookFile));
 
             while ((line = reader.readLine()) != null)
@@ -124,7 +134,7 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
         }
         catch (IOException e)
         {
-            System.out.println("no file found");
+            throw new ParserException("While parsing", e);
         }
 
         for (int i = 0; i < FileInfo.size(); i++)

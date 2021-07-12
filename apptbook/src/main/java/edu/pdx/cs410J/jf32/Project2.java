@@ -2,9 +2,7 @@ package edu.pdx.cs410J.jf32;
 
 import edu.pdx.cs410J.ParserException;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -272,6 +270,7 @@ public class Project2 {
         {
             File appBookFile = new File(fileName);
             TextRead.setFileName(fileName);
+
 
             if(!appBookFile.exists())
             {
