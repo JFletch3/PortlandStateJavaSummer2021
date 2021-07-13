@@ -20,6 +20,11 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
     private String fileOwner;
     private BufferedReader reader;
 
+    /**
+     * Method to set the read for TextParser class
+     * @param read
+     *      name of the Reader.
+     */
     public void setReader(Reader read)
     {
         reader = new BufferedReader(read);
@@ -28,7 +33,7 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
     /**
      * Method to set the file name.
      * @param Name
-     *      file nmame.
+     *      file name.
      */
     public void setFileName(String Name)
     {
@@ -107,8 +112,6 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
         return newEmptyBook;
     }
 
-
-
     /**
      * Method to Parse a file if it exists and create an
      * appointment book based on the details from file.
@@ -124,9 +127,7 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
 
         try
         {
-
             BufferedReader reader = new BufferedReader(new FileReader(appBookFile));
-
             while ((line = reader.readLine()) != null)
             {
                 FileInfo.add(line);
