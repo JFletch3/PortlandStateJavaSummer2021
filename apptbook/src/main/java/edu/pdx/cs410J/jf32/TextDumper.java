@@ -53,7 +53,6 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
             if (ApptBookFile == null)
             {
                 ApptBookFile = new FileWriter(FileDir);
-                ApptBookFile = new FileWriter(FileDir);
             }
             Collection<Appointment> appointments;
             appointments = book.getAppointments();

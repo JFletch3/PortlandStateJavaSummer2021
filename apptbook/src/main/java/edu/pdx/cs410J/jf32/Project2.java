@@ -256,7 +256,6 @@ public class Project2 {
         CLArguments = argumentSlicer(args);         //Sliced arguments without the options
 
 
-
         //If file name IS NOT entered - Proceed like normal - No text file.
         if (fileName.equals(""))
         {
@@ -269,7 +268,6 @@ public class Project2 {
         {
             File appBookFile = new File(fileName);
             TextRead.setFileName(fileName);
-
 
             if(!appBookFile.exists())
             {

@@ -36,6 +36,4 @@ public class TextDumperTest
         dumper.setFileDir(fileDir);
         assertEquals(fileDir, dumper.FileDir);
     }
-
-
 }
