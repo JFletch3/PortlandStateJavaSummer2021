@@ -14,16 +14,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TextParserTest
 {
-//    @Test
-//    void emptyFileCannotBeParsed() {
-//        InputStream resource = getClass().getResourceAsStream("emptyFile.txt");
-//        File file = new File (Objects.requireNonNull(getClass().getResource("emptyFile.txt")).getFile());
-//
-//        assertNotNull(res);
-//        TextParser parser = new TextParser();
-//        parser.setFileName(res);
-//        assertThrows(ParserException.class, parser::parse);
-//    }
+    @Test
+    void emptyFileCannotBeParsed() {
+        InputStream resource = getClass().getResourceAsStream("emptyFile.txt");
+        File file = new File (Objects.requireNonNull(getClass().getResource("emptyFile.txt")).getFile());
+
+        assertNotNull(res);
+        TextParser parser = new TextParser();
+        parser.setFileName(res);
+        assertThrows(ParserException.class, parser::parse);
+    }
 
 //    @Test
 //    void appointmentBookOwnerCanBeDumpedAndParsed() throws IOException, ParserException {

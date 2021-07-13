@@ -86,14 +86,12 @@ public class Project2 {
      */
     public static int checkForPrintOption(String [] args)
     {
-        //TODO this needs to look at spots 0 or 2 as the textfile can be the first argument
-        if(args[0].toUpperCase().contains("-PRINT"))
+        if(args[0].toUpperCase().contains("-PRINT") || args[2].toUpperCase().contains("-PRINT"))
         {
             return 1;
         }
         else
         {
-
             for (String ap : args)
             {
                 if (ap.toUpperCase().contains("-PRINT"))
@@ -308,7 +306,7 @@ public class Project2 {
             try
             {
                 TextDump.setFileDir(fileName);
-                TextDump.setWriter(new StringWriter());
+             //   TextDump.setWriter(new StringWriter());
                 TextDump.dump(newAppointmentBook);
             }
             catch(IOException e) {

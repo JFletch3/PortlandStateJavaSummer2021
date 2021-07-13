@@ -24,7 +24,7 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
      */
     public void setFileDir(String Dir)
     {
-        FileDir = Dir;
+        this.FileDir = Dir;
     }
 
     /**
@@ -35,7 +35,7 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
      */
     public void setWriter(Writer write)
     {
-        ApptBookFile = write;
+        this.ApptBookFile = write;
     }
 
     /**
@@ -50,9 +50,12 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
     {
         try
         {
+            if (ApptBookFile == null)
+            {
+                ApptBookFile = new FileWriter(FileDir);
+                ApptBookFile = new FileWriter(FileDir);
+            }
             Collection<Appointment> appointments;
-            //FileWriter ApptBookFile = new FileWriter(FileDir);
-            ApptBookFile = new FileWriter(FileDir);
             appointments = book.getAppointments();
             ApptBookFile.write("app_book_owner=" + book.getOwnerName() + "\n");
 
