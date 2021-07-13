@@ -69,7 +69,7 @@ public class Project2 {
             System.err.println("Missing command line arguments.");
             System.exit(1);
         }
-        else if (args.length < 6)
+        else if (args.length < 6 || args.length > 9)
         {
             System.err.println("Number of arguments is incorrect. Please check command line arguments.");
             System.exit(1);
