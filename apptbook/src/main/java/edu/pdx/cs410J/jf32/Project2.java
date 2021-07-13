@@ -62,14 +62,14 @@ public class Project2 {
      * @param args
      *      String array of the command line arguments
      */
-    public static void checkCLArgCount(List<String> args)
+    public static void checkCLArgCount(String [] args)
     {
-        if (args.size() == 0)
+        if (args.length == 0)
         {
             System.err.println("Missing command line arguments.");
             System.exit(1);
         }
-        else if (args.size() != 6) //TODO Need to update this so it captures the correct amount of argumtns.
+        else if (args.length < 6)
         {
             System.err.println("Number of arguments is incorrect. Please check command line arguments.");
             System.exit(1);
@@ -250,10 +250,11 @@ public class Project2 {
 
 
         //-----------------------------------------------------------
+        checkCLArgCount(args);
         printOption = checkForPrintOption(args);    //Get Print option - 1 print 0 no print
         fileName = getFileName(args);               //Get File name
         CLArguments = argumentSlicer(args);         //Sliced arguments without the options
-        checkCLArgCount(CLArguments);
+
 
 
         //If file name IS NOT entered - Proceed like normal - No text file.
