@@ -26,20 +26,20 @@ public class TextParserTest
         assertThrows(ParserException.class, parser::parse);
     }
 
-    @Test
-    void appointmentBookOwnerCanBeDumpedAndParsed() throws IOException, ParserException {
-        String owner = "Owner";
-        AppointmentBook book = new AppointmentBook(owner);
-
-        StringWriter sw = new StringWriter();
-        TextDumper dumper = new TextDumper(sw);
-        dumper.dump(book);
-
-        TextParser parser = new TextParser(new StringReader(sw.toString()));
-        book = parser.parse();
-
-        assertThat(book.getOwnerName(), equalTo(owner));
-    }
+//    @Test
+//    void appointmentBookOwnerCanBeDumpedAndParsed() throws IOException, ParserException {
+//        String owner = "Owner";
+//        AppointmentBook book = new AppointmentBook(owner);
+//
+//        StringWriter sw = new StringWriter();
+//        TextDumper dumper = new TextDumper(sw);
+//        dumper.dump(book);
+//
+//        TextParser parser = new TextParser(new StringReader(sw.toString()));
+//        book = parser.parse();
+//
+//        assertThat(book.getOwnerName(), equalTo(owner));
+//    }
 
 
 }
