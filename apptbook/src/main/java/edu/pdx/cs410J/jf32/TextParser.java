@@ -125,9 +125,15 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
         File appBookFile = new File(fileName);
         List<String> FileInfo = new ArrayList<String>();
 
+        if (appBookFile.length() == 0)
+        {
+            throw new ParserException("Empty File");
+        }
+
         try
         {
             BufferedReader reader = new BufferedReader(new FileReader(appBookFile));
+
             while ((line = reader.readLine()) != null)
             {
                 FileInfo.add(line);
