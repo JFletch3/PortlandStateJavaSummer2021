@@ -22,7 +22,7 @@ public class TextParserTest
 //        TextParser parser = new TextParser();
 //        parser.setFileName(res);
 //        assertThrows(ParserException.class, parser::parse);
-    }
+//    }
 
 //    @Test
 //    void appointmentBookOwnerCanBeDumpedAndParsed() throws IOException, ParserException {
