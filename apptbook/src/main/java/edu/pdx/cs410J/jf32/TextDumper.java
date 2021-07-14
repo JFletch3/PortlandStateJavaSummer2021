@@ -14,7 +14,13 @@ import java.util.Collection;
  */
 public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
 
+    /**
+     * String file Dir variable for text dumper class.
+     */
     String FileDir;
+    /**
+     * Write object for text dumper class.
+     */
     Writer ApptBookFile;
 
     /**

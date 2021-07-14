@@ -10,6 +10,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
+/**
+ * The main class for the CS410J appointment book Project 1
+ */
 public class Project2 {
 
     /**

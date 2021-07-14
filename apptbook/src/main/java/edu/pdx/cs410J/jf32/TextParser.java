@@ -115,6 +115,8 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
 
     /**
      * Method to create a new empty appointment book if the book doesnt exists.
+     * @return newEmptyBook
+     *      New empty appointment book. 
      */
     public AppointmentBook CreateEmptyBook ()
     {
