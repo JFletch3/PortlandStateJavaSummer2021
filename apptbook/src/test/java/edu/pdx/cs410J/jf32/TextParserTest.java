@@ -9,8 +9,7 @@ import java.util.Objects;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TextParserTest
 {
@@ -44,6 +43,16 @@ public class TextParserTest
         assertThat(book.getOwnerName(), equalTo(owner));
     }
 
-    
+    @Test
+    void TestingSetters()
+    {
+        String fileName = "test File name";
+        String fileOwner = "owner";
+        TextParser parser = new TextParser();
+        parser.setFileName(fileName);
+        parser.setFileOwner(fileOwner);
+        assertEquals(parser.getFileOwner(), fileOwner);
+        assertEquals(parser.getFileName(), fileName);
+    }
 
 }

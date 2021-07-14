@@ -20,15 +20,15 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
     private String fileOwner;
     private BufferedReader reader;
 
-    /**
-     * Method to set the read for TextParser class
-     * @param read
-     *      name of the Reader.
-     */
-    public void setReader(Reader read)
-    {
-        reader = new BufferedReader(read);
-    }
+//    /**
+//     * Method to set the read for TextParser class
+//     * @param read
+//     *      name of the Reader.
+//     */
+//    public void setReader(Reader read)
+//    {
+//        reader = new BufferedReader(read);
+//    }
 
     /**
      * Method to set the file name.
@@ -41,6 +41,16 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
     }
 
     /**
+     * Method to get file name.
+     * @return fileName
+     *      fileName for the textParser class.
+     */
+    public String getFileName()
+    {
+        return fileName;
+    }
+
+    /**
      * Method to set the file owner name.
      * @param Name
      *      Owner Name.
@@ -48,6 +58,16 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
     public void setFileOwner(String Name)
     {
         this.fileOwner = Name;
+    }
+
+    /**
+     * Method to get file Order.
+     * @return fileOwner
+     *      fileOwner for the textParser class.
+     */
+    public String getFileOwner()
+    {
+        return fileOwner;
     }
 
     /**

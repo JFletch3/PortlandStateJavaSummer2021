@@ -6,10 +6,9 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 
 public class Project2 {
 
@@ -43,6 +42,7 @@ public class Project2 {
     public static void checkDateFormat(String date)
     {
         DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy");
+
         dFormat.setLenient(false);
 
         try
@@ -54,6 +54,29 @@ public class Project2 {
             System.err.println("Date format and/or Date is not valid: " + date + " --- Format Should be mm/dd/yyyy" +
                     "and date should be a real date.");
             System.exit(1);
+        }
+
+    }
+
+    /**
+     * Method to check the time format and that the time is valid.
+     * @param Time
+     *      The Time entered at the command line.
+     */
+    public static void checkTimesAreValid(String Time)
+    {
+        int num;
+
+        for (String str : Time.split(":"))
+        {
+            try
+            {
+                num = Integer.parseInt(str);
+            }
+            catch (NumberFormatException e)
+            {
+                System.err.println("Incorrect format for time: " + Time);
+            }
         }
     }
 
@@ -69,7 +92,7 @@ public class Project2 {
             System.err.println("Missing command line arguments.");
             System.exit(1);
         }
-        else if (args.length < 6 || args.length > 9)
+        else if (args.length < 6)
         {
             System.err.println("Number of arguments is incorrect. Please check command line arguments.");
             System.exit(1);
@@ -133,7 +156,9 @@ public class Project2 {
         Appointment newAppointment = new Appointment();
 
         checkDateFormat(args.get(2));
+        checkTimesAreValid(args.get(3));
         checkDateFormat(args.get(4));
+        checkTimesAreValid(args.get(5));
 
         newAppointment.setDescription(args.get(1));
         newAppointment.setStartTime(args.get(2), args.get(3));
@@ -174,11 +199,24 @@ public class Project2 {
      */
     public static List<String> argumentSlicer(String [] args)
     {
-
+        String []  ValidArguments = new String [] {"-PRINT", "-TEXTFILE"};
         List<String> slicedArgs = new ArrayList<String>();
         int printop = 0;
         int textop = 0;
         int increment = 0;
+
+        for (String arg : args)
+        {
+            if (arg.toUpperCase().contains("-"))
+            {
+                if (!arg.toUpperCase().equals(ValidArguments[0]) && !arg.toUpperCase().equals(ValidArguments[1]))
+                {
+                    System.err.println("Invalid Option: " + arg);
+                    System.exit(1);
+                }
+            }
+        }
+
 
         for (String arg : args)
         {
@@ -206,6 +244,11 @@ public class Project2 {
 
         slicedArgs.addAll(Arrays.asList(args).subList(increment, args.length));
 
+        if (slicedArgs.size() != 6)
+        {
+            System.err.println("Number of arguments is incorrect. Please check command line arguments.");
+            System.exit(1);
+        }
         return slicedArgs;
     }
 
