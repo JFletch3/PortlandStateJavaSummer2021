@@ -141,20 +141,8 @@ public class Appointment extends AbstractAppointment {
     {
       throw new UnsupportedOperationException("StartTime is null.");
     }
-    String start = this.startDate + " " + this.startTime;
-    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-    dFormat.setLenient(false);
-    Date date1 = null;
-    try
-    {
-      date1 = dFormat.parse(start);
-    }
-    catch (ParseException e)
-    {
-      System.err.println(e.getMessage() + " Date " + start) ;
-      System.exit(1);
-    }
 
+    Date date1 = getBeginTime();
     return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date1);
   }
 
@@ -172,20 +160,7 @@ public class Appointment extends AbstractAppointment {
       throw new UnsupportedOperationException("StartTime is null.");
     }
 
-    String start = this.endDate + " " + this.endTime;
-    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-    dFormat.setLenient(false);
-    Date date1 = null;
-    try
-    {
-      date1 = dFormat.parse(start);
-    }
-    catch (ParseException e)
-    {
-      System.err.println(e.getMessage() + " Date " + start) ;
-      System.exit(1);
-    }
-
+    Date date1 = getEndTime();
     return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date1);
   }
 
@@ -205,17 +180,53 @@ public class Appointment extends AbstractAppointment {
     return description;
   }
 
+  /**
+   * Get the <code>Appointment</code> Begin Time date.
+   * @return date1
+   *        date1 is a date object of the being date + time
+   */
   @Override
   public Date getBeginTime()
   {
+    String start = this.startDate + " " + this.startTime;
+    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    dFormat.setLenient(false);
+    Date date1 = null;
+    try
+    {
+      date1 = dFormat.parse(start);
+    }
+    catch (ParseException e)
+    {
+      System.err.println(e.getMessage() + " Date " + start) ;
+      System.exit(1);
+    }
 
-    return null;
+    return date1;
   }
 
+  /**
+   * Get the <code>Appointment</code> End Time date.
+   * @return date1
+   *        date1 is a date object of the being date + time
+   */
   @Override
   public Date getEndTime()
   {
+    String start = this.endDate + " " + this.endTime;
+    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    dFormat.setLenient(false);
+    Date date1 = null;
+    try
+    {
+      date1 = dFormat.parse(start);
+    }
+    catch (ParseException e)
+    {
+      System.err.println(e.getMessage() + " Date " + start) ;
+      System.exit(1);
+    }
 
-    return null;
+    return date1;
   }
 }
