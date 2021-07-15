@@ -2,6 +2,11 @@ package edu.pdx.cs410J.jf32;
 
 import org.junit.jupiter.api.Test;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -45,21 +50,48 @@ public class AppointmentTest {
   @Test
   void setStartTimeAndDate() {
     Appointment appointment = new Appointment();
-    String date = "01/01/2021";
-    String time = "";
+    String date = "1/1/2021";
+    String time = "8:00";
+    String start = date + " " + time;
+    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    dFormat.setLenient(false);
+    Date date1 = null;
+    try
+    {
+      date1 = dFormat.parse(start);
+    }
+    catch (ParseException e)
+    {
+      System.err.println(e.getMessage() + " Date " + start) ;
+      System.exit(1);
+    }
     appointment.setStartTime(time);
     appointment.setStartDate(date);
-    assertEquals(appointment.getBeginTimeString(), date + " " + time);
+
+    assertEquals(appointment.getBeginTimeString(), DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date1));
   }
 
   //Test that setting the set End time function sets the End date/time correctly.
   @Test
   void setEndTimeAndDate() {
     Appointment appointment = new Appointment();
-    String date = "01/01/2021";
-    String time = "";
-    appointment.setStartTime(time);
-    appointment.setStartDate(date);
-    assertEquals(appointment.getEndTimeString(), date + " " + time);
+    String date = "1/1/2021";
+    String time = "8:00";
+    String start = date + " " + time;
+    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    dFormat.setLenient(false);
+    Date date1 = null;
+    try
+    {
+      date1 = dFormat.parse(start);
+    }
+    catch (ParseException e)
+    {
+      System.err.println(e.getMessage() + " Date " + start) ;
+      System.exit(1);
+    }
+    appointment.setEndTime(time);
+    appointment.setEndDate(date);
+    assertEquals(appointment.getEndTimeString(), DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date1));
   }
 }

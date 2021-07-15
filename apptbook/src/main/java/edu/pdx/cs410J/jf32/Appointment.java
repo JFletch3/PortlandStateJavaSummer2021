@@ -129,7 +129,6 @@ public class Appointment extends AbstractAppointment {
     return this.endTime;
   }
 
-
   /**
    * Get the <code>Appointment</code> Begin Time String.
    * @return startTime
@@ -138,12 +137,25 @@ public class Appointment extends AbstractAppointment {
   @Override
   public String getBeginTimeString()
   {
-
     if (startTime == null)
     {
       throw new UnsupportedOperationException("StartTime is null.");
     }
-    return this.startDate + " " + this.startTime;
+    String start = this.startDate + " " + this.startTime;
+    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    dFormat.setLenient(false);
+    Date date1 = null;
+    try
+    {
+      date1 = dFormat.parse(start);
+    }
+    catch (ParseException e)
+    {
+      System.err.println(e.getMessage() + " Date " + start) ;
+      System.exit(1);
+    }
+
+    return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date1);
   }
 
   /**
@@ -159,7 +171,22 @@ public class Appointment extends AbstractAppointment {
     {
       throw new UnsupportedOperationException("StartTime is null.");
     }
-    return this.endDate + " " + this.endTime;
+
+    String start = this.endDate + " " + this.endTime;
+    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    dFormat.setLenient(false);
+    Date date1 = null;
+    try
+    {
+      date1 = dFormat.parse(start);
+    }
+    catch (ParseException e)
+    {
+      System.err.println(e.getMessage() + " Date " + start) ;
+      System.exit(1);
+    }
+
+    return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date1);
   }
 
   /**
@@ -176,5 +203,19 @@ public class Appointment extends AbstractAppointment {
       return "Description is not implemented.";
     }
     return description;
+  }
+
+  @Override
+  public Date getBeginTime()
+  {
+
+    return null;
+  }
+
+  @Override
+  public Date getEndTime()
+  {
+
+    return null;
   }
 }
