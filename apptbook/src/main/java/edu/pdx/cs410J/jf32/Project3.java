@@ -70,13 +70,11 @@ public class Project3
      */
     public static void checkTimesAreValid(String Time)
     {
-        int num;
-
         for (String str : Time.split(":"))
         {
             try
             {
-                num = Integer.parseInt(str);
+                Integer.parseInt(str);
             }
             catch (NumberFormatException e)
             {
@@ -143,9 +141,7 @@ public class Project3
     public static AppointmentBook makeAppointmentBook(List<String> args)
     {
         AppointmentBook newAppointmentBook = new AppointmentBook();
-
         newAppointmentBook.setOwnerName(args.get(0));
-
         return newAppointmentBook;
     }
 
@@ -207,7 +203,7 @@ public class Project3
     public static List<String> argumentSlicer(String [] args)
     {
         String []  ValidArguments = new String [] {"-PRINT", "-TEXTFILE"};
-        List<String> slicedArgs = new ArrayList<String>();
+        List<String> slicedArgs = new ArrayList<>();
         int printop = 0;
         int textop = 0;
         int increment = 0;
@@ -232,7 +228,7 @@ public class Project3
                 printop = 1;
             } else if (arg.toUpperCase().contains("-TEXTFILE"))
             {
-                textop = 1;;
+                textop = 1;
             }
         }
 
@@ -269,14 +265,13 @@ public class Project3
      */
     public static void main(String[] args){
 
-        Collection<Appointment> appts = new ArrayList<>();
+        Collection<Appointment> appts;
         List<String> CLArguments;
         AppointmentBook newAppointmentBook = new AppointmentBook();
-        Appointment appointment = new Appointment();
-        int printOption = 0;
-        int textOption = 0;
-        String fileName = "";
-        boolean CorrectFileOwner = false;
+        Appointment appointment;
+        int printOption;
+        String fileName;
+        boolean CorrectFileOwner;
         TextParser TextRead = new TextParser();
         TextDumper TextDump = new TextDumper();
 
