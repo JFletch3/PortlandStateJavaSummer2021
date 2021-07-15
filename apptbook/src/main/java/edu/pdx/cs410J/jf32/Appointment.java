@@ -159,7 +159,7 @@ public class Appointment extends AbstractAppointment {
     {
       throw new UnsupportedOperationException("StartTime is null.");
     }
-    return endTime;
+    return this.endDate + " " + this.endTime;
   }
 
   /**
