@@ -106,8 +106,11 @@ public class Project1 {
 
       newAppointmentBook.setOwnerName(args[0]);
       appointment.setDescription(args[1]);
-      appointment.setStartTime(args[2], args[3]);
-      appointment.setEndTime(args[4], args[5]);
+      appointment.setStartDate(args[2]);
+      appointment.setStartTime(args[3]);
+      appointment.setEndDate(args[4]);
+      appointment.setEndTime(args[5]);
+
     }
     else if (args[0].toUpperCase().contains("-PRINT"))
     {
@@ -116,8 +119,10 @@ public class Project1 {
       checkDateFormat(args[5]);
       newAppointmentBook.setOwnerName(args[1]);
       appointment.setDescription(args[2]);
-      appointment.setStartTime(args[3], args[4]);
-      appointment.setEndTime(args[5], args[6]);
+      appointment.setStartDate(args[2]);
+      appointment.setStartTime(args[3]);
+      appointment.setEndDate(args[4]);
+      appointment.setEndTime(args[5]);
     }
 
     newAppointmentBook.addAppointment(appointment);

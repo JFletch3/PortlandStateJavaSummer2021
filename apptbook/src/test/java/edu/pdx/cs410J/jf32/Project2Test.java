@@ -67,8 +67,10 @@ class Project2Test extends InvokeMainTestCase{
         args.add("6/2/2021");
         args.add("2:00");
         newApp.setDescription(args.get(1));
-        newApp.setStartTime(args.get(2), args.get(3));
-        newApp.setEndTime(args.get(4), args.get(5));
+        newApp.setStartDate(args.get(2));
+        newApp.setStartTime(args.get(3));
+        newApp.setEndDate(args.get(4));
+        newApp.setEndTime(args.get(5));
         assertEquals(newApp.getClass(), Project2.makeAppointment(args).getClass());
         assertEquals(newApp.getDescription(), Project2.makeAppointment(args).getDescription());
         assertEquals(newApp.getBeginTimeString(), Project2.makeAppointment(args).getBeginTimeString());

@@ -68,8 +68,10 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
             {
                 ApptBookFile.write("--NEW APPOINTMENT--\n");
                 ApptBookFile.write("app_desc=" + ap.getDescription() + "\n");
-                ApptBookFile.write("app_start=" + ap.getBeginTimeString() +"\n");
-                ApptBookFile.write("app_end=" + ap.getEndTimeString() + "\n");
+                ApptBookFile.write("app_start_date=" + ap.getThisStartDate() +"\n");
+                ApptBookFile.write("app_start_time=" + ap.getThisStartTime() +"\n");
+                ApptBookFile.write("app_end_date=" + ap.getThisEndDate() + "\n");
+                ApptBookFile.write("app_end_time=" + ap.getThisEndTime() + "\n");
             }
             ApptBookFile.close();
         }

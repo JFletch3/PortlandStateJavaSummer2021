@@ -46,8 +46,9 @@ public class AppointmentTest {
   void setStartTimeAndDate() {
     Appointment appointment = new Appointment();
     String date = "01/01/2021";
-    String time = "11:11";
-    appointment.setStartTime(date, time);
+    String time = "";
+    appointment.setStartTime(time);
+    appointment.setStartDate(date);
     assertEquals(appointment.getBeginTimeString(), date + " " + time);
   }
 
@@ -56,8 +57,9 @@ public class AppointmentTest {
   void setEndTimeAndDate() {
     Appointment appointment = new Appointment();
     String date = "01/01/2021";
-    String time = "11:11";
-    appointment.setEndTime(date, time);
+    String time = "";
+    appointment.setStartTime(time);
+    appointment.setStartDate(date);
     assertEquals(appointment.getEndTimeString(), date + " " + time);
   }
 }

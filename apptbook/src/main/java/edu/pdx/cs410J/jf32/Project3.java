@@ -2,32 +2,34 @@ package edu.pdx.cs410J.jf32;
 
 import edu.pdx.cs410J.ParserException;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
- * The main class for the CS410J appointment book Project 1
+ * The main class for the CS410J appointment book Project 3
  */
-public class Project2 {
-
+public class Project3
+{
     /**
      * Readme function to print a simple readme about the program
      * to the standard out.
      */
     public static void readME()
     {
-        System.out.println("\n\nProject 2 - CS410 - Joe Fletcher\n" +
+        System.out.println("\n\nProject 3 - CS410 - Joe Fletcher\n" +
                 "This is an Appointment book program which creates an Appointment book and an Appointment based on arguments.\n" +
                 "The program allows you to submit a file to create an appointment.\n" +
                 "Command line arguments:\n" +
                 "\tOwner, Appointment Description (wrapped in quotes), Start date, Start time, End date, End time.\n" +
-                "\tEX: Joe \"First appointment\" 06/01/2021 1:00 06/01/2021 2:00\n" +
-                "NOTE: AM / PM are not needed for this program.\n" +
+                "\tEX: Joe \"First appointment\" 06/01/2021 1:00 PM 06/01/2021 2:00 PM\n" +
+                "NOTE: AM / PM ARE required for this program.\n" +
                 "Along with the command line arguments you may enter two optional arguments at the front of the command line\n" +
                 "\t-README  -PRINT -textFile file\n " +
                 "\t-README\t\tPrints out this statement.\n" +
@@ -353,7 +355,7 @@ public class Project2 {
             try
             {
                 TextDump.setFileDir(fileName);
-             //   TextDump.setWriter(new StringWriter());
+                //   TextDump.setWriter(new StringWriter());
                 TextDump.dump(newAppointmentBook);
             }
             catch(IOException e) {
@@ -375,5 +377,4 @@ public class Project2 {
 
         System.exit(1);
     }
-
 }

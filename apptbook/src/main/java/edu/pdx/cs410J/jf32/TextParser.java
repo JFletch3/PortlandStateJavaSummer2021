@@ -116,7 +116,7 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
     /**
      * Method to create a new empty appointment book if the book doesnt exists.
      * @return newEmptyBook
-     *      New empty appointment book. 
+     *      New empty appointment book.
      */
     public AppointmentBook CreateEmptyBook ()
     {
@@ -177,8 +177,10 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
             {
                 newAppointment = new Appointment();
                 newAppointment.setDescription(FileInfo.get(i+1).substring(FileInfo.get(i+1).lastIndexOf("=")+1));
-                newAppointment.setStartTime(FileInfo.get(i+2).substring(FileInfo.get(i+2).lastIndexOf("=")+1), "");
-                newAppointment.setEndTime(FileInfo.get(i+3).substring(FileInfo.get(i+3).lastIndexOf("=")+1), "");
+                newAppointment.setStartDate(FileInfo.get(i+2).substring(FileInfo.get(i+2).lastIndexOf("=")+1));
+                newAppointment.setStartTime(FileInfo.get(i+3).substring(FileInfo.get(i+2).lastIndexOf("=")+1));
+                newAppointment.setEndDate(FileInfo.get(i+4).substring(FileInfo.get(i+3).lastIndexOf("=")+1));
+                newAppointment.setEndTime(FileInfo.get(i+5).substring(FileInfo.get(i+3).lastIndexOf("=")+1));
                 newAppointmentBook.addAppointment(newAppointment);
             }
         }

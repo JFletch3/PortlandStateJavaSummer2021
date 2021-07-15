@@ -2,6 +2,11 @@ package edu.pdx.cs410J.jf32;
 
 import edu.pdx.cs410J.AbstractAppointment;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  * This class is represents a <code>Appointment</code>.
@@ -17,9 +22,17 @@ public class Appointment extends AbstractAppointment {
    */
   private String startTime;
   /**
+   * Appointment Start date
+   */
+  private String startDate;
+  /**
    * Appointment End Time.
    */
   private String endTime;
+  /**
+   * Appointment Start date
+   */
+  private String endDate;
 
   /**
    * Sets the <code>Appointment</code> Description
@@ -33,46 +46,89 @@ public class Appointment extends AbstractAppointment {
   }
 
   /**
-   * Sets the <code>Appointment</code> Start Date and Start Time.
+   * Sets the <code>Appointment</code> Start Date.
    * Concatenates Start Date and Start Time to make one String.
    * @param startDate
    *        Appointment Start Date from Command line argument.
-   * @param startTime
-   *        Appointment Start Time from Command line argument.
    */
-  public void setStartTime(String startDate,  String startTime)
+  public void setStartDate(String startDate)
   {
-    if (startTime.equals(""))
-    {
-      this.startTime = startDate;
-    }
-    else
-    {
-      this.startTime = startDate  + " " + startTime;
-    }
-
+    this.startDate = startDate;
   }
 
   /**
-   * Sets the <code>Appointment</code> End Date and End Time
+   * Sets the <code>Appointment</code> Start time.
+   * Concatenates Start Date and Start Time to make one String.
+   * @param startTime
+   *        Appointment Start Time from Command line argument.
+   */
+  public void setStartTime(String startTime)
+  {
+      this.startTime = startTime;
+  }
+
+  /**
+   * Sets the <code>Appointment</code> End Date
    *  Concatenates End Date and End Time to make one String.
    * @param endDate
    *        Appointment End Date from Command line argument.
+   */
+  public void setEndDate(String endDate)
+  {
+    this.endDate = endDate;
+  }
+
+  /**
+   * Sets the <code>Appointment</code> End Time
+   *  Concatenates End Date and End Time to make one String.
    * @param endTime
    *        Appointment End Time from Command line argument.
    */
-  public void setEndTime(String endDate,  String endTime)
+  public void setEndTime(String endTime)
   {
-    if (endTime.equals(""))
-    {
-      this.endTime = endDate;
-    }
-    else
-    {
-      this.endTime = endDate + " " + endTime;
-    }
-
+      this.endTime = endTime;
   }
+
+  /**
+   * Getter for start Date
+   * @return startDate
+   *        Returns start Date
+   */
+  public String getThisStartDate()
+  {
+    return this.startDate;
+  }
+
+  /**
+   * Getter for start time
+   * @return startTime
+   *        Returns start Time
+   */
+  public String getThisStartTime()
+  {
+    return this.startTime;
+  }
+
+  /**
+   * Getter for end Date
+   * @return endDate
+   *        Returns end Date
+   */
+  public String getThisEndDate()
+  {
+    return this.endDate;
+  }
+
+  /**
+   * Getter for end Time
+   * @return endTime
+   *        Returns end Time
+   */
+  public String getThisEndTime()
+  {
+    return this.endTime;
+  }
+
 
   /**
    * Get the <code>Appointment</code> Begin Time String.
@@ -82,11 +138,12 @@ public class Appointment extends AbstractAppointment {
   @Override
   public String getBeginTimeString()
   {
+
     if (startTime == null)
     {
       throw new UnsupportedOperationException("StartTime is null.");
     }
-    return startTime;
+    return this.startDate + " " + this.startTime;
   }
 
   /**
