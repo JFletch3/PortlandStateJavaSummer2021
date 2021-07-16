@@ -8,6 +8,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+//TODO Need to setup the pretty print class pretty print
+//TODO need to setup the pretty print FILE that is passed in.
+
+
 /**
  * The main class for the CS410J appointment book Project 3
  */
@@ -42,7 +46,7 @@ public class Project3
      */
     public static void checkDateFormat(String date)
     {
-        DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
 
         dFormat.setLenient(false);
 
@@ -57,26 +61,6 @@ public class Project3
             System.exit(1);
         }
 
-    }
-
-    /**
-     * Method to check the time format and that the time is valid.
-     * @param Time
-     *      The Time entered at the command line.
-     */
-    public static void checkTimesAreValid(String Time)
-    {
-        for (String str : Time.split(":"))
-        {
-            try
-            {
-                Integer.parseInt(str);
-            }
-            catch (NumberFormatException e)
-            {
-                System.err.println("Incorrect format for time: " + Time);
-            }
-        }
     }
 
     /**
@@ -163,10 +147,7 @@ public class Project3
     {
         Appointment newAppointment = new Appointment();
 
-        checkDateFormat(args.get(2));
-        checkTimesAreValid(args.get(3));
-        checkDateFormat(args.get(5));
-        checkTimesAreValid(args.get(6));
+
 
         String startTime = args.get(3) + " " + args.get(4);
         String endTime = args.get(6) + " " + args.get(7);
@@ -320,15 +301,17 @@ public class Project3
         }
         //-----------------------------------------------------------
 
-
         //-----------------------------------------------------------
         checkCLArgCount(args);
         printOption = checkForPrintOption(args);    //Get Print option - 1 print 0 no print
-        prettyOption = checkforPrettyOption(args);
+        prettyOption = checkforPrettyOption(args);  //Get pretty option - 1 print 0 no print
         fileName = getFileName(args);               //Get File name
         CLArguments = argumentSlicer(args);         //Sliced arguments without the options
+        checkDateFormat(CLArguments.get(2) + " " + CLArguments.get(3) + " " + CLArguments.get(4));
+        checkDateFormat(CLArguments.get(5) + " " + CLArguments.get(6) + " " + CLArguments.get(7));
+        //-----------------------------------------------------------
 
-
+        //-----------------------------------------------------------
         //If file name IS NOT entered - Proceed like normal - No text file.
         if (fileName.equals(""))
         {
@@ -401,8 +384,6 @@ public class Project3
         //-----------------------------------------------------------
 
         //-----------------------------------------------------------
-        //TODO need to create the pretty print call
-        //TODO sort the appointment books appointments before calling the pretty print.
         if (prettyOption == 1)
         {
             appts = newAppointmentBook.getAppointments();
@@ -413,7 +394,6 @@ public class Project3
                 System.out.println(ap.toString());
             }
         }
-
         //-----------------------------------------------------------
 
         System.exit(1);
