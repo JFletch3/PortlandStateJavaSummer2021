@@ -94,4 +94,12 @@ public class AppointmentTest {
     appointment.setEndDate(date);
     assertEquals(appointment.getEndTimeString(), DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date1));
   }
+
+  @Test
+  void TestStartDateSort() {
+    AppointmentBook book = new AppointmentBook();
+    Appointment appointment = new Appointment();
+    assertThat(appointment.getDescription(), containsString("not implemented"));
+  }
+
 }

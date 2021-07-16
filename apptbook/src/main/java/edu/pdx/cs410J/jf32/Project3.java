@@ -1,16 +1,12 @@
 package edu.pdx.cs410J.jf32;
 
 import edu.pdx.cs410J.ParserException;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * The main class for the CS410J appointment book Project 3
@@ -95,7 +91,7 @@ public class Project3
             System.err.println("Missing command line arguments.");
             System.exit(1);
         }
-        else if (args.length < 6)
+        else if (args.length < 8)
         {
             System.err.println("Number of arguments is incorrect. Please check command line arguments.");
             System.exit(1);
@@ -112,22 +108,33 @@ public class Project3
      */
     public static int checkForPrintOption(String [] args)
     {
-        if(args[0].toUpperCase().contains("-PRINT") || args[2].toUpperCase().contains("-PRINT"))
+        for (String ap : args)
         {
-            return 1;
-        }
-        else
-        {
-            for (String ap : args)
+            if (ap.toUpperCase().contains("-PRINT"))
             {
-                if (ap.toUpperCase().contains("-PRINT"))
-                {
-                    System.err.println("Option -PRINT is in the wrong location in the argument list.");
-                    System.exit(1);
-                }
+                return 1;
             }
         }
+        return 0;
+    }
 
+    /**
+     * Method to check the if the -pretty option was entered in the arguments
+     * @param args
+     *      String array of the command line arguments
+     * @return 1/0
+     *          1 = -PRETTY is set properly.
+     *          0 = -PRETTY is not set.
+     */
+    public static int checkforPrettyOption(String [] args)
+    {
+        for (String ap : args)
+        {
+            if (ap.toUpperCase().contains("-PRETTY"))
+            {
+                return 1;
+            }
+        }
         return 0;
     }
 
@@ -158,14 +165,17 @@ public class Project3
 
         checkDateFormat(args.get(2));
         checkTimesAreValid(args.get(3));
-        checkDateFormat(args.get(4));
-        checkTimesAreValid(args.get(5));
+        checkDateFormat(args.get(5));
+        checkTimesAreValid(args.get(6));
+
+        String startTime = args.get(3) + " " + args.get(4);
+        String endTime = args.get(6) + " " + args.get(7);
 
         newAppointment.setDescription(args.get(1));
         newAppointment.setStartDate(args.get(2));
-        newAppointment.setStartTime(args.get(3));
-        newAppointment.setEndDate(args.get(4));
-        newAppointment.setEndTime(args.get(5));
+        newAppointment.setStartTime(startTime);
+        newAppointment.setEndDate(args.get(5));
+        newAppointment.setEndTime(endTime);
 
         return newAppointment;
     }
@@ -202,17 +212,19 @@ public class Project3
      */
     public static List<String> argumentSlicer(String [] args)
     {
-        String []  ValidArguments = new String [] {"-PRINT", "-TEXTFILE"};
+        String []  ValidArguments = new String [] {"-PRINT", "-TEXTFILE", "-PRETTY"};
         List<String> slicedArgs = new ArrayList<>();
         int printop = 0;
         int textop = 0;
+        int prettyOp = 0;
         int increment = 0;
 
         for (String arg : args)
         {
             if (arg.toUpperCase().contains("-"))
             {
-                if (!arg.toUpperCase().equals(ValidArguments[0]) && !arg.toUpperCase().equals(ValidArguments[1]))
+                if (!arg.toUpperCase().equals(ValidArguments[0]) && !arg.toUpperCase().equals(ValidArguments[1])
+                        && !arg.toUpperCase().equals(ValidArguments[2]))
                 {
                     System.err.println("Invalid Option: " + arg);
                     System.exit(1);
@@ -226,28 +238,42 @@ public class Project3
             if (arg.toUpperCase().contains("-PRINT"))
             {
                 printop = 1;
-            } else if (arg.toUpperCase().contains("-TEXTFILE"))
+            }
+            else if (arg.toUpperCase().contains("-TEXTFILE"))
             {
                 textop = 1;
             }
+            else if (arg.toUpperCase().contains("-PRETTY"))
+            {
+                prettyOp = 1;
+            }
         }
 
-        if (printop == 1 && textop == 1)
+        if (printop == 1 && textop == 1 && prettyOp == 1)
+        {
+            increment = 5;
+        }
+        else if (textop == 1 && prettyOp == 1)
+        {
+            increment = 4;
+        }
+        else if ((printop == 1 && textop == 1) || (printop == 1 && prettyOp == 1))
         {
             increment = 3;
+        }
+        else if (textop == 1 || prettyOp == 1)
+        {
+            increment = 2;
         }
         else if (printop == 1)
         {
             increment = 1;
         }
-        else if (textop == 1)
-        {
-            increment = 2;
-        }
+
 
         slicedArgs.addAll(Arrays.asList(args).subList(increment, args.length));
 
-        if (slicedArgs.size() != 6)
+        if (slicedArgs.size() != 8)
         {
             System.err.println("Number of arguments is incorrect. Please check command line arguments.");
             System.exit(1);
@@ -265,11 +291,12 @@ public class Project3
      */
     public static void main(String[] args){
 
-        Collection<Appointment> appts;
+        ArrayList<Appointment> appts;
         List<String> CLArguments;
         AppointmentBook newAppointmentBook = new AppointmentBook();
         Appointment appointment;
         int printOption;
+        int prettyOption;
         String fileName;
         boolean CorrectFileOwner;
         TextParser TextRead = new TextParser();
@@ -297,6 +324,7 @@ public class Project3
         //-----------------------------------------------------------
         checkCLArgCount(args);
         printOption = checkForPrintOption(args);    //Get Print option - 1 print 0 no print
+        prettyOption = checkforPrettyOption(args);
         fileName = getFileName(args);               //Get File name
         CLArguments = argumentSlicer(args);         //Sliced arguments without the options
 
@@ -357,7 +385,9 @@ public class Project3
                 System.out.println(e.getMessage());
             }
         }
+        //-----------------------------------------------------------
 
+        //-----------------------------------------------------------
         //check for the print option. if set to 1, print out the information.
         if (printOption == 1)
         {
@@ -368,6 +398,22 @@ public class Project3
                 System.out.println(ap.toString());
             }
         }
+        //-----------------------------------------------------------
+
+        //-----------------------------------------------------------
+        //TODO need to create the pretty print call
+        //TODO sort the appointment books appointments before calling the pretty print.
+        if (prettyOption == 1)
+        {
+            appts = newAppointmentBook.getAppointments();
+            Collections.sort(appts);
+            System.out.println("\n");
+            for(Appointment ap : appts)
+            {
+                System.out.println(ap.toString());
+            }
+        }
+
         //-----------------------------------------------------------
 
         System.exit(1);

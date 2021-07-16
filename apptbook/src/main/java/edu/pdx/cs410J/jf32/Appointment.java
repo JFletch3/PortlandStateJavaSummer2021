@@ -5,13 +5,15 @@ import edu.pdx.cs410J.AbstractAppointment;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 
 
 /**
  * This class is represents a <code>Appointment</code>.
  */
-public class Appointment extends AbstractAppointment {
+public class Appointment extends AbstractAppointment implements Comparable<Appointment>
+{
 
   /**
    * Appointment description
@@ -189,7 +191,7 @@ public class Appointment extends AbstractAppointment {
   public Date getBeginTime()
   {
     String start = this.startDate + " " + this.startTime;
-    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
     dFormat.setLenient(false);
     Date date1 = null;
     try
@@ -214,7 +216,7 @@ public class Appointment extends AbstractAppointment {
   public Date getEndTime()
   {
     String start = this.endDate + " " + this.endTime;
-    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
     dFormat.setLenient(false);
     Date date1 = null;
     try
@@ -228,5 +230,23 @@ public class Appointment extends AbstractAppointment {
     }
 
     return date1;
+  }
+
+  @Override
+  public int compareTo(Appointment appointment)
+  {
+
+    if (this.getBeginTime().equals(appointment.getBeginTime())
+        && this.getEndTime().equals(appointment.getEndTime()))
+    {
+      return this.getDescription().compareTo(appointment.getDescription());
+    }
+    else if (this.getBeginTime().equals(appointment.getBeginTime()))
+    {
+      return this.getEndTime().compareTo(appointment.getEndTime());
+
+    }
+
+    return this.getBeginTime().compareTo(appointment.getBeginTime());
   }
 }

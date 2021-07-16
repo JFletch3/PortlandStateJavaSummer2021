@@ -5,6 +5,7 @@ import edu.pdx.cs410J.AbstractAppointmentBook;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * This class is represents a <code>AppointmentBook</code>.
@@ -18,7 +19,7 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment>
     /**
      * Appointment book collection of appointments.
      */
-    Collection<Appointment> appointments;
+    ArrayList<Appointment> appointments;
 
     /**
      * Sets the <code>AppointmentBook</code> Owner name
@@ -55,7 +56,7 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment>
      *          AppointmentBook Collection of Appointments.
      */
     @Override
-    public Collection<Appointment> getAppointments()
+    public ArrayList<Appointment> getAppointments()
     {
         if (appointments == null)
         {
