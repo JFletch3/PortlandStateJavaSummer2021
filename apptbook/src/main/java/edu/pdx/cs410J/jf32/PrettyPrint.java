@@ -20,11 +20,37 @@ public class PrettyPrint implements AppointmentBookDumper<AppointmentBook>
     private Writer writer;
 
 
-
+    /**
+     * Constructor method for prettyprint class.
+     * @param file
+     *      File directory passed in from command line.
+     * @param write
+     *         file writer object.
+     */
     public PrettyPrint(String file, Writer write)
     {
         this.fileDir = file;
         this.writer = write;
+    }
+
+    /**
+     * getter method for testing purpose
+     * @return fileDir
+     *      Returns the file directory.
+     */
+    public String getFileDir()
+    {
+        return this.fileDir;
+    }
+
+    /**
+     * getter method for testing purpose
+     * @return writer
+     *      returns the writer for the file dump.
+     */
+    public Writer getWriter()
+    {
+        return this.writer;
     }
 
     /**

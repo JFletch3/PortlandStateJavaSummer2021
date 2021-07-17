@@ -13,18 +13,18 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import edu.pdx.cs410J.InvokeMainTestCase;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class Project3Test extends InvokeMainTestCase
 {
-
     @Test
     void checkForPrintOptionReturns1() {
         String [] args = new String[7];
@@ -83,17 +83,22 @@ public class Project3Test extends InvokeMainTestCase
         args.add("\"test\"");
         args.add("6/1/2021");
         args.add("1:00");
+        args.add("PM");
         args.add("6/2/2021");
         args.add("2:00");
+        args.add("PM");
+        String startTime = args.get(3) + " " + args.get(4);
+        String endTime = args.get(6) + " " + args.get(7);
+
         newApp.setDescription(args.get(1));
         newApp.setStartDate(args.get(2));
-        newApp.setStartTime(args.get(3));
-        newApp.setEndDate(args.get(4));
-        newApp.setEndTime(args.get(5));
-        assertEquals(newApp.getClass(), Project2.makeAppointment(args).getClass());
-        assertEquals(newApp.getDescription(), Project2.makeAppointment(args).getDescription());
-        assertEquals(newApp.getBeginTimeString(), Project2.makeAppointment(args).getBeginTimeString());
-        assertEquals(newApp.getEndTimeString(), Project2.makeAppointment(args).getEndTimeString());
+        newApp.setStartTime(startTime);
+        newApp.setEndDate(args.get(5));
+        newApp.setEndTime(endTime);
+        assertEquals(newApp.getClass(), Project3.makeAppointment(args).getClass());
+        assertEquals(newApp.getDescription(), Project3.makeAppointment(args).getDescription());
+        assertEquals(newApp.getBeginTimeString(), Project3.makeAppointment(args).getBeginTimeString());
+        assertEquals(newApp.getEndTimeString(), Project3.makeAppointment(args).getEndTimeString());
     }
 
     @Test
@@ -143,5 +148,20 @@ public class Project3Test extends InvokeMainTestCase
         assertEquals("6/2/2021", Project3.argumentSlicer(args).get(5));
         assertEquals("2:00", Project3.argumentSlicer(args).get(6));
         assertEquals("PM", Project3.argumentSlicer(args).get(7));
+    }
+
+    @Test
+    void PrettyPrintfileReturnsFile() {
+        String [] args = new String[8];
+        args[0] = "-pretty";
+        args[1] = "TestFileName";
+        args[2] = "Joe";
+        args[3] = "\"test\"";
+        args[4] = "6/1/2021";
+        args[5] = "1:00";
+        args[6] = "6/2/2021";
+        args[7] = "2:00";
+        assertEquals("TestFileName", Project3.getFileName(args, "-PRETTY"));
+
     }
 }

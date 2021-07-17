@@ -2,6 +2,8 @@ package edu.pdx.cs410J.jf32;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,11 +16,20 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PrettyPrintTest
 {
-//    @Test
-//    void initiallyAllAppointmentsHaveTheSameDescription() {
-//        PrettyPrint pPrint = new PrettyPrint();
-//        assertThat(pPrint., );
-//    }
+    @Test
+    void PrettyPrintFileNameIsSetCorrectly() {
+        String filename = "testFileName";
+        PrettyPrint pPrint = new PrettyPrint(filename, null);
+        assertEquals(pPrint.getFileDir(), filename);
+    }
+
+    @Test
+    void PrettyPrintWriterIsSetCorrectly() {
+        String filename = "testFileName";
+        PrettyPrint pPrint = new PrettyPrint(filename, null);
+        assertEquals(pPrint.getWriter(), null);
+    }
+
 
 
 }

@@ -32,9 +32,19 @@ public class AppointmentTest {
   }
 
   @Test
-  void forProject1ItIsOkayIfGetBeginTimeReturnsNull() {
+  void forProject3ItIsOkayIfGetBeginTimeReturnsNull() {
     Appointment appointment = new Appointment();
-    assertThat(appointment.getBeginTime(), is(nullValue()));
+    appointment.setStartDate("6/1/2021");
+    appointment.setStartTime("1:00 PM");
+    assertEquals(appointment.getBeginTime().getClass(), Date.class);
+  }
+
+  @Test
+  void forProject3ItIsOkayIfGetEndTimeReturnsNull() {
+    Appointment appointment = new Appointment();
+    appointment.setEndDate("6/1/2021");
+    appointment.setEndTime("1:00 PM");
+    assertEquals(appointment.getEndTime().getClass(), Date.class);
   }
 
   //Test that setting the description via setDescription sets the description correctly.
@@ -51,9 +61,9 @@ public class AppointmentTest {
   void setStartTimeAndDate() {
     Appointment appointment = new Appointment();
     String date = "1/1/2021";
-    String time = "8:00";
+    String time = "8:00 PM";
     String start = date + " " + time;
-    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
     dFormat.setLenient(false);
     Date date1 = null;
     try
@@ -76,9 +86,9 @@ public class AppointmentTest {
   void setEndTimeAndDate() {
     Appointment appointment = new Appointment();
     String date = "1/1/2021";
-    String time = "8:00";
+    String time = "8:00 PM";
     String start = date + " " + time;
-    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
     dFormat.setLenient(false);
     Date date1 = null;
     try

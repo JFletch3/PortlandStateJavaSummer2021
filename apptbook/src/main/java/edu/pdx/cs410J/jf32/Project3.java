@@ -32,11 +32,12 @@ public class Project3
                 "\tOwner, Appointment Description (wrapped in quotes), Start date, Start time, End date, End time.\n" +
                 "\tEX: Joe \"First appointment\" 06/01/2021 1:00 PM 06/01/2021 2:00 PM\n" +
                 "NOTE: AM / PM ARE required for this program.\n" +
-                "Along with the command line arguments you may enter two optional arguments at the front of the command line\n" +
-                "\t-README  -PRINT -textFile file\n " +
+                "Along with the command line arguments you may enter 4 optional arguments at the front of the command line\n" +
+                "\t-README  -PRINT -textFile file -pretty file\n " +
                 "\t-README\t\tPrints out this statement.\n" +
                 "\t-PRINT\t\tWill print out the details of your appointment book and appointment.\n" +
-                "\t-textFile\t\tIndicates that there is a file name being passed in with the 'file' argument after the option" +
+                "\t-textFile\t\tIndicates that there is a file name being passed in with the 'file' argument after the option\n" +
+                "\t-pretty\t\tIndicates that there is a file name being passed in with the 'file' argument after the option\n" +
                 "Its worth noting that if you have -README as an option, the program will ONLY print this out.\n" +
                 "Leave -README off the argument list if you would like the program to run fully.\n\n");
     }
