@@ -2,7 +2,9 @@ package edu.pdx.cs410J.jf32;
 
 import edu.pdx.cs410J.ParserException;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -168,13 +170,13 @@ public class Project3
      * @return fileName
      *      name of the file passed in on the command line arguments
      */
-    public static String getFileName(String[] args)
+    public static String getFileName(String[] args, String key)
     {
         String fileName = "";
 
         for (int i = 0; i < args.length; i++)
         {
-            if (args[i].toUpperCase().contains("-TEXTFILE"))
+            if (args[i].toUpperCase().contains(key))
             {
                 fileName = args[i+1];
             }
@@ -270,7 +272,8 @@ public class Project3
      * @param args
      *        Command line arguments.
      */
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException
+    {
 
         ArrayList<Appointment> appts;
         List<String> CLArguments;
@@ -305,7 +308,7 @@ public class Project3
         checkCLArgCount(args);
         printOption = checkForPrintOption(args);    //Get Print option - 1 print 0 no print
         prettyOption = checkforPrettyOption(args);  //Get pretty option - 1 print 0 no print
-        fileName = getFileName(args);               //Get File name
+        fileName = getFileName(args, "-TEXTFILE");               //Get File name
         CLArguments = argumentSlicer(args);         //Sliced arguments without the options
         checkDateFormat(CLArguments.get(2) + " " + CLArguments.get(3) + " " + CLArguments.get(4));
         checkDateFormat(CLArguments.get(5) + " " + CLArguments.get(6) + " " + CLArguments.get(7));
@@ -388,11 +391,18 @@ public class Project3
         {
             appts = newAppointmentBook.getAppointments();
             Collections.sort(appts);
-            System.out.println("\n");
-            for(Appointment ap : appts)
+            String prettyFile = getFileName(args, "-PRETTY");
+            FileWriter sw = new FileWriter(prettyFile);
+            PrettyPrint prettyprint = new PrettyPrint(prettyFile, sw);
+            try
             {
-                System.out.println(ap.toString());
+                prettyprint.dump(newAppointmentBook);
             }
+            catch(IOException e)
+            {
+                System.out.println(e.getMessage());
+            }
+
         }
         //-----------------------------------------------------------
 

@@ -117,7 +117,7 @@ public class Project3Test extends InvokeMainTestCase
         args[5] = "1:00";
         args[6] = "6/2/2021";
         args[7] = "2:00";
-        assertEquals("TestFileName", Project3.getFileName(args));
+        assertEquals("TestFileName", Project3.getFileName(args, "-TEXTFILE"));
     }
 
     @Test
