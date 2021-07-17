@@ -1,6 +1,8 @@
 package edu.pdx.cs410J.jf32;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingSupplier;
 
@@ -62,6 +64,14 @@ public class Project3IT extends InvokeMainTestCase
 
             MainMethodResult result = invokeMain(args);
         });
+    }
+
+    @Test
+    void CompareDatesTest()
+    {
+        InvokeMainTestCase.MainMethodResult result = invokeMain("Joe", "\"test\"", "6/7/2021", "1:00","AM", "6/2/2021", "2:00","AM");
+        assertThat(result.getExitCode(), equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), CoreMatchers.containsString("Date sequence is out of order. Please evaluate dates."));
     }
 
 }

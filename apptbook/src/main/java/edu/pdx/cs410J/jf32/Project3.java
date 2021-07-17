@@ -66,6 +66,34 @@ public class Project3
 
     }
 
+    public static void CompareDates(String d1, String d2)
+    {
+        DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+        dFormat.setLenient(false);
+
+        Date date1 = null;
+        Date date2 = null;
+
+        try
+        {
+            date1 = dFormat.parse(d1);
+            date2 = dFormat.parse(d2);
+        }
+        catch (ParseException e)
+        {
+            System.err.println("Date format and/or Date is not valid format Should be mm/dd/yyyy " +
+                    "and date should be a real date.");
+            System.exit(1);
+        }
+
+        if (date1.after(date2))
+        {
+            System.err.println("Date sequence is out of order. Please evaluate dates.");
+            System.exit(1);
+        }
+
+    }
+
     /**
      * Method to check the length of arguments and error if the length is 0 or less then min.
      * @param args
@@ -311,8 +339,10 @@ public class Project3
         prettyOption = checkforPrettyOption(args);  //Get pretty option - 1 print 0 no print
         fileName = getFileName(args, "-TEXTFILE");               //Get File name
         CLArguments = argumentSlicer(args);         //Sliced arguments without the options
-        checkDateFormat(CLArguments.get(2) + " " + CLArguments.get(3) + " " + CLArguments.get(4));
-        checkDateFormat(CLArguments.get(5) + " " + CLArguments.get(6) + " " + CLArguments.get(7));
+        checkDateFormat(CLArguments.get(2) + " " + CLArguments.get(3) + " " + CLArguments.get(4)); //check Date format
+        checkDateFormat(CLArguments.get(5) + " " + CLArguments.get(6) + " " + CLArguments.get(7)); //Check date format
+        CompareDates(CLArguments.get(2) + " " + CLArguments.get(3) + " " + CLArguments.get(4),
+                     CLArguments.get(5) + " " + CLArguments.get(6) + " " + CLArguments.get(7));  //Compare dates
         //-----------------------------------------------------------
 
         //-----------------------------------------------------------
