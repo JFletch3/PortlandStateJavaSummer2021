@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
 
+/**
+ * This class is represents a <code>PrettyPrint</code>.
+ */
 public class PrettyPrint implements AppointmentBookDumper<AppointmentBook>
 {
     /**

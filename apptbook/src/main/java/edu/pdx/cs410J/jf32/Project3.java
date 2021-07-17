@@ -66,6 +66,13 @@ public class Project3
 
     }
 
+    /**
+     * Method to compare the two dates passed in to determine they are int he correct order.
+     * @param d1
+     *      String for the start date
+     * @param d2
+     *      String for the end date
+     */
     public static void CompareDates(String d1, String d2)
     {
         DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
@@ -196,6 +203,8 @@ public class Project3
      * Method to get the file name if -testFile is used as an option
      * @param args
      *      String array of the command line arguments
+     * @param key
+     *      String variable passed in to search for. This should be a command line argument.
      * @return fileName
      *      name of the file passed in on the command line arguments
      */
@@ -301,7 +310,7 @@ public class Project3
      * @param args
      *        Command line arguments.
      */
-    public static void main(String[] args) throws IOException
+    public static void main(String[] args)
     {
 
         ArrayList<Appointment> appts;
@@ -423,17 +432,21 @@ public class Project3
             appts = newAppointmentBook.getAppointments();
             Collections.sort(appts);
             String prettyFile = getFileName(args, "-PRETTY");
-            FileWriter sw = new FileWriter(prettyFile);
+            FileWriter sw = null;
+            try
+            {
+                sw = new FileWriter(prettyFile);
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
             PrettyPrint prettyprint = new PrettyPrint(prettyFile, sw);
             try
             {
                 prettyprint.dump(newAppointmentBook);
             }
-            catch(IOException e)
-            {
-                System.out.println(e.getMessage());
-            }
-
+            catch(IOException ignore)
+            {}
         }
         //-----------------------------------------------------------
 
