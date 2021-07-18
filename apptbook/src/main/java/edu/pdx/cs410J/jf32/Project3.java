@@ -10,10 +10,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-//TODO Need to setup the pretty print class pretty print
-//TODO need to setup the pretty print FILE that is passed in.
-
-
 /**
  * The main class for the CS410J appointment book Project 3
  */
@@ -320,6 +316,7 @@ public class Project3
         int printOption;
         int prettyOption;
         String fileName;
+        String prettyFile;
         boolean CorrectFileOwner;
         TextParser TextRead = new TextParser();
         TextDumper TextDump = new TextDumper();
@@ -346,12 +343,21 @@ public class Project3
         checkCLArgCount(args);
         printOption = checkForPrintOption(args);    //Get Print option - 1 print 0 no print
         prettyOption = checkforPrettyOption(args);  //Get pretty option - 1 print 0 no print
-        fileName = getFileName(args, "-TEXTFILE");               //Get File name
+        fileName = getFileName(args, "-TEXTFILE"); //Get File name
+        prettyFile = getFileName(args, "-PRETTY"); //Get pretty file name
         CLArguments = argumentSlicer(args);         //Sliced arguments without the options
         checkDateFormat(CLArguments.get(2) + " " + CLArguments.get(3) + " " + CLArguments.get(4)); //check Date format
         checkDateFormat(CLArguments.get(5) + " " + CLArguments.get(6) + " " + CLArguments.get(7)); //Check date format
         CompareDates(CLArguments.get(2) + " " + CLArguments.get(3) + " " + CLArguments.get(4),
                      CLArguments.get(5) + " " + CLArguments.get(6) + " " + CLArguments.get(7));  //Compare dates
+        if (prettyOption == 1)
+        {
+            if (prettyFile.equals(fileName))
+            {
+                System.err.println("Pretty File and Text File can not be the same.");
+                System.exit(1);
+            }
+        }
         //-----------------------------------------------------------
 
         //-----------------------------------------------------------
@@ -431,7 +437,7 @@ public class Project3
         {
             appts = newAppointmentBook.getAppointments();
             Collections.sort(appts);
-            String prettyFile = getFileName(args, "-PRETTY");
+
             FileWriter sw = null;
             try
             {
