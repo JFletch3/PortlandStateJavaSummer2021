@@ -56,7 +56,7 @@ public class Project4 {
         {
             searchDetails = getSearchInfo(args, searchString)
         }
-        
+
         int port;
         try {
             port = Integer.parseInt( portString );
@@ -70,18 +70,22 @@ public class Project4 {
 
         String message;
         try {
-            if (word == null) {
+            if (word == null)
+            {
                 // Print all word/definition pairs
                 Map<String, String> dictionary = client.getAllDictionaryEntries();
                 StringWriter sw = new StringWriter();
                 Messages.formatDictionaryEntries(new PrintWriter(sw, true), dictionary);
                 message = sw.toString();
 
-            } else if (definition == null) {
+            }
+            else if (definition == null)
+            {
                 // Print all dictionary entries
                 message = Messages.formatDictionaryEntry(word, client.getDefinition(word));
-
-            } else {
+            }
+            else
+            {
                 // Post the word/definition pair
                 client.addDictionaryEntry(word, definition);
                 message = Messages.definedWordAs(word, definition);
