@@ -146,13 +146,20 @@ public class Project3
      */
     public static int checkforPrettyOption(String [] args)
     {
-        for (String ap : args)
+
+        for (int i = 0; i < args.length; i++)
         {
-            if (ap.toUpperCase().contains("-PRETTY"))
+            if (args[i].toUpperCase().contains("-PRETTY"))
             {
+                if (args[i+1].contains("-"))
+                {
+                    return 2;
+                }
+
                 return 1;
             }
         }
+
         return 0;
     }
 
@@ -229,7 +236,7 @@ public class Project3
      */
     public static List<String> argumentSlicer(String [] args)
     {
-        String []  ValidArguments = new String [] {"-PRINT", "-TEXTFILE", "-PRETTY"};
+        String []  ValidArguments = new String [] {"-PRINT", "-TEXTFILE", "-PRETTY", "-"};
         List<String> slicedArgs = new ArrayList<>();
         int printop = 0;
         int textop = 0;
@@ -241,7 +248,8 @@ public class Project3
             if (arg.toUpperCase().contains("-"))
             {
                 if (!arg.toUpperCase().equals(ValidArguments[0]) && !arg.toUpperCase().equals(ValidArguments[1])
-                        && !arg.toUpperCase().equals(ValidArguments[2]))
+                        && !arg.toUpperCase().equals(ValidArguments[2])
+                        && !arg.toUpperCase().equals(ValidArguments[3]))
                 {
                     System.err.println("Invalid Option: " + arg);
                     System.exit(1);
@@ -433,7 +441,7 @@ public class Project3
         //-----------------------------------------------------------
 
         //-----------------------------------------------------------
-        if (prettyOption == 1)
+        if (prettyOption != 0)
         {
             appts = newAppointmentBook.getAppointments();
             Collections.sort(appts);
@@ -449,7 +457,15 @@ public class Project3
             PrettyPrint prettyprint = new PrettyPrint(prettyFile, sw);
             try
             {
-                prettyprint.dump(newAppointmentBook);
+                if (prettyOption == 1)
+                {
+                    prettyprint.dump(newAppointmentBook);
+                }
+                else if (prettyOption == 2)
+                {
+                    prettyprint.stdDump(newAppointmentBook);
+                }
+
             }
             catch(IOException ignore)
             {}

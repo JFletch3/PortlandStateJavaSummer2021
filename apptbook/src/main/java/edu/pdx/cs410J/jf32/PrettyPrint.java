@@ -56,6 +56,37 @@ public class PrettyPrint implements AppointmentBookDumper<AppointmentBook>
         return this.writer;
     }
 
+
+    /**
+     * This Method pretty print an appointment book
+     * to the std out
+     * @param book
+     *      File directory passed in from command line.
+     */
+    public void stdDump(AppointmentBook book) throws IOException
+    {
+            Collection<Appointment> appointments;
+            appointments = book.getAppointments();
+            System.out.println("|===================================================\n");
+            System.out.println("| Appointment Book Owner:  " + book.getOwnerName() + "\n");
+            System.out.println("| Number of Appointments:  " + book.getAppointments().size() + "\n");
+            System.out.println("|===================================================\n");
+
+            for (Appointment ap : appointments)
+            {
+                long TimeDifference = ap.getEndTime().getTime() - ap.getBeginTime().getTime();
+                TimeDifference = (TimeDifference / (1000 * 60));
+                System.out.println("| Appointment = " + ap.getDescription() + "\n");
+                System.out.println("| Start Time  = " + ap.getBeginTime()  + "\n");
+                System.out.println("| End Time    = " + ap.getEndTime() + "\n");
+                System.out.println("| Duration    = " + TimeDifference + " Minutes\n");
+                System.out.println("|---------------------------------------------------\n");
+
+            }
+    }
+
+
+
     /**
      * This Method pretty print an appointment book
      * to the file passed in from the command line after the

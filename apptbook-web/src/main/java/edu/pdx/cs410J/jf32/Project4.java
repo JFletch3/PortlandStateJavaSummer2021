@@ -54,7 +54,7 @@ public class Project4 {
 
         if (!searchString.equals(""))
         {
-            searchDetails = getSearchInfo(args, searchString)
+            searchDetails = getSearchInfo(args, searchString);
         }
 
         int port;
@@ -69,34 +69,34 @@ public class Project4 {
         AppointmentBookRestClient client = new AppointmentBookRestClient(hostName, port);
 
         String message;
-        try {
-            if (word == null)
-            {
-                // Print all word/definition pairs
-                Map<String, String> dictionary = client.getAllDictionaryEntries();
-                StringWriter sw = new StringWriter();
-                Messages.formatDictionaryEntries(new PrintWriter(sw, true), dictionary);
-                message = sw.toString();
+//        try {
+//            if (word == null)
+//            {
+//                // Print all word/definition pairs
+//                Map<String, String> dictionary = client.getAllDictionaryEntries();
+//                StringWriter sw = new StringWriter();
+//                Messages.formatDictionaryEntries(new PrintWriter(sw, true), dictionary);
+//                message = sw.toString();
+//
+//            }
+//            else if (definition == null)
+//            {
+//                // Print all dictionary entries
+//                message = Messages.formatDictionaryEntry(word, client.getDefinition(word));
+//            }
+//            else
+//            {
+//                // Post the word/definition pair
+//                client.addDictionaryEntry(word, definition);
+//                message = Messages.definedWordAs(word, definition);
+//            }
+//
+//        } catch ( IOException ex ) {
+//            error("While contacting server: " + ex);
+//            return;
+//        }
 
-            }
-            else if (definition == null)
-            {
-                // Print all dictionary entries
-                message = Messages.formatDictionaryEntry(word, client.getDefinition(word));
-            }
-            else
-            {
-                // Post the word/definition pair
-                client.addDictionaryEntry(word, definition);
-                message = Messages.definedWordAs(word, definition);
-            }
-
-        } catch ( IOException ex ) {
-            error("While contacting server: " + ex);
-            return;
-        }
-
-        System.out.println(message);
+      //  System.out.println(message);
 
         System.exit(0);
     }
@@ -172,7 +172,7 @@ public class Project4 {
         {
             if (args[i].toUpperCase().contains("-SEARCH"))
             {
-                searchDetails.add(owner) // owner
+                searchDetails.add(owner); // owner
                 searchDetails.add(args[i+2]);
                 searchDetails.add(args[i+3]);
                 searchDetails.add(args[i+4]);
@@ -183,6 +183,7 @@ public class Project4 {
             }
         }
 
+        return null;
 
     }
 
