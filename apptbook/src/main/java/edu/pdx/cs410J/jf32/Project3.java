@@ -444,23 +444,40 @@ public class Project3
             appts = newAppointmentBook.getAppointments();
             Collections.sort(appts);
 
-            FileWriter sw = null;
-            try
-            {
-                sw = new FileWriter(prettyFile);
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            PrettyPrint prettyprint = new PrettyPrint(prettyFile, sw);
+//            FileWriter sw = null;
+//            try
+//            {
+//                sw = new FileWriter(prettyFile);
+//            } catch (IOException e)
+//            {
+//                e.printStackTrace();
+//            }
+//            PrettyPrint prettyprint = new PrettyPrint(prettyFile, sw);
             try
             {
                 if (prettyOption == 1)
                 {
+                    FileWriter sw = null;
+                    try
+                    {
+                        sw = new FileWriter(prettyFile);
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    PrettyPrint prettyprint = new PrettyPrint(prettyFile, sw);
+                    try
+                    {
+                        sw = new FileWriter(prettyFile);
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
                     prettyprint.dump(newAppointmentBook);
                 }
                 else if (prettyOption == 2)
                 {
+                    PrettyPrint prettyprint = new PrettyPrint(prettyFile, null);
                     prettyprint.stdDump(newAppointmentBook);
                 }
 
