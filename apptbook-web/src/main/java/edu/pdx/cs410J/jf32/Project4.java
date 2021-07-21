@@ -27,13 +27,15 @@ public class Project4 {
         int printOption = 0;
         List<String> CLArguments = null;
         List<String> searchDetails = null;
+        AppointmentBook newBook = new AppointmentBook();
+        Appointment newApt      = new Appointment();
 
         //------------------------------------------------------------
         //-README check - leave this here, its just a print and exit
         // This needs to be the first thing checked.
         if (args.length == 0)
         {
-            System.err.println("Missing command line arguments.");
+            System.err.println(MISSING_ARGS);
             System.exit(1);
         }
         for(String ap : args)
@@ -45,12 +47,14 @@ public class Project4 {
             }
         }
         //-----------------------------------------------------------
+        // Parse arguments
         checkCLArgCount(args);
         hostName        = getArgumentValue(args, "-HOST");
         portString      = getArgumentValue(args, "-PORT");
         searchString    = getArgumentValue(args, "-SEARCH");
         printOption     = checkForPrintOption(args); //TODO write code to do something with this
         CLArguments     = argumentSlicer(args);
+        //-----------------------------------------------------------
 
         if (!searchString.equals(""))
         {
@@ -68,7 +72,22 @@ public class Project4 {
 
         AppointmentBookRestClient client = new AppointmentBookRestClient(hostName, port);
 
-        String message;
+        //-----------------------------------------------------------
+        // Create Appointment book.
+        newBook = makeAppointmentBook(CLArguments);
+        newApt = makeAppointment(CLArguments);
+        newBook.addAppointment(newApt);
+        //-----------------------------------------------------------
+
+        // Add appointment book / appointment to the server.
+        String message = "";
+
+
+        client.addAppointmentEntry(newApt, CLArguments.get(0));
+
+
+
+       // String message;
 //        try {
 //            if (word == null)
 //            {
@@ -96,9 +115,46 @@ public class Project4 {
 //            return;
 //        }
 
-      //  System.out.println(message);
+        System.out.println(message);
 
         System.exit(0);
+    }
+
+    /**
+     * Method to check the if the -print option was entered in the arguments
+     * @param args
+     *      String array of the command line arguments
+     * @return newAppointmentBook
+     *      Newly created appointment book.
+     */
+    public static AppointmentBook makeAppointmentBook(List<String> args)
+    {
+        AppointmentBook newAppointmentBook = new AppointmentBook();
+        newAppointmentBook.setOwnerName(args.get(0));
+        return newAppointmentBook;
+    }
+
+    /**
+     * Method to check the if the -print option was entered in the arguments
+     * @param args
+     *      String array of the command line arguments
+     * @return newAppointmentBook
+     *      Newly created appointment.
+     */
+    public static Appointment makeAppointment(List<String> args)
+    {
+        Appointment newAppointment = new Appointment();
+
+        String startTime = args.get(3) + " " + args.get(4);
+        String endTime = args.get(6) + " " + args.get(7);
+
+        newAppointment.setDescription(args.get(1));
+        newAppointment.setStartDate(args.get(2));
+        newAppointment.setStartTime(startTime);
+        newAppointment.setEndDate(args.get(5));
+        newAppointment.setEndTime(endTime);
+
+        return newAppointment;
     }
 
     /**

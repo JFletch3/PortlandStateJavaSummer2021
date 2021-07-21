@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,8 +23,14 @@ public class AppointmentBookServlet extends HttpServlet
 {
     static final String WORD_PARAMETER = "word";
     static final String DEFINITION_PARAMETER = "definition";
+    static final String OWNER_PARAMETER     = "owner";
+    static final String DESC_PARAMETER      = "description";
+    static final String START_PARAMETER     = "start";
+    static final String END_PARAMETER       = "end";
 
     private final Map<String, String> dictionary = new HashMap<>();
+
+    private final List<AppointmentBook> BOOKS = new ArrayList<AppointmentBook>();
 
     /**
      * Handles an HTTP GET request from a client by writing the definition of the
@@ -35,7 +43,7 @@ public class AppointmentBookServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String word = getParameter( WORD_PARAMETER, request );
+        String word = getParameter( OWNER_PARAMETER, request );
         if (word != null) {
             writeDefinition(word, response);
 
@@ -52,26 +60,80 @@ public class AppointmentBookServlet extends HttpServlet
     @Override
     protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
+
         response.setContentType( "text/plain" );
 
-        String word = getParameter(WORD_PARAMETER, request );
-        if (word == null) {
-            missingRequiredParameter(response, WORD_PARAMETER);
+        String owner = getParameter(OWNER_PARAMETER, request );
+        if (owner == null) {
+            missingRequiredParameter(response, OWNER_PARAMETER);
             return;
         }
 
-        String definition = getParameter(DEFINITION_PARAMETER, request );
-        if ( definition == null) {
-            missingRequiredParameter( response, DEFINITION_PARAMETER );
+        String description = getParameter(DESC_PARAMETER, request );
+        if ( description == null) {
+            missingRequiredParameter( response, DESC_PARAMETER );
             return;
         }
 
-        this.dictionary.put(word, definition);
+        String start = getParameter(START_PARAMETER, request );
+        if ( start == null) {
+            missingRequiredParameter( response, START_PARAMETER );
+            return;
+        }
 
+        String end = getParameter(END_PARAMETER, request );
+        if ( end == null) {
+            missingRequiredParameter( response, END_PARAMETER );
+            return;
+        }
+
+        AppointmentBook newbook = null;
+        Appointment appointment = null;
+        String [] startTimeSplit = start.split(", ");
+        String [] endTimeSplit = end.split(", ");
+        int ownedBook = 0;
+
+        System.out.println(startTimeSplit[0] + " " + startTimeSplit[1] + "|");
+        System.out.println(endTimeSplit[0] + " " + endTimeSplit[1] + "|");
+        System.out.println(owner);
+        System.out.println(description);
+        System.out.println(start);
+        System.out.println(end);
+        System.out.println("Before for loop");
+
+        for (AppointmentBook ab : BOOKS)
+        {
+            if (ab.getOwnerName().equals(owner))
+            {
+                ownedBook = 1;
+                appointment = new Appointment();
+                appointment.setDescription(description);
+                appointment.setStartDate(startTimeSplit[0]);
+                appointment.setStartTime(startTimeSplit[1]);
+                appointment.setEndDate(endTimeSplit[0]);
+                appointment.setEndTime(endTimeSplit[1]);
+                ab.addAppointment(appointment);
+            }
+        }
+
+        if (ownedBook == 0)
+        {
+            newbook = new AppointmentBook();
+            newbook.setOwnerName(owner);
+            appointment = new Appointment();
+            appointment.setDescription(description);
+            appointment.setStartDate(startTimeSplit[0]);
+            appointment.setStartTime(startTimeSplit[1]);
+            appointment.setEndDate(endTimeSplit[0]);
+            appointment.setEndTime(endTimeSplit[1]);
+            newbook.addAppointment(appointment);
+            BOOKS.add(newbook);
+        }
+
+        //this.dictionary.put(owner, description, start, end);
         PrintWriter pw = response.getWriter();
-        pw.println(Messages.definedWordAs(word, definition));
+        pw.println(Messages.defineAppointmentAs(newbook, appointment));
         pw.flush();
-
         response.setStatus( HttpServletResponse.SC_OK);
     }
 

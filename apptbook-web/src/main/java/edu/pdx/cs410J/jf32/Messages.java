@@ -32,6 +32,20 @@ public class Messages
         return String.format( "Defined %s as %s", word, definition );
     }
 
+    public static String defineAppointmentAs(AppointmentBook book, Appointment appointment)
+    {
+
+        return String.format( "Appointment Book Owner: %s\n" +
+                                "Appointment: %s\n" +
+                                "Start Time : %s\n" +
+                                "End Tim    : %s",
+                                book.getOwnerName(),
+                                appointment.getDescription(),
+                                appointment.getBeginTimeString(),
+                                appointment.getEndTimeString());
+
+    }
+
     public static String allDictionaryEntriesDeleted() {
         return "All dictionary entries have been deleted";
     }

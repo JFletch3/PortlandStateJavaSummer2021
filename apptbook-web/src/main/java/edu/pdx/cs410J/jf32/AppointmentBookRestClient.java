@@ -3,7 +3,17 @@ package edu.pdx.cs410J.jf32;
 import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.web.HttpRequestHelper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import static java.net.HttpURLConnection.HTTP_OK;
@@ -53,9 +63,30 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     throwExceptionIfNotOkayHttpStatus(response);
   }
 
+  public void addAppointmentEntry(Appointment appointment, String owner)
+  {
+    String desctiption = appointment.getDescription();
+    String start = appointment.getBeginTimeString();
+    String end = appointment.getEndTimeString();
+    try
+    {
+      //Response response = postToMyURL(Map.of("word", "test", "definition", "definit"));
+      Response response = postToMyURL(Map.of("owner", owner,
+                                             "description", desctiption,
+                                             "start", start,
+                                             "end", end));
+      throwExceptionIfNotOkayHttpStatus(response);
+    } catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
   @VisibleForTesting
-  Response postToMyURL(Map<String, String> dictionaryEntries) throws IOException {
-    return post(this.url, dictionaryEntries);
+  Response postToMyURL(Map<String, String> appointmentEntries) throws IOException
+  {
+    //return post(this.url, appointment, owner);
+    return post(this.url, appointmentEntries);
   }
 
   public void removeAllDictionaryEntries() throws IOException {
@@ -71,5 +102,8 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     }
     return response;
   }
+
+
+
 
 }

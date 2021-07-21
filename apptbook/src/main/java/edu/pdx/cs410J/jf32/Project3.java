@@ -188,8 +188,6 @@ public class Project3
     {
         Appointment newAppointment = new Appointment();
 
-
-
         String startTime = args.get(3) + " " + args.get(4);
         String endTime = args.get(6) + " " + args.get(7);
 
