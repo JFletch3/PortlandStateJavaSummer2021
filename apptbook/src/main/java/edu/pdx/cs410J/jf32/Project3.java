@@ -38,6 +38,23 @@ public class Project3
                 "Leave -README off the argument list if you would like the program to run fully.\n\n");
     }
 
+    public static void help()
+    {
+        System.out.println("It looks like no command line arguments where submitted.\n" +
+                            "Here is how to run this program passing in options and command line arguments\n" +
+                            "usage: java edu.pdx.cs410J.<login-id>.Project3 [options] <args>\n" +
+                            "args are (in this order):\n" +
+                            "\towner\tThe person whose owns the appt book\n" +
+                            "\tdescription\tA description of the appointment\n" +
+                            "\tbegin\tWhen the appt begins\n" +
+                            "\tend\tWhen the appt ends\n" +
+                            "options are (options may appear in any order):\n" +
+                            "\t-pretty\tfile Pretty print the appointment book to text file or standard out (file -)\n" +
+                            "\t-textFile\tfile Where to read/write the appt book info\n" +
+                            "\t-print\tPrints a description of the new appointment\n" +
+                            "\t-README\tPrints a README for this project and exits");
+    }
+
     /**
      * Method to check the date format to make sure the date is valid.
      * @param date
@@ -333,6 +350,7 @@ public class Project3
         if (args.length == 0)
         {
             System.err.println("Missing command line arguments.");
+            help();
             System.exit(1);
         }
         for(String ap : args)
