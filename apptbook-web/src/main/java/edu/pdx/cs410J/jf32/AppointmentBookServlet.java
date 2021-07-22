@@ -43,13 +43,15 @@ public class AppointmentBookServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String word = getParameter( OWNER_PARAMETER, request );
-        if (word != null) {
-            writeDefinition(word, response);
+        String owner = getParameter( OWNER_PARAMETER, request );
 
-        } else {
-            writeAllDictionaryEntries(response);
-        }
+        writeAllAppointments(response);
+//        if (word != null) {
+//            writeDefinition(word, response);
+//
+//        } else {
+//            writeAllDictionaryEntries(response);
+//        }
     }
 
     /**
@@ -93,13 +95,14 @@ public class AppointmentBookServlet extends HttpServlet
         String [] endTimeSplit = end.split(", ");
         int ownedBook = 0;
 
-        System.out.println(startTimeSplit[0] + " " + startTimeSplit[1] + "|");
-        System.out.println(endTimeSplit[0] + " " + endTimeSplit[1] + "|");
-        System.out.println(owner);
+        System.out.println("Adding Appointment:");
+        System.out.println("Owner: " +owner);
+        System.out.println("Start Time: " + startTimeSplit[0] + " " + startTimeSplit[1]);
+        System.out.println("End Time: " + endTimeSplit[0] + " " + endTimeSplit[1]);
+
         System.out.println(description);
         System.out.println(start);
         System.out.println(end);
-        System.out.println("Before for loop");
 
         for (AppointmentBook ab : BOOKS)
         {
@@ -113,6 +116,7 @@ public class AppointmentBookServlet extends HttpServlet
                 appointment.setEndDate(endTimeSplit[0]);
                 appointment.setEndTime(endTimeSplit[1]);
                 ab.addAppointment(appointment);
+                newbook = ab;
             }
         }
 
@@ -135,6 +139,7 @@ public class AppointmentBookServlet extends HttpServlet
         pw.println(Messages.defineAppointmentAs(newbook, appointment));
         pw.flush();
         response.setStatus( HttpServletResponse.SC_OK);
+        System.out.println("Appointment Added.");
     }
 
     /**
@@ -199,12 +204,29 @@ public class AppointmentBookServlet extends HttpServlet
     private void writeAllDictionaryEntries(HttpServletResponse response ) throws IOException
     {
         PrintWriter pw = response.getWriter();
-        Messages.formatDictionaryEntries(pw, dictionary);
+        Messages.formatAppointmentEntries(pw, BOOKS);
 
         pw.flush();
 
         response.setStatus( HttpServletResponse.SC_OK );
     }
+
+    /**
+     * Writes all of the appointment book entries to the HTTP response.
+     *
+     * The text of the message is formatted with
+     * {@link Messages#formatDictionaryEntry(String, String)}
+     */
+    private void writeAllAppointments(HttpServletResponse response ) throws IOException
+    {
+        PrintWriter pw = response.getWriter();
+        Messages.formatAppointmentEntries(pw, BOOKS);
+
+        pw.flush();
+
+        response.setStatus( HttpServletResponse.SC_OK );
+    }
+
 
     /**
      * Returns the value of the HTTP request parameter with the given name.

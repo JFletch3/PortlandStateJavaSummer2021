@@ -2,10 +2,7 @@ package edu.pdx.cs410J.jf32;
 
 import edu.pdx.cs410J.AppointmentBookDumper;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.util.Collection;
 
 /**
@@ -36,6 +33,7 @@ public class PrettyPrint implements AppointmentBookDumper<AppointmentBook>
         this.writer = write;
     }
 
+
     /**
      * getter method for testing purpose
      * @return fileDir
@@ -56,6 +54,32 @@ public class PrettyPrint implements AppointmentBookDumper<AppointmentBook>
         return this.writer;
     }
 
+    /**
+     * This Method pretty print an appointment book
+     * to the std out
+     * @param book
+     *      File directory passed in from command line.
+     */
+    public void serverDump(PrintWriter pw, AppointmentBook book) throws IOException
+    {
+        Collection<Appointment> appointments;
+        appointments = book.getAppointments();
+        pw.println("|===================================================\n");
+        pw.println("| Appointment Book Owner:  " + book.getOwnerName() + "\n");
+        pw.println("| Number of Appointments:  " + book.getAppointments().size() + "\n");
+        pw.println("|===================================================\n");
+
+        for (Appointment ap : appointments)
+        {
+            long TimeDifference = ap.getEndTime().getTime() - ap.getBeginTime().getTime();
+            TimeDifference = (TimeDifference / (1000 * 60));
+            pw.println("| Appointment = " + ap.getDescription() + "\n");
+            pw.println("| Start Time  = " + ap.getBeginTime()  + "\n");
+            pw.println("| End Time    = " + ap.getEndTime() + "\n");
+            pw.println("| Duration    = " + TimeDifference + " Minutes\n");
+            pw.println("|---------------------------------------------------\n");
+        }
+    }
 
     /**
      * This Method pretty print an appointment book
