@@ -1,5 +1,6 @@
 package edu.pdx.cs410J.jf32;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -85,29 +86,28 @@ public class Messages
 
         for (AppointmentBook book : BOOKS)
         {
-            printer.
+            printer.ServletPrinter(pw, book);
         }
 
-//        for (AppointmentBook book : BOOKS)
-//        {
-//            pw.println("|===================================================\n");
-//            pw.println("| Appointment Book Owner:  " + book.getOwnerName() + "\n");
-//            pw.println("| Number of Appointments:  " + book.getAppointments().size() + "\n");
-//            pw.println("|===================================================\n");
-//            Collections.sort(book.getAppointments());
-//            for (Appointment ap : book.getAppointments())
-//            {
-//
-//                long TimeDifference = ap.getEndTime().getTime() - ap.getBeginTime().getTime();
-//                TimeDifference = (TimeDifference / (1000 * 60));
-//                pw.println("| Appointment = " + ap.getDescription() + "\n");
-//                pw.println("| Start Time  = " + ap.getBeginTime()  + "\n");
-//                pw.println("| End Time    = " + ap.getEndTime() + "\n");
-//                pw.println("| Duration    = " + TimeDifference + " Minutes\n");
-//                pw.println("|---------------------------------------------------\n");
-//            }
-//        }
+    }
 
+    public static void formatSearchedAppointment(PrintWriter pw, AppointmentBook BOOK)
+    {
+        TextDumper printer = new TextDumper();
+        try
+        {
+            printer.serverDump(pw, BOOK);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void formatSearchedAppointmentCommandLine(PrintWriter pw, AppointmentBook BOOK)
+    {
+        PrettyPrint printer = new PrettyPrint(null, null);
+        printer.ServletPrinter(pw, BOOK);
     }
 
     public static void formatDictionaryEntries(PrintWriter pw, Map<String, String> dictionary) {

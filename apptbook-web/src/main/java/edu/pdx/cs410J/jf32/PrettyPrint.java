@@ -2,11 +2,12 @@ package edu.pdx.cs410J.jf32;
 
 import edu.pdx.cs410J.AppointmentBookDumper;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * This class is represents a <code>PrettyPrint</code>.
@@ -54,6 +55,36 @@ public class PrettyPrint implements AppointmentBookDumper<AppointmentBook>
     public Writer getWriter()
     {
         return this.writer;
+    }
+
+    /**
+     * This Method pretty print an appointment book
+     * to the java servlet
+     * @param book
+     *      File directory passed in from command line
+     * @param pw
+     *      Print writer for printing to java servlet
+     */
+    public void ServletPrinter(PrintWriter pw, AppointmentBook book)
+    {
+        Collection<Appointment> appointments;
+        appointments = book.getAppointments();
+        Collections.sort(book.getAppointments());
+        pw.println("|===================================================\n");
+        pw.println("| Appointment Book Owner:  " + book.getOwnerName() + "\n");
+        pw.println("| Number of Appointments:  " + book.getAppointments().size() + "\n");
+        pw.println("|===================================================\n");
+
+        for (Appointment ap : appointments)
+        {
+            long TimeDifference = ap.getEndTime().getTime() - ap.getBeginTime().getTime();
+            TimeDifference = (TimeDifference / (1000 * 60));
+            pw.println("| Appointment = " + ap.getDescription() + "\n");
+            pw.println("| Start Time  = " + ap.getBeginTime()  + "\n");
+            pw.println("| End Time    = " + ap.getEndTime() + "\n");
+            pw.println("| Duration    = " + TimeDifference + " Minutes\n");
+            pw.println("|---------------------------------------------------\n");
+        }
     }
 
 

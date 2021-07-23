@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * This servlet ultimately provides a REST API for working with an
@@ -43,15 +43,21 @@ public class AppointmentBookServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String owner = getParameter( OWNER_PARAMETER, request );
+        String owner    = getParameter( OWNER_PARAMETER, request );
+        String start    = getParameter( START_PARAMETER, request );
+        String end      = getParameter( END_PARAMETER, request );
+        Date startDate = null;
+        Date endDate = null;
+        if (start != null)
+        {
+           startDate =  checkDateFormat(response, start);
+        }
+        if (end != null)
+        {
+           endDate = checkDateFormat(response, end);
+        }
 
-        writeAllAppointments(response);
-//        if (word != null) {
-//            writeDefinition(word, response);
-//
-//        } else {
-//            writeAllDictionaryEntries(response);
-//        }
+        writeAllAppointments(response, owner, startDate, endDate);
     }
 
     /**
@@ -140,6 +146,7 @@ public class AppointmentBookServlet extends HttpServlet
         pw.flush();
         response.setStatus( HttpServletResponse.SC_OK);
         System.out.println("Appointment Added.");
+        System.out.println("======================");
     }
 
     /**
@@ -166,8 +173,7 @@ public class AppointmentBookServlet extends HttpServlet
      *
      * The text of the error message is created by {@link Messages#missingRequiredParameter(String)}
      */
-    private void missingRequiredParameter( HttpServletResponse response, String parameterName )
-        throws IOException
+    private void missingRequiredParameter( HttpServletResponse response, String parameterName ) throws IOException
     {
         String message = Messages.missingRequiredParameter(parameterName);
         response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
@@ -217,16 +223,46 @@ public class AppointmentBookServlet extends HttpServlet
      * The text of the message is formatted with
      * {@link Messages#formatDictionaryEntry(String, String)}
      */
-    private void writeAllAppointments(HttpServletResponse response ) throws IOException
+    private void writeAllAppointments(HttpServletResponse response, String owner, Date start, Date end ) throws IOException
     {
         PrintWriter pw = response.getWriter();
-        Messages.formatAppointmentEntries(pw, BOOKS);
+
+        if (owner != null)
+        {
+            for (AppointmentBook book : BOOKS)
+            {
+                if (owner.equalsIgnoreCase(book.getOwnerName()))
+                {
+                    AppointmentBook tempBook = getSearchedAppointments(book, start, end);
+                    Messages.formatSearchedAppointment(pw, tempBook);
+                }
+            }
+        }
+        else
+        {
+            Messages.formatAppointmentEntries(pw, BOOKS);
+        }
 
         pw.flush();
-
         response.setStatus( HttpServletResponse.SC_OK );
     }
 
+    private AppointmentBook getSearchedAppointments(AppointmentBook BOOK, Date start, Date end)
+    {
+        AppointmentBook retBook = new AppointmentBook();
+
+        for (Appointment ap : BOOK.getAppointments())
+        {
+            if ((ap.getBeginTime().equals(start) ||  ap.getBeginTime().after(start)) &&
+                    (ap.getBeginTime().equals(end) || ap.getBeginTime().before(end)))
+            {
+                retBook.addAppointment(ap);
+            }
+        }
+
+        return retBook;
+
+    }
 
     /**
      * Returns the value of the HTTP request parameter with the given name.
@@ -242,6 +278,31 @@ public class AppointmentBookServlet extends HttpServlet
       } else {
         return value;
       }
+    }
+
+    /**
+     * Method to check the date format to make sure the date is valid.
+     * @param date
+     *      The date passed in from the commandline arguments.
+     */
+    public static Date checkDateFormat(HttpServletResponse response, String date) throws IOException
+    {
+        DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+        dFormat.setLenient(false);
+        PrintWriter pw = response.getWriter();
+        try
+        {
+            Date retDate = dFormat.parse(date);
+            return retDate;
+        }
+        catch (ParseException e)
+        {
+
+            pw.println("Date format and/or Date is not valid: " + date + " --- Format Should be mm/dd/yyyy" +
+                    "and date should be a real date.");
+        }
+
+        return null;
     }
 
     @VisibleForTesting
