@@ -23,7 +23,6 @@ public class PrettyPrint implements AppointmentBookDumper<AppointmentBook>
      */
     private Writer writer;
 
-
     /**
      * Constructor method for prettyprint class.
      * @param file
@@ -87,7 +86,6 @@ public class PrettyPrint implements AppointmentBookDumper<AppointmentBook>
         }
     }
 
-
     /**
      * This Method pretty print an appointment book
      * to the std out
@@ -115,8 +113,6 @@ public class PrettyPrint implements AppointmentBookDumper<AppointmentBook>
 
             }
     }
-
-
 
     /**
      * This Method pretty print an appointment book

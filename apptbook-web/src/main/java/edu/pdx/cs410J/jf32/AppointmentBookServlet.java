@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+
 /**
  * This servlet ultimately provides a REST API for working with an
  * <code>AppointmentBook</code>.  However, in its current state, it is an example
@@ -46,18 +47,27 @@ public class AppointmentBookServlet extends HttpServlet
         String owner    = getParameter( OWNER_PARAMETER, request );
         String start    = getParameter( START_PARAMETER, request );
         String end      = getParameter( END_PARAMETER, request );
-        Date startDate = null;
-        Date endDate = null;
+        String startDate = null;
+        String endDate = null;
         if (start != null)
         {
-           startDate =  checkDateFormat(response, start);
+          // startDate =  checkDateFormat(response, start);
+            startDate =  start;
+
         }
         if (end != null)
         {
-           endDate = checkDateFormat(response, end);
+          // endDate = checkDateFormat(response, end);
+           endDate = end;
         }
 
-        writeAllAppointments(response, owner, startDate, endDate);
+        try
+        {
+            writeAllAppointments(response, owner, startDate, endDate);
+        } catch (ParseException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -223,7 +233,7 @@ public class AppointmentBookServlet extends HttpServlet
      * The text of the message is formatted with
      * {@link Messages#formatDictionaryEntry(String, String)}
      */
-    private void writeAllAppointments(HttpServletResponse response, String owner, Date start, Date end ) throws IOException
+    private void writeAllAppointments(HttpServletResponse response, String owner, String start, String end ) throws IOException, ParseException
     {
         PrintWriter pw = response.getWriter();
 
@@ -247,17 +257,47 @@ public class AppointmentBookServlet extends HttpServlet
         response.setStatus( HttpServletResponse.SC_OK );
     }
 
-    private AppointmentBook getSearchedAppointments(AppointmentBook BOOK, Date start, Date end)
+    private AppointmentBook getSearchedAppointments(AppointmentBook BOOK, String start, String end) throws ParseException
     {
+        TimeZone.getDefault();
         AppointmentBook retBook = new AppointmentBook();
+        retBook.setOwnerName(BOOK.getOwnerName());
+        DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        dFormat.setLenient(false);
+        Date searchStart = dFormat.parse(start);
+        Date searchEnd = dFormat.parse(end);
 
         for (Appointment ap : BOOK.getAppointments())
         {
-            if ((ap.getBeginTime().equals(start) ||  ap.getBeginTime().after(start)) &&
-                    (ap.getBeginTime().equals(end) || ap.getBeginTime().before(end)))
+
+//            String ApstartDate = ap.getBeginTimeString();
+//            String ApendDate = ap.getEndTimeString();
+            Date sDate = ap.getBeginTime();
+            Date eDate = ap.getEndTime();
+
+//            System.out.println(ApstartDate);
+//            System.out.println(ApendDate);
+            System.out.println(sDate.toString());
+            System.out.println(eDate.toString());
+            System.out.println(searchStart.toString());
+            System.out.println(searchEnd.toString());
+
+//            System.out.println(ap.getBeginTime());
+//            System.out.println(ap.getBeginTimeString());
+//            System.out.println(ap.getEndTimeString());
+//            System.out.println(start);
+//            System.out.println(end);
+
+            if (sDate.after(searchStart) && eDate.before(searchEnd))
             {
                 retBook.addAppointment(ap);
             }
+
+//            if ( (ap.getBeginTime().equals(start) ||  ap.getBeginTime().after(start)) &&
+//                    (ap.getBeginTime().equals(end) || ap.getBeginTime().before(end)) )
+//            {
+//                retBook.addAppointment(ap);
+//            }
         }
 
         return retBook;
@@ -287,7 +327,7 @@ public class AppointmentBookServlet extends HttpServlet
      */
     public static Date checkDateFormat(HttpServletResponse response, String date) throws IOException
     {
-        DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+        DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         dFormat.setLenient(false);
         PrintWriter pw = response.getWriter();
         try

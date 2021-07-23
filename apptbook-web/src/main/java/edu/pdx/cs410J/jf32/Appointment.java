@@ -190,7 +190,7 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
   public Date getBeginTime()
   {
     String start = this.startDate + " " + this.startTime;
-    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
     dFormat.setLenient(false);
     Date date1 = null;
     try
@@ -214,17 +214,17 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
   @Override
   public Date getEndTime()
   {
-    String start = this.endDate + " " + this.endTime;
-    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+    String end = this.endDate + " " + this.endTime;
+    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
     dFormat.setLenient(false);
     Date date1 = null;
     try
     {
-      date1 = dFormat.parse(start);
+      date1 = dFormat.parse(end);
     }
     catch (ParseException e)
     {
-      System.err.println(e.getMessage() + " Date " + start) ;
+      System.err.println(e.getMessage() + " Date " + end) ;
       System.exit(1);
     }
 
