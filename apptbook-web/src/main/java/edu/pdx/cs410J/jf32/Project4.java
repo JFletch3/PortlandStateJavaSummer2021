@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The main class that parses the command line and communicates with the
@@ -84,7 +81,6 @@ public class Project4 {
 
 
         client.addAppointmentEntry(newApt, CLArguments.get(0));
-
 
 
        // String message;

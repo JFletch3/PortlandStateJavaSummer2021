@@ -105,20 +105,26 @@ public class AppointmentBookServlet extends HttpServlet
             return;
         }
 
-        AppointmentBook newbook = null;
-        Appointment appointment = null;
-        String [] startTimeSplit = start.split(", ");
-        String [] endTimeSplit = end.split(", ");
-        int ownedBook = 0;
-
-        System.out.println("Adding Appointment:");
-        System.out.println("Owner: " +owner);
-        System.out.println("Start Time: " + startTimeSplit[0] + " " + startTimeSplit[1]);
-        System.out.println("End Time: " + endTimeSplit[0] + " " + endTimeSplit[1]);
-
-        System.out.println(description);
         System.out.println(start);
         System.out.println(end);
+
+        AppointmentBook newbook = null;
+        Appointment appointment = null;
+        String [] startTimeSplit = start.split(" ");
+        String [] endTimeSplit = end.split(" ");
+        int ownedBook = 0;
+
+
+//        System.out.println("Adding Appointment:");
+//        System.out.println("Owner: " +owner);
+//        System.out.println("Start Time: " + start);
+//        System.out.println("Start Time: " + startTimeSplit[0] + " " + startTimeSplit[1] + " " + startTimeSplit[2]);
+//        System.out.println("End Time: " + end);
+//        System.out.println("End Time: " + endTimeSplit[0] + " " + endTimeSplit[1] + " " + endTimeSplit[2]);
+//
+//        System.out.println(description);
+//        System.out.println(start);
+//        System.out.println(end);
 
         for (AppointmentBook ab : BOOKS)
         {
@@ -128,9 +134,9 @@ public class AppointmentBookServlet extends HttpServlet
                 appointment = new Appointment();
                 appointment.setDescription(description);
                 appointment.setStartDate(startTimeSplit[0]);
-                appointment.setStartTime(startTimeSplit[1]);
+                appointment.setStartTime(startTimeSplit[1] + " " + startTimeSplit[2]);
                 appointment.setEndDate(endTimeSplit[0]);
-                appointment.setEndTime(endTimeSplit[1]);
+                appointment.setEndTime(endTimeSplit[1] + " " + endTimeSplit[2]);
                 ab.addAppointment(appointment);
                 newbook = ab;
             }
@@ -143,14 +149,17 @@ public class AppointmentBookServlet extends HttpServlet
             appointment = new Appointment();
             appointment.setDescription(description);
             appointment.setStartDate(startTimeSplit[0]);
-            appointment.setStartTime(startTimeSplit[1]);
+            appointment.setStartTime(startTimeSplit[1] + " " + startTimeSplit[2]);
             appointment.setEndDate(endTimeSplit[0]);
-            appointment.setEndTime(endTimeSplit[1]);
+            appointment.setEndTime(endTimeSplit[1] + " " + endTimeSplit[2]);
             newbook.addAppointment(appointment);
             BOOKS.add(newbook);
         }
 
-        //this.dictionary.put(owner, description, start, end);
+        System.out.println("Appointment Desc: " + appointment.getDescription());
+        System.out.println("Appointment Begin DATE: " + appointment.getBeginTime());
+        System.out.println("Appointment END DATE: " + appointment.getEndTime());
+
         PrintWriter pw = response.getWriter();
         pw.println(Messages.defineAppointmentAs(newbook, appointment));
         pw.flush();
@@ -269,29 +278,26 @@ public class AppointmentBookServlet extends HttpServlet
 
         for (Appointment ap : BOOK.getAppointments())
         {
+            String appointmentStart = ap.getThisStartDate() + " " + ap.getThisStartTime();
+            Date appointmentStartDate = dFormat.parse(appointmentStart);
 
-//            String ApstartDate = ap.getBeginTimeString();
-//            String ApendDate = ap.getEndTimeString();
-            Date sDate = ap.getBeginTime();
-            Date eDate = ap.getEndTime();
-
-//            System.out.println(ApstartDate);
-//            System.out.println(ApendDate);
-            System.out.println(sDate.toString());
-            System.out.println(eDate.toString());
+            System.out.println(appointmentStartDate.toString());
             System.out.println(searchStart.toString());
             System.out.println(searchEnd.toString());
 
-//            System.out.println(ap.getBeginTime());
-//            System.out.println(ap.getBeginTimeString());
-//            System.out.println(ap.getEndTimeString());
-//            System.out.println(start);
-//            System.out.println(end);
+            System.out.println(appointmentStartDate.getTime());
+            System.out.println(searchStart.getTime());
+            System.out.println(searchEnd.getTime());
 
-            if (sDate.after(searchStart) && eDate.before(searchEnd))
+            if (appointmentStartDate.getTime() >= searchStart.getTime() && appointmentStartDate.getTime() <= searchEnd.getTime())
             {
                 retBook.addAppointment(ap);
             }
+
+//            if (sDate.after(searchStart) && eDate.before(searchEnd))
+//            {
+//                retBook.addAppointment(ap);
+//            }
 
 //            if ( (ap.getBeginTime().equals(start) ||  ap.getBeginTime().after(start)) &&
 //                    (ap.getBeginTime().equals(end) || ap.getBeginTime().before(end)) )

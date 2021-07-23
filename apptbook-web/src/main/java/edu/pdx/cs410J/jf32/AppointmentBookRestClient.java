@@ -66,11 +66,10 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
   public void addAppointmentEntry(Appointment appointment, String owner)
   {
     String desctiption = appointment.getDescription();
-    String start = appointment.getBeginTimeString();
-    String end = appointment.getEndTimeString();
+    String start = appointment.getThisStartDate() + " " + appointment.getThisStartTime();
+    String end = appointment.getThisEndDate() + " " + appointment.getThisEndTime();
     try
     {
-      //Response response = postToMyURL(Map.of("word", "test", "definition", "definit"));
       Response response = postToMyURL(Map.of("owner", owner,
                                              "description", desctiption,
                                              "start", start,
@@ -85,7 +84,6 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
   @VisibleForTesting
   Response postToMyURL(Map<String, String> appointmentEntries) throws IOException
   {
-    //return post(this.url, appointment, owner);
     return post(this.url, appointmentEntries);
   }
 

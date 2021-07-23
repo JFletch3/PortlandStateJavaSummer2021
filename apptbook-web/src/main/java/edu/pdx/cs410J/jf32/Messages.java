@@ -34,16 +34,14 @@ public class Messages
 
     public static String defineAppointmentAs(AppointmentBook book, Appointment appointment)
     {
-
         return String.format( "Appointment Book Owner: %s\n" +
                                 "Appointment: %s\n" +
                                 "Start Time : %s\n" +
-                                "End Tim    : %s",
+                                "End Time    : %s",
                                 book.getOwnerName(),
                                 appointment.getDescription(),
-                                appointment.getBeginTimeString(),
-                                appointment.getEndTimeString());
-
+                                appointment.getThisStartDate() + " " + appointment.getThisStartTime(),
+                                appointment.getThisEndDate() + " " + appointment.getThisEndTime());
     }
 
     public static String allDictionaryEntriesDeleted() {
