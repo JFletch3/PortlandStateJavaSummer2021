@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -50,13 +53,7 @@ public class Project4 {
         portString      = getArgumentValue(args, "-PORT");
         searchString    = getArgumentValue(args, "-SEARCH");
         printOption     = checkForPrintOption(args); //TODO write code to do something with this
-        CLArguments     = argumentSlicer(args);
         //-----------------------------------------------------------
-
-        if (!searchString.equals(""))
-        {
-            searchDetails = getSearchInfo(args, searchString);
-        }
 
         int port;
         try {
@@ -69,6 +66,27 @@ public class Project4 {
 
         AppointmentBookRestClient client = new AppointmentBookRestClient(hostName, port);
 
+        // Add appointment book / appointment to the server.
+        String message = "";
+
+        //If Search is entered I want to search, print and end.
+        if (!searchString.equals(""))
+        {
+            try
+            {
+
+                searchDetails = getSearchInfo(args, searchString);
+                AppointmentBook searchBook = client.getSearchedDictionary(searchDetails);
+                SearchAndPrettyPrint(searchBook, searchDetails.get(1), searchDetails.get(2));
+                System.exit(1);
+            } catch (IOException | ParseException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+
+        CLArguments     = argumentSlicer(args);
         //-----------------------------------------------------------
         // Create Appointment book.
         newBook = makeAppointmentBook(CLArguments);
@@ -76,14 +94,13 @@ public class Project4 {
         newBook.addAppointment(newApt);
         //-----------------------------------------------------------
 
-        // Add appointment book / appointment to the server.
-        String message = "";
-
 
         client.addAppointmentEntry(newApt, CLArguments.get(0));
 
 
-       // String message;
+
+
+//        String message;
 //        try {
 //            if (word == null)
 //            {
@@ -114,6 +131,39 @@ public class Project4 {
         System.out.println(message);
 
         System.exit(0);
+    }
+
+
+    public static void SearchAndPrettyPrint(AppointmentBook BOOK, String start, String end) throws ParseException
+    {
+        AppointmentBook retBook = new AppointmentBook();
+        retBook.setOwnerName(BOOK.getOwnerName());
+        DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        dFormat.setLenient(false);
+        Date searchStart = dFormat.parse(start);
+        Date searchEnd = dFormat.parse(end);
+
+        for (Appointment ap : BOOK.getAppointments())
+        {
+            String appointmentStart = ap.getThisStartDate() + " " + ap.getThisStartTime();
+            Date appointmentStartDate = dFormat.parse(appointmentStart);
+
+            if (appointmentStartDate.getTime() >= searchStart.getTime() && appointmentStartDate.getTime() <= searchEnd.getTime())
+            {
+                retBook.addAppointment(ap);
+            }
+        }
+
+        PrettyPrint print = new PrettyPrint(null, null);
+
+        try
+        {
+            print.stdDump(retBook);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -222,21 +272,15 @@ public class Project4 {
 
         for (int i = 0; i < args.length; i++)
         {
-            if (args[i].toUpperCase().contains("-SEARCH"))
+            if (args[i].equalsIgnoreCase("-SEARCH"))
             {
                 searchDetails.add(owner); // owner
-                searchDetails.add(args[i+2]);
-                searchDetails.add(args[i+3]);
-                searchDetails.add(args[i+4]);
-                searchDetails.add(args[i+5]);
-                searchDetails.add(args[i+6]);
-                searchDetails.add(args[i+7]);
+                searchDetails.add(args[i+2] + " " + args[i+3] + " " + args[i+4]);
+                searchDetails.add(args[i+5] + " " + args[i+6] + " " + args[i+7]);
                 return searchDetails;
             }
         }
-
         return null;
-
     }
 
     /**
@@ -298,28 +342,6 @@ public class Project4 {
         }
 
         increment = (printop + searchOp + hostOp + portop);
-
-//        if (printop == 1 && searchOp == 1 && hostOp == 1 && portop == 1)
-//        {
-//            increment = 7;
-//        }
-//        else if (hostOp == 1 && portop == 1 && searchOp == 1)
-//        {
-//            increment = 6;
-//        }
-//        else if (hostOp == 1 && portop == 1 && printop == 1)
-//        {
-//            increment = 5;
-//        }
-//        else if (hostOp == 1 && portop == 1)
-//        {
-//            increment = 4;
-//        }
-//        else if (printop == 1)
-//        {
-//            increment = 1;
-//        }
-
 
         slicedArgs.addAll(Arrays.asList(args).subList(increment, args.length));
 

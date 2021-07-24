@@ -51,13 +51,12 @@ public class AppointmentBookServlet extends HttpServlet
         String endDate = null;
         if (start != null)
         {
-          // startDate =  checkDateFormat(response, start);
+            checkDateFormat(response, start);
             startDate =  start;
-
         }
         if (end != null)
         {
-          // endDate = checkDateFormat(response, end);
+           checkDateFormat(response, end);
            endDate = end;
         }
 
@@ -115,16 +114,16 @@ public class AppointmentBookServlet extends HttpServlet
         int ownedBook = 0;
 
 
-//        System.out.println("Adding Appointment:");
-//        System.out.println("Owner: " +owner);
-//        System.out.println("Start Time: " + start);
-//        System.out.println("Start Time: " + startTimeSplit[0] + " " + startTimeSplit[1] + " " + startTimeSplit[2]);
-//        System.out.println("End Time: " + end);
-//        System.out.println("End Time: " + endTimeSplit[0] + " " + endTimeSplit[1] + " " + endTimeSplit[2]);
-//
-//        System.out.println(description);
-//        System.out.println(start);
-//        System.out.println(end);
+        System.out.println("Adding Appointment:");
+        System.out.println("Owner: " +owner);
+        System.out.println("Start Time: " + start);
+        System.out.println("Start Time: " + startTimeSplit[0] + " " + startTimeSplit[1] + " " + startTimeSplit[2]);
+        System.out.println("End Time: " + end);
+        System.out.println("End Time: " + endTimeSplit[0] + " " + endTimeSplit[1] + " " + endTimeSplit[2]);
+
+        System.out.println(description);
+        System.out.println(start);
+        System.out.println(end);
 
         for (AppointmentBook ab : BOOKS)
         {
@@ -268,7 +267,6 @@ public class AppointmentBookServlet extends HttpServlet
 
     private AppointmentBook getSearchedAppointments(AppointmentBook BOOK, String start, String end) throws ParseException
     {
-        TimeZone.getDefault();
         AppointmentBook retBook = new AppointmentBook();
         retBook.setOwnerName(BOOK.getOwnerName());
         DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
@@ -281,29 +279,10 @@ public class AppointmentBookServlet extends HttpServlet
             String appointmentStart = ap.getThisStartDate() + " " + ap.getThisStartTime();
             Date appointmentStartDate = dFormat.parse(appointmentStart);
 
-            System.out.println(appointmentStartDate.toString());
-            System.out.println(searchStart.toString());
-            System.out.println(searchEnd.toString());
-
-            System.out.println(appointmentStartDate.getTime());
-            System.out.println(searchStart.getTime());
-            System.out.println(searchEnd.getTime());
-
             if (appointmentStartDate.getTime() >= searchStart.getTime() && appointmentStartDate.getTime() <= searchEnd.getTime())
             {
                 retBook.addAppointment(ap);
             }
-
-//            if (sDate.after(searchStart) && eDate.before(searchEnd))
-//            {
-//                retBook.addAppointment(ap);
-//            }
-
-//            if ( (ap.getBeginTime().equals(start) ||  ap.getBeginTime().after(start)) &&
-//                    (ap.getBeginTime().equals(end) || ap.getBeginTime().before(end)) )
-//            {
-//                retBook.addAppointment(ap);
-//            }
         }
 
         return retBook;
@@ -331,7 +310,7 @@ public class AppointmentBookServlet extends HttpServlet
      * @param date
      *      The date passed in from the commandline arguments.
      */
-    public static Date checkDateFormat(HttpServletResponse response, String date) throws IOException
+    public static void checkDateFormat(HttpServletResponse response, String date) throws IOException
     {
         DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         dFormat.setLenient(false);
@@ -339,7 +318,6 @@ public class AppointmentBookServlet extends HttpServlet
         try
         {
             Date retDate = dFormat.parse(date);
-            return retDate;
         }
         catch (ParseException e)
         {
@@ -348,7 +326,6 @@ public class AppointmentBookServlet extends HttpServlet
                     "and date should be a real date.");
         }
 
-        return null;
     }
 
     @VisibleForTesting

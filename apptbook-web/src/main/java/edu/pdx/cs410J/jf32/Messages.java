@@ -101,7 +101,6 @@ public class Messages
         }
     }
 
-
     public static void formatSearchedAppointmentCommandLine(PrintWriter pw, AppointmentBook BOOK)
     {
         PrettyPrint printer = new PrettyPrint(null, null);
@@ -125,7 +124,36 @@ public class Messages
             Map.Entry<String, String> entry = parseDictionaryEntry(line);
             map.put(entry.getKey(), entry.getValue());
         }
-
         return map;
+    }
+
+    public static AppointmentBook parseAppointmentBook(String content) {
+        AppointmentBook book = new AppointmentBook();
+
+        String[] lines = content.split("\n\n");
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i];
+          //  Map.Entry<String, String> entry = parseDictionaryEntry(line);
+          //  book.setOwnerName(line.substring(line.lastIndexOf("=")+1));
+
+            if (line.contains("app_book"))
+            {
+                book.setOwnerName(line.substring(line.lastIndexOf("=")+1));
+            }
+            else if (line.contains("--NEW APPOINTMENT--"))
+            {
+                Appointment newAppointment = new Appointment();
+                newAppointment.setDescription(lines[i+1].substring(lines[i+1].lastIndexOf("=")+1));
+                newAppointment.setStartDate(lines[i+2].substring(lines[i+2].lastIndexOf("=")+1));
+                newAppointment.setStartTime(lines[i+3].substring(lines[i+3].lastIndexOf("=")+1));
+                newAppointment.setEndDate(lines[i+4].substring(lines[i+4].lastIndexOf("=")+1));
+                newAppointment.setEndTime(lines[i+5].substring(lines[i+5].lastIndexOf("=")+1));
+                book.addAppointment(newAppointment);
+            }
+
+
+        }
+
+        return book;
     }
 }

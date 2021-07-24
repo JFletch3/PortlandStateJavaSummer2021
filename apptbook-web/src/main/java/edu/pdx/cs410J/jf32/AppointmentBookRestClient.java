@@ -48,6 +48,14 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     return Messages.parseDictionary(response.getContent());
   }
 
+  public AppointmentBook getSearchedDictionary(List<String> SearchCriteria) throws IOException
+  {
+    Response response = get(this.url, Map.of("owner", SearchCriteria.get(0),
+                                              "start", SearchCriteria.get(1),
+                                              "end", SearchCriteria.get(2)));
+    return Messages.parseAppointmentBook(response.getContent());
+  }
+
   /**
    * Returns the definition for the given word
    */
@@ -63,8 +71,7 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     throwExceptionIfNotOkayHttpStatus(response);
   }
 
-  public void addAppointmentEntry(Appointment appointment, String owner)
-  {
+  public void addAppointmentEntry(Appointment appointment, String owner) {
     String desctiption = appointment.getDescription();
     String start = appointment.getThisStartDate() + " " + appointment.getThisStartTime();
     String end = appointment.getThisEndDate() + " " + appointment.getThisEndTime();
@@ -82,8 +89,7 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
   }
 
   @VisibleForTesting
-  Response postToMyURL(Map<String, String> appointmentEntries) throws IOException
-  {
+  Response postToMyURL(Map<String, String> appointmentEntries) throws IOException {
     return post(this.url, appointmentEntries);
   }
 
