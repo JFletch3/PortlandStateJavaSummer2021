@@ -118,26 +118,11 @@ public class AppointmentBookServlet extends HttpServlet
             return;
         }
 
-        System.out.println(start);
-        System.out.println(end);
-
         AppointmentBook newbook = null;
         Appointment appointment = null;
         String [] startTimeSplit = start.split(" ");
         String [] endTimeSplit = end.split(" ");
         int ownedBook = 0;
-
-
-        System.out.println("Adding Appointment:");
-        System.out.println("Owner: " +owner);
-        System.out.println("Start Time: " + start);
-        System.out.println("Start Time: " + startTimeSplit[0] + " " + startTimeSplit[1] + " " + startTimeSplit[2]);
-        System.out.println("End Time: " + end);
-        System.out.println("End Time: " + endTimeSplit[0] + " " + endTimeSplit[1] + " " + endTimeSplit[2]);
-
-        System.out.println(description);
-        System.out.println(start);
-        System.out.println(end);
 
         for (AppointmentBook ab : BOOKS)
         {
@@ -169,15 +154,12 @@ public class AppointmentBookServlet extends HttpServlet
             BOOKS.add(newbook);
         }
 
-        System.out.println("Appointment Desc: " + appointment.getDescription());
-        System.out.println("Appointment Begin DATE: " + appointment.getBeginTime());
-        System.out.println("Appointment END DATE: " + appointment.getEndTime());
 
         PrintWriter pw = response.getWriter();
         pw.println(Messages.defineAppointmentAs(newbook, appointment));
         pw.flush();
         response.setStatus( HttpServletResponse.SC_OK);
-        System.out.println("Appointment Added.");
+        System.out.println("Created Appointment: Owner: " + owner + " Desc: " + description + " Start: " + start + " End: " + end);
         System.out.println("======================");
     }
 
@@ -209,44 +191,6 @@ public class AppointmentBookServlet extends HttpServlet
     {
         String message = Messages.missingRequiredParameter(parameterName);
         response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
-    }
-
-    /**
-     * Writes the definition of the given word to the HTTP response.
-     *
-     * The text of the message is formatted with
-     * {@link Messages#formatDictionaryEntry(String, String)}
-     */
-    private void writeDefinition(String word, HttpServletResponse response) throws IOException {
-        String definition = this.dictionary.get(word);
-
-        if (definition == null) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-
-        } else {
-            PrintWriter pw = response.getWriter();
-            pw.println(Messages.formatDictionaryEntry(word, definition));
-
-            pw.flush();
-
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
-    }
-
-    /**
-     * Writes all of the dictionary entries to the HTTP response.
-     *
-     * The text of the message is formatted with
-     * {@link Messages#formatDictionaryEntry(String, String)}
-     */
-    private void writeAllDictionaryEntries(HttpServletResponse response ) throws IOException
-    {
-        PrintWriter pw = response.getWriter();
-        Messages.formatAppointmentEntries(pw, BOOKS);
-
-        pw.flush();
-
-        response.setStatus( HttpServletResponse.SC_OK );
     }
 
     /**
@@ -309,7 +253,18 @@ public class AppointmentBookServlet extends HttpServlet
         response.setStatus( HttpServletResponse.SC_OK );
     }
 
-    private AppointmentBook getSearchedAppointments(AppointmentBook BOOK, String start, String end) throws ParseException
+    /**
+     * Returns the value of the HTTP request parameter with the given name.
+     * @param BOOK
+     *      Appointment book
+     * @param start
+     *      Start time
+     * @param end
+     *      End time
+     * @return retBook
+     *      Returned appointmentbook for the searched parameters.
+     */
+    public AppointmentBook getSearchedAppointments(AppointmentBook BOOK, String start, String end) throws ParseException
     {
         AppointmentBook retBook = new AppointmentBook();
         retBook.setOwnerName(BOOK.getOwnerName());
@@ -328,9 +283,7 @@ public class AppointmentBookServlet extends HttpServlet
                 retBook.addAppointment(ap);
             }
         }
-
         return retBook;
-
     }
 
     /**
@@ -354,7 +307,7 @@ public class AppointmentBookServlet extends HttpServlet
      * @param date
      *      The date passed in from the commandline arguments.
      */
-    public static void checkDateFormat(HttpServletResponse response, String date) throws IOException
+    public boolean checkDateFormat(HttpServletResponse response, String date) throws IOException
     {
         DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         dFormat.setLenient(false);
@@ -365,15 +318,31 @@ public class AppointmentBookServlet extends HttpServlet
         }
         catch (ParseException e)
         {
-
             pw.println("Date format and/or Date is not valid: " + date + " --- Format Should be mm/dd/yyyy" +
                     "and date should be a real date.");
+            return false;
         }
 
+        return true;
     }
 
+    /**
+     * Method to check for appointmentbook owner - used for test
+     * @param owner
+     *      Owner of the appointment book
+     * @return book
+     *      Book what matches the owner.
+     */
     @VisibleForTesting
-    String getDefinition(String word) {
-        return this.dictionary.get(word);
+    String getAppointmentBookOwner(String owner) {
+
+        for (AppointmentBook book : this.BOOKS)
+        {
+            if (book.getOwnerName().equals(owner))
+            {
+                return  book.getOwnerName();
+            }
+        }
+        return null;
     }
 }

@@ -28,8 +28,7 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
   private static final String SERVLET = "appointments";
 
   private final String url;
-
-
+  
   /**
    * Creates a client to the appointment book REST service running on the given host and port
    *
@@ -48,6 +47,12 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     return Messages.parseDictionary(response.getContent());
   }
 
+  /**
+   * Get appointmentbook by owner , start , end times.
+   *
+   * @param SearchCriteria list of owner, start time, end time to search for
+   * @return response response from the get call
+   */
   public AppointmentBook getSearchedAppointmentBook(List<String> SearchCriteria) throws IOException
   {
     Response response = get(this.url, Map.of("owner", SearchCriteria.get(0),
@@ -56,6 +61,12 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     return Messages.parseAppointmentBook(response.getContent());
   }
 
+  /**
+   * Get appointmentbook by owner only.
+   *
+   * @param Owner owners name for appointment book
+   * @return response response from get
+   */
   public AppointmentBook getSearchedAppointmentBookOwnerOnly(String Owner) throws IOException
   {
     Response response = get(this.url, Map.of("owner", Owner));
@@ -63,28 +74,19 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
   }
 
   /**
-   * Returns the definition for the given word
+   * Get appointmentbook by owner only.
+   *
+   * @param appointment new appointment being added.
+   * @param owner Appointment book owner name.
    */
-  public String getDefinition(String word) throws IOException {
-    Response response = get(this.url, Map.of("word", word));
-    throwExceptionIfNotOkayHttpStatus(response);
-    String content = response.getContent();
-    return Messages.parseDictionaryEntry(content).getValue();
-  }
-
-  public void addDictionaryEntry(String word, String definition) throws IOException {
-    Response response = postToMyURL(Map.of("word", word, "definition", definition));
-    throwExceptionIfNotOkayHttpStatus(response);
-  }
-
   public void addAppointmentEntry(Appointment appointment, String owner) {
-    String desctiption = appointment.getDescription();
+    String description = appointment.getDescription();
     String start = appointment.getThisStartDate() + " " + appointment.getThisStartTime();
     String end = appointment.getThisEndDate() + " " + appointment.getThisEndTime();
     try
     {
       Response response = postToMyURL(Map.of("owner", owner,
-                                             "description", desctiption,
+                                             "description", description,
                                              "start", start,
                                              "end", end));
       throwExceptionIfNotOkayHttpStatus(response);
@@ -94,16 +96,23 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     }
   }
 
+  /**
+   * Call post to post to the server.
+   *
+   * @param appointmentEntries map of appointment entries.
+   * @return post  http response object.
+   */
   @VisibleForTesting
   Response postToMyURL(Map<String, String> appointmentEntries) throws IOException {
     return post(this.url, appointmentEntries);
   }
 
-  public void removeAllDictionaryEntries() throws IOException {
-    Response response = delete(this.url, Map.of());
-    throwExceptionIfNotOkayHttpStatus(response);
-  }
-
+  /**
+   * get the http return code.
+   *
+   * @param response http response object
+   * @return response  http response object.
+   */
   private Response throwExceptionIfNotOkayHttpStatus(Response response) {
     int code = response.getCode();
     if (code != HTTP_OK) {

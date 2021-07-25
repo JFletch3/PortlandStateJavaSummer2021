@@ -84,7 +84,8 @@ public class Project4 {
                 System.exit(1);
             } catch (IOException | ParseException e)
             {
-                e.printStackTrace();
+                System.err.println("Invalid Host or Port. Please check argument inputs.");
+                System.exit(0);
             }
         }
 
@@ -101,13 +102,11 @@ public class Project4 {
                     System.exit(0);
                 } catch (IOException e)
                 {
-                    e.printStackTrace();
+                    System.err.println("Invalid Host or Port. Please check argument inputs.");
                     System.exit(0);
                 }
             }
         }
-
-
 
         //-----------------------------------------------------------
         // Create Appointment book.
@@ -116,42 +115,23 @@ public class Project4 {
         newBook.addAppointment(newApt);
         //-----------------------------------------------------------
 
+        //-----------------------------------------------------------
+        //check for the print option. if set to 1, print out the information.
+        if (printOption == 1)
+        {
+            List<Appointment> appts = newBook.getAppointments();
+            System.out.println(newBook);
+            for(Appointment ap : appts)
+            {
+                System.out.println(ap.toString());
+            }
+        }
+        //-----------------------------------------------------------
+
 
         client.addAppointmentEntry(newApt, CLArguments.get(0));
 
-
-
-
-//        String message;
-//        try {
-//            if (word == null)
-//            {
-//                // Print all word/definition pairs
-//                Map<String, String> dictionary = client.getAllDictionaryEntries();
-//                StringWriter sw = new StringWriter();
-//                Messages.formatDictionaryEntries(new PrintWriter(sw, true), dictionary);
-//                message = sw.toString();
-//
-//            }
-//            else if (definition == null)
-//            {
-//                // Print all dictionary entries
-//                message = Messages.formatDictionaryEntry(word, client.getDefinition(word));
-//            }
-//            else
-//            {
-//                // Post the word/definition pair
-//                client.addDictionaryEntry(word, definition);
-//                message = Messages.definedWordAs(word, definition);
-//            }
-//
-//        } catch ( IOException ex ) {
-//            error("While contacting server: " + ex);
-//            return;
-//        }
-
         System.out.println(message);
-
         System.exit(0);
     }
 
@@ -173,6 +153,7 @@ public class Project4 {
         dFormat.setLenient(false);
         Date searchStart = dFormat.parse(start);
         Date searchEnd = dFormat.parse(end);
+        int appointmentCount = 0;
 
         for (Appointment ap : BOOK.getAppointments())
         {
@@ -183,21 +164,25 @@ public class Project4 {
             {
                 if (appointmentStartDate.getTime() >= searchStart.getTime() && appointmentStartDate.getTime() <= searchEnd.getTime())
                 {
+                    appointmentCount += 1;
                     retBook.addAppointment(ap);
                 }
             }
         }
-
-        PrettyPrint print = new PrettyPrint(null, null);
-
-        try
+        if (appointmentCount > 0)
         {
-            print.stdDump(retBook);
-        } catch (IOException e)
+            PrettyPrint print = new PrettyPrint(null, null);
+            try
+            {
+                print.stdDump(retBook);
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }else
         {
-            e.printStackTrace();
+            System.err.println("No Appointments found that start between " + start + " and " + end);
         }
-
     }
 
     /**
@@ -327,32 +312,6 @@ public class Project4 {
     }
 
     /**
-     * Method to get the search information.
-     * @param args
-     *      String array of the command line arguments
-     * @return owner
-     *          owner to search for.
-     */
-    public static List<String> getSearchInfoOwnerOnly(String [] args, String owner) throws IOException
-    {
-        List<String> searchDetails = new ArrayList<>();
-
-        for (int i = 0; i < args.length; i++)
-        {
-            if (args[i].equalsIgnoreCase("-SEARCH"))
-            {
-                searchDetails.add(owner); // owner
-                checkDateFormat(args[i+2] + " " + args[i+3] + " " + args[i+4]);
-                checkDateFormat(args[i+5] + " " + args[i+6] + " " + args[i+7]);
-                searchDetails.add(args[i+2] + " " + args[i+3] + " " + args[i+4]);
-                searchDetails.add(args[i+5] + " " + args[i+6] + " " + args[i+7]);
-                return searchDetails;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Method to create an array list of the command line arguments
      * slicing off the options.
      * @param args
@@ -444,19 +403,6 @@ public class Project4 {
             System.exit(1);
         }
 
-    }
-
-    /**
-     * Method to print message.
-     * @param message
-     *  message parameter
-     */
-    private static void error( String message )
-    {
-        PrintStream err = System.err;
-        err.println("** " + message);
-
-        System.exit(1);
     }
 
     /**

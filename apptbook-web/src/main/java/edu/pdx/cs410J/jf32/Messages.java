@@ -27,17 +27,18 @@ public class Messages
         return String.format("The required parameter \"%s\" is missing", parameterName);
     }
 
-    public static String definedWordAs(String word, String definition )
+    public static String definedAppointment(String Owner, String desc, String start, String end )
     {
-        return String.format( "Defined %s as %s", word, definition );
+        return String.format( "Created Appointment: Owner: %s Desc: %s Start: %s End: %s",
+                Owner, desc, start, end );
     }
 
     public static String defineAppointmentAs(AppointmentBook book, Appointment appointment)
     {
-        return String.format( "Appointment Book Owner: %s\n" +
-                                "Appointment: %s\n" +
-                                "Start Time : %s\n" +
-                                "End Time    : %s",
+        return String.format( "Created Appointment: Owner: %s" +
+                                " Desc: %s" +
+                                " Start: %s" +
+                                " End: %s",
                                 book.getOwnerName(),
                                 appointment.getDescription(),
                                 appointment.getThisStartDate() + " " + appointment.getThisStartTime(),
