@@ -1,5 +1,7 @@
 package edu.pdx.cs410J.jf32;
 
+import javax.print.attribute.standard.MediaSize;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -53,6 +55,7 @@ public class Project4 {
         portString      = getArgumentValue(args, "-PORT");
         searchString    = getArgumentValue(args, "-SEARCH");
         printOption     = checkForPrintOption(args); //TODO write code to do something with this
+        CLArguments     = argumentSlicer(args);
         //-----------------------------------------------------------
 
         int port;
@@ -74,9 +77,9 @@ public class Project4 {
         {
             try
             {
-
                 searchDetails = getSearchInfo(args, searchString);
-                AppointmentBook searchBook = client.getSearchedDictionary(searchDetails);
+                AppointmentBook searchBook = client.getSearchedAppointmentBook(searchDetails);
+                Collections.sort(searchBook.getAppointments());
                 SearchAndPrettyPrint(searchBook, searchDetails.get(1), searchDetails.get(2));
                 System.exit(1);
             } catch (IOException | ParseException e)
@@ -85,8 +88,27 @@ public class Project4 {
             }
         }
 
+        if (searchString.equals("") && printOption == 0)
+        {
+            if (CLArguments.size() == 1)
+            {
+                try
+                {
+                    AppointmentBook searchBook = client.getSearchedAppointmentBookOwnerOnly(CLArguments.get(0));
+                    PrettyPrint print = new PrettyPrint(null, null);
+                    Collections.sort(searchBook.getAppointments());
+                    print.stdDump(searchBook);
+                    System.exit(0);
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                    System.exit(0);
+                }
+            }
+        }
 
-        CLArguments     = argumentSlicer(args);
+
+
         //-----------------------------------------------------------
         // Create Appointment book.
         newBook = makeAppointmentBook(CLArguments);
@@ -133,7 +155,16 @@ public class Project4 {
         System.exit(0);
     }
 
-
+    /**
+     * Method to check the if the -print option was entered in the arguments
+     * @param BOOK
+     *      String array of the command line arguments
+     * @param start
+     *      Start date to search for.
+     * @param end
+     *      End date for searching.
+     *
+     */
     public static void SearchAndPrettyPrint(AppointmentBook BOOK, String start, String end) throws ParseException
     {
         AppointmentBook retBook = new AppointmentBook();
@@ -148,9 +179,12 @@ public class Project4 {
             String appointmentStart = ap.getThisStartDate() + " " + ap.getThisStartTime();
             Date appointmentStartDate = dFormat.parse(appointmentStart);
 
-            if (appointmentStartDate.getTime() >= searchStart.getTime() && appointmentStartDate.getTime() <= searchEnd.getTime())
+            if (start != null && end != null)
             {
-                retBook.addAppointment(ap);
+                if (appointmentStartDate.getTime() >= searchStart.getTime() && appointmentStartDate.getTime() <= searchEnd.getTime())
+                {
+                    retBook.addAppointment(ap);
+                }
             }
         }
 
@@ -239,7 +273,7 @@ public class Project4 {
             System.err.println("Missing command line arguments.");
             System.exit(1);
         }
-        else if (args.length < 8)
+        else if (args.length < 5)
         {
             System.err.println("Number of arguments is incorrect. Please check command line arguments.");
             System.exit(1);
@@ -266,7 +300,14 @@ public class Project4 {
         return 0;
     }
 
-    public static List<String> getSearchInfo(String [] args, String owner)
+    /**
+     * Method to get the search information.
+     * @param args
+     *      String array of the command line arguments
+     * @return owner
+     *          owner to search for.
+     */
+    public static List<String> getSearchInfo(String [] args, String owner) throws IOException
     {
         List<String> searchDetails = new ArrayList<>();
 
@@ -275,6 +316,34 @@ public class Project4 {
             if (args[i].equalsIgnoreCase("-SEARCH"))
             {
                 searchDetails.add(owner); // owner
+                checkDateFormat(args[i+2] + " " + args[i+3] + " " + args[i+4]);
+                checkDateFormat(args[i+5] + " " + args[i+6] + " " + args[i+7]);
+                searchDetails.add(args[i+2] + " " + args[i+3] + " " + args[i+4]);
+                searchDetails.add(args[i+5] + " " + args[i+6] + " " + args[i+7]);
+                return searchDetails;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Method to get the search information.
+     * @param args
+     *      String array of the command line arguments
+     * @return owner
+     *          owner to search for.
+     */
+    public static List<String> getSearchInfoOwnerOnly(String [] args, String owner) throws IOException
+    {
+        List<String> searchDetails = new ArrayList<>();
+
+        for (int i = 0; i < args.length; i++)
+        {
+            if (args[i].equalsIgnoreCase("-SEARCH"))
+            {
+                searchDetails.add(owner); // owner
+                checkDateFormat(args[i+2] + " " + args[i+3] + " " + args[i+4]);
+                checkDateFormat(args[i+5] + " " + args[i+6] + " " + args[i+7]);
                 searchDetails.add(args[i+2] + " " + args[i+3] + " " + args[i+4]);
                 searchDetails.add(args[i+5] + " " + args[i+6] + " " + args[i+7]);
                 return searchDetails;
@@ -345,14 +414,43 @@ public class Project4 {
 
         slicedArgs.addAll(Arrays.asList(args).subList(increment, args.length));
 
-        if (slicedArgs.size() != 8)
-        {
-            System.err.println("Number of arguments is incorrect. Please check command line arguments.");
-            System.exit(1);
-        }
+//        if (slicedArgs.size() != 8)
+//        {
+//            System.err.println("Number of arguments is incorrect. Please check command line arguments.");
+//            System.exit(1);
+//        }
         return slicedArgs;
     }
 
+    /**
+     * Method to check the date format to make sure the date is valid.
+     * @param date
+     *      The date passed in from the commandline arguments.
+     */
+    public static void checkDateFormat(String date) throws IOException
+    {
+        DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        dFormat.setLenient(false);
+
+        try
+        {
+            Date retDate = dFormat.parse(date);
+        }
+        catch (ParseException e)
+        {
+
+            System.err.println("Date format and/or Date is not valid: " + date + " --- Format Should be mm/dd/yyyy" +
+                    "and date should be a real date.");
+            System.exit(1);
+        }
+
+    }
+
+    /**
+     * Method to print message.
+     * @param message
+     *  message parameter
+     */
     private static void error( String message )
     {
         PrintStream err = System.err;

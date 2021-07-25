@@ -150,8 +150,6 @@ public class Messages
                 newAppointment.setEndTime(lines[i+5].substring(lines[i+5].lastIndexOf("=")+1));
                 book.addAppointment(newAppointment);
             }
-
-
         }
 
         return book;

@@ -48,11 +48,17 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     return Messages.parseDictionary(response.getContent());
   }
 
-  public AppointmentBook getSearchedDictionary(List<String> SearchCriteria) throws IOException
+  public AppointmentBook getSearchedAppointmentBook(List<String> SearchCriteria) throws IOException
   {
     Response response = get(this.url, Map.of("owner", SearchCriteria.get(0),
                                               "start", SearchCriteria.get(1),
                                               "end", SearchCriteria.get(2)));
+    return Messages.parseAppointmentBook(response.getContent());
+  }
+
+  public AppointmentBook getSearchedAppointmentBookOwnerOnly(String Owner) throws IOException
+  {
+    Response response = get(this.url, Map.of("owner", Owner));
     return Messages.parseAppointmentBook(response.getContent());
   }
 

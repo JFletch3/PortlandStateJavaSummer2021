@@ -202,7 +202,6 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
       System.err.println(e.getMessage() + " Date " + start) ;
       System.exit(1);
     }
-
     return date1;
   }
 

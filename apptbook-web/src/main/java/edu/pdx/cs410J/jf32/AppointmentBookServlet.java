@@ -60,12 +60,26 @@ public class AppointmentBookServlet extends HttpServlet
            endDate = end;
         }
 
-        try
+        if (start != null && end != null && owner != null)
         {
-            writeAllAppointments(response, owner, startDate, endDate);
-        } catch (ParseException e)
+            try
+            {
+                writeAllAppointments(response, owner, startDate, endDate);
+            } catch (ParseException e)
+            {
+                System.out.println(e.getMessage());
+            }
+        }
+        else if (owner != null)
         {
-            System.out.println(e.getMessage());
+            try
+            {
+                writeAllAppointmentsForOwner(response, owner);
+            }
+            catch (ParseException e)
+            {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -253,6 +267,36 @@ public class AppointmentBookServlet extends HttpServlet
                 {
                     AppointmentBook tempBook = getSearchedAppointments(book, start, end);
                     Messages.formatSearchedAppointment(pw, tempBook);
+                }
+            }
+        }
+        else
+        {
+            Messages.formatAppointmentEntries(pw, BOOKS);
+        }
+
+        pw.flush();
+        response.setStatus( HttpServletResponse.SC_OK );
+    }
+
+    /**
+     * Writes all of the appointment book entries to the HTTP response.
+     *
+     * The text of the message is formatted with
+     * {@link Messages#formatDictionaryEntry(String, String)}
+     */
+    private void writeAllAppointmentsForOwner(HttpServletResponse response, String owner) throws IOException, ParseException
+    {
+        PrintWriter pw = response.getWriter();
+
+        if (owner != null)
+        {
+            for (AppointmentBook book : BOOKS)
+            {
+                if (owner.equalsIgnoreCase(book.getOwnerName()))
+                {
+                   // AppointmentBook tempBook = getBookByOwner(book);
+                    Messages.formatSearchedAppointment(pw, book);
                 }
             }
         }
