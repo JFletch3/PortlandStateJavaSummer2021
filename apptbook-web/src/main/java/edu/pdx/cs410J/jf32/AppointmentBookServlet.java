@@ -28,9 +28,7 @@ public class AppointmentBookServlet extends HttpServlet
     static final String DESC_PARAMETER      = "description";
     static final String START_PARAMETER     = "start";
     static final String END_PARAMETER       = "end";
-
     private final Map<String, String> dictionary = new HashMap<>();
-
     private final List<AppointmentBook> BOOKS = new ArrayList<AppointmentBook>();
 
     /**
@@ -79,6 +77,16 @@ public class AppointmentBookServlet extends HttpServlet
             catch (ParseException e)
             {
                 System.out.println(e.getMessage());
+            }
+        }
+        else
+        {
+            try
+            {
+                ReadAllAppointments(response);
+            } catch (ParseException e)
+            {
+                e.printStackTrace();
             }
         }
     }
@@ -252,6 +260,23 @@ public class AppointmentBookServlet extends HttpServlet
         pw.flush();
         response.setStatus( HttpServletResponse.SC_OK );
     }
+
+    /**
+     * Writes all of the appointment book entries to the HTTP response.
+     *
+     * The text of the message is formatted with
+     * {@link Messages#formatDictionaryEntry(String, String)}
+     */
+    private void ReadAllAppointments(HttpServletResponse response) throws IOException, ParseException
+    {
+        PrintWriter pw = response.getWriter();
+
+        Messages.printallBooks(pw, BOOKS);
+
+        pw.flush();
+        response.setStatus( HttpServletResponse.SC_OK );
+    }
+
 
     /**
      * Returns the value of the HTTP request parameter with the given name.

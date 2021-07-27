@@ -28,7 +28,7 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
   private static final String SERVLET = "appointments";
 
   private final String url;
-  
+
   /**
    * Creates a client to the appointment book REST service running on the given host and port
    *
@@ -121,8 +121,5 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     }
     return response;
   }
-
-
-
 
 }

@@ -29,27 +29,27 @@ class Project4IT extends InvokeMainTestCase {
 //      AppointmentBookRestClient client = new AppointmentBookRestClient(HOSTNAME, Integer.parseInt(PORT));
 //      client.removeAllDictionaryEntries();
 //    }
-//
-//    @Test
-//    void test1NoCommandLineArguments() {
-//        MainMethodResult result = invokeMain( Project4.class );
-//        assertThat(result.getExitCode(), equalTo(1));
-//        assertThat(result.getTextWrittenToStandardError(), containsString(Project4.MISSING_ARGS));
-//    }
-//
-//    @Test
-//    void test2EmptyServer() {
-//        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT );
-//        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
+
+    @Test
+    void test1NoCommandLineArguments() {
+        MainMethodResult result = invokeMain( Project4.class );
+        assertThat(result.getExitCode(), equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), containsString(Project4.MISSING_ARGS));
+    }
+
+    @Test
+    void test2EmptyServer() {
+        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT );
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
 //        String out = result.getTextWrittenToStandardOut();
-//        assertThat(out, out, containsString(Messages.formatWordCount(0)));
-//    }
-//
+//        assertThat(out, out, containsString(Messages.formatBOOKSCount(0)));
+    }
+
 //    @Test
 //    void test3NoDefinitionsThrowsAppointmentBookRestException() {
-//        String word = "WORD";
+//        String owner = "WORD";
 //        try {
-//            invokeMain(Project4.class, HOSTNAME, PORT, word);
+//            invokeMain(Project4.class, HOSTNAME, PORT, owner);
 //            fail("Expected a RestException to be thrown");
 //
 //        } catch (UncaughtExceptionInMain ex) {
@@ -57,23 +57,37 @@ class Project4IT extends InvokeMainTestCase {
 //            assertThat(cause.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
 //        }
 //    }
+
+    @Test
+    void test4AddDefinition() {
+        String owner = "owner";
+        String desc = "descrption";
+        String start = "1/1/2021 1:00 PM";
+        String end = "1/1/2021 2:00 PM";
+
+
+        AppointmentBook newbook = new AppointmentBook();
+        Appointment newapp = new Appointment();
+        newbook.setOwnerName(owner);
+        newapp.setDescription(desc);
+        newapp.setStartDate("1/1/2021");
+        newapp.setStartTime("1:00 PM");
+        newapp.setEndDate("1/1/2021");
+        newapp.setEndTime("2:00 PM");
+        newbook.addAppointment(newapp);
+
+
+        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, owner, desc );
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
+        String out = result.getTextWrittenToStandardOut();
+        assertThat(out, out, containsString(Messages.definedAppointment(owner, desc, start,end)));
 //
-//    @Test
-//    void test4AddDefinition() {
-//        String word = "WORD";
-//        String definition = "DEFINITION";
-//
-//        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, word, definition );
-//        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
-//        String out = result.getTextWrittenToStandardOut();
-//        assertThat(out, out, containsString(Messages.definedWordAs(word, definition)));
-//
-//        result = invokeMain( Project4.class, HOSTNAME, PORT, word );
+//        result = invokeMain( Project4.class, HOSTNAME, PORT, owner );
 //        out = result.getTextWrittenToStandardOut();
-//        assertThat(out, out, containsString(Messages.formatDictionaryEntry(word, definition)));
+//        assertThat(out, out, containsString(Messages.formatDictionaryEntry(owner, desc)));
 //
 //        result = invokeMain( Project4.class, HOSTNAME, PORT );
 //        out = result.getTextWrittenToStandardOut();
-//        assertThat(out, out, containsString(Messages.formatDictionaryEntry(word, definition)));
-//    }
+//        assertThat(out, out, containsString(Messages.formatDictionaryEntry(owner, desc)));
+    }
 }

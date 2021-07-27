@@ -21,22 +21,22 @@ import static org.mockito.Mockito.*;
  */
 public class AppointmentBookServletTest {
 
-  @Test
-  void initiallyServletContainsNoDictionaryEntries() throws ServletException, IOException {
-    AppointmentBookServlet servlet = new AppointmentBookServlet();
-
-    HttpServletRequest request = mock(HttpServletRequest.class);
-    HttpServletResponse response = mock(HttpServletResponse.class);
-    PrintWriter pw = mock(PrintWriter.class);
-
-    when(response.getWriter()).thenReturn(pw);
-
-    servlet.doGet(request, response);
-
-    int expectedWords = 0;
-    verify(pw).println(Messages.formatWordCount(expectedWords));
-    verify(response).setStatus(HttpServletResponse.SC_OK);
-  }
+//  @Test
+//  void initiallyServletContainsNoDictionaryEntries() throws ServletException, IOException {
+//    AppointmentBookServlet servlet = new AppointmentBookServlet();
+//
+//    HttpServletRequest request = mock(HttpServletRequest.class);
+//    HttpServletResponse response = mock(HttpServletResponse.class);
+//    PrintWriter pw = mock(PrintWriter.class);
+//
+//    when(response.getWriter()).thenReturn(pw);
+//
+//    servlet.doGet(request, response);
+//
+//    int expectedWords = 0;
+//    verify(pw).println(Messages.formatWordCount(expectedWords));
+//    verify(response).setStatus(HttpServletResponse.SC_OK);
+//  }
 
   @Test
   void AddAppointment() throws ServletException, IOException {

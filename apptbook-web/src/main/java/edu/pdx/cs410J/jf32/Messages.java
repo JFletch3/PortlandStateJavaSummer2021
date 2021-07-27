@@ -12,9 +12,9 @@ import java.util.regex.Pattern;
  */
 public class Messages
 {
-    public static String formatWordCount(int count )
+    public static String formatBOOKSCount(int count )
     {
-        return String.format( "Dictionary on server contains %d words", count );
+        return String.format( "Appointment Book on server contains %d books", count );
     }
 
     public static String formatDictionaryEntry(String word, String definition )
@@ -90,6 +90,23 @@ public class Messages
 
     }
 
+    public static void printallBooks(PrintWriter pw, List<AppointmentBook> BOOK)
+    {
+        pw.println(Messages.formatBOOKSCount(BOOK.size()));
+        TextDumper dumper = new TextDumper();
+
+        for (AppointmentBook thisbook : BOOK)
+        {
+            try
+            {
+                dumper.serverDump(pw, thisbook);
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void formatSearchedAppointment(PrintWriter pw, AppointmentBook BOOK)
     {
         TextDumper printer = new TextDumper();
@@ -109,7 +126,7 @@ public class Messages
     }
 
     public static void formatDictionaryEntries(PrintWriter pw, Map<String, String> dictionary) {
-        pw.println(Messages.formatWordCount(dictionary.size()));
+        pw.println(Messages.formatBOOKSCount(dictionary.size()));
 
         for (Map.Entry<String, String> entry : dictionary.entrySet()) {
             pw.println(Messages.formatDictionaryEntry(entry.getKey(), entry.getValue()));

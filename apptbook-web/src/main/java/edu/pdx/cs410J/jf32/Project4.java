@@ -38,7 +38,7 @@ public class Project4 {
         if (args.length == 0)
         {
             System.err.println(MISSING_ARGS);
-            System.exit(1);
+            System.exit(0);
         }
         for(String ap : args)
         {
@@ -81,7 +81,7 @@ public class Project4 {
                 AppointmentBook searchBook = client.getSearchedAppointmentBook(searchDetails);
                 Collections.sort(searchBook.getAppointments());
                 SearchAndPrettyPrint(searchBook, searchDetails.get(1), searchDetails.get(2));
-                System.exit(1);
+                System.exit(0);
             } catch (IOException | ParseException e)
             {
                 System.err.println("Invalid Host or Port. Please check argument inputs.");
@@ -256,12 +256,12 @@ public class Project4 {
         if (args.length == 0)
         {
             System.err.println("Missing command line arguments.");
-            System.exit(1);
+            System.exit(0);
         }
         else if (args.length < 5)
         {
             System.err.println("Number of arguments is incorrect. Please check command line arguments.");
-            System.exit(1);
+            System.exit(0);
         }
     }
 
@@ -338,7 +338,7 @@ public class Project4 {
                 if (!ValidArgList.contains(arg.toUpperCase()))
                 {
                     System.err.println("Invalid Option: " + arg);
-                    System.exit(1);
+                    System.exit(0);
                 }
             }
         }
@@ -366,7 +366,7 @@ public class Project4 {
         if ((hostOp == 1 && portop == 0) || (hostOp == 0 && portop == 1))
         {
             System.err.println("BOTH Host and Port must be provided.");
-            System.exit(1);
+            System.exit(0);
         }
 
         increment = (printop + searchOp + hostOp + portop);
@@ -400,7 +400,7 @@ public class Project4 {
 
             System.err.println("Date format and/or Date is not valid: " + date + " --- Format Should be mm/dd/yyyy" +
                     "and date should be a real date.");
-            System.exit(1);
+            System.exit(0);
         }
 
     }
