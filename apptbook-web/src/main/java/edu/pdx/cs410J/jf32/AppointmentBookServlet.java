@@ -22,13 +22,29 @@ import java.util.*;
  */
 public class AppointmentBookServlet extends HttpServlet
 {
-    static final String WORD_PARAMETER = "word";
-    static final String DEFINITION_PARAMETER = "definition";
+    /**
+     * Owner parameter
+     */
     static final String OWNER_PARAMETER     = "owner";
+    /**
+     * Description parameter
+     */
     static final String DESC_PARAMETER      = "description";
+    /**
+     * start parameter
+     */
     static final String START_PARAMETER     = "start";
+    /**
+     * end parameter
+     */
     static final String END_PARAMETER       = "end";
+    /**
+     * Old dictionary.
+     */
     private final Map<String, String> dictionary = new HashMap<>();
+    /**
+     * List of appointment books.
+     */
     private final List<AppointmentBook> BOOKS = new ArrayList<AppointmentBook>();
 
     /**

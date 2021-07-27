@@ -51,22 +51,4 @@ class MessagesTest {
     assertThat(parsed.getValue(), equalTo(null));
   }
 
-  @Test
-  void canParseFormattedDictionary() {
-    Map<String, String> dictionary = new HashMap<>();
-
-    for (int i = 0; i < 5; i++) {
-      String word = String.valueOf(i);
-      String definition = "QQ" + word;
-      dictionary.put(word, definition);
-    }
-
-    StringWriter sw = new StringWriter();
-    Messages.formatDictionaryEntries(new PrintWriter(sw, true), dictionary);
-
-    String formatted = sw.toString();
-
-    Map<String, String> actual = Messages.parseDictionary(formatted);
-    assertThat(actual, equalTo(dictionary));
-  }
 }

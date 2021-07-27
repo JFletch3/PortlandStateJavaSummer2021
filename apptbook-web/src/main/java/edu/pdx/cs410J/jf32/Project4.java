@@ -19,6 +19,9 @@ public class Project4 {
 
     public static final String MISSING_ARGS = "Missing command line arguments";
 
+    /**
+     * The main method for project 4 client side.
+     */
     public static void main(String... args)
     {
         String hostName = null;

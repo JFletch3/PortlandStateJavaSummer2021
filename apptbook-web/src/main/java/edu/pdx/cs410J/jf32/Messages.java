@@ -12,27 +12,62 @@ import java.util.regex.Pattern;
  */
 public class Messages
 {
+    /**
+     * method to format books count
+     * @param count
+     *      count of the appointment book list size.
+     */
     public static String formatBOOKSCount(int count )
     {
         return String.format( "Appointment Book on server contains %d books", count );
     }
 
+    /**
+     * method format dictionary entry.
+     * @param word
+     *      work for dictionary.
+     * @param definition
+     *      definition of the work.
+     */
     public static String formatDictionaryEntry(String word, String definition )
     {
         return String.format("  %s : %s", word, definition);
     }
 
+    /**
+     * method format for missing parameter.
+     * @param parameterName
+     *      parameter that is missing.
+     */
     public static String missingRequiredParameter( String parameterName )
     {
         return String.format("The required parameter \"%s\" is missing", parameterName);
     }
 
+    /**
+     * method define appointment
+     * @param Owner
+     *      Book owner
+     * @param desc
+     *      appointment description.
+     * @param start
+     *      appointment start date
+     * @param end
+     *      appointment end date
+     */
     public static String definedAppointment(String Owner, String desc, String start, String end )
     {
         return String.format( "Created Appointment: Owner: %s Desc: %s Start: %s End: %s",
                 Owner, desc, start, end );
     }
 
+    /**
+     * method define appointmens As
+     * @param book
+     *      newly created book.
+     * @param appointment
+     *      new appointment
+     */
     public static String defineAppointmentAs(AppointmentBook book, Appointment appointment)
     {
         return String.format( "Created Appointment: Owner: %s" +
@@ -45,10 +80,18 @@ public class Messages
                                 appointment.getThisEndDate() + " " + appointment.getThisEndTime());
     }
 
+    /**
+     * method for dictionary enteries deleted.
+     */
     public static String allDictionaryEntriesDeleted() {
         return "All dictionary entries have been deleted";
     }
 
+    /**
+     * method parse dictionary entries.
+     * @param content
+     *      response content
+     */
     public static Map.Entry<String, String> parseDictionaryEntry(String content) {
         Pattern pattern = Pattern.compile("\\s*(.*) : (.*)");
         Matcher matcher = pattern.matcher(content);
@@ -79,6 +122,13 @@ public class Messages
         };
     }
 
+    /**
+     * method to format appointment book entries.
+     * @param pw
+     *      Print writer for broswer
+     * @param BOOKS list of Appointment books/
+     *
+     */
     public static void formatAppointmentEntries(PrintWriter pw, List<AppointmentBook> BOOKS) {
 
         PrettyPrint printer = new PrettyPrint(null, null);
@@ -90,6 +140,13 @@ public class Messages
 
     }
 
+    /**
+     * method to print all books.
+     * @param pw
+     *      Print writer for broswer
+     * @param BOOK list of Appointment books/
+     *
+     */
     public static void printallBooks(PrintWriter pw, List<AppointmentBook> BOOK)
     {
         pw.println(Messages.formatBOOKSCount(BOOK.size()));
@@ -107,6 +164,13 @@ public class Messages
         }
     }
 
+    /**
+     * method to format searched appointment
+     * @param pw
+     *      Print writer for browser
+     * @param BOOK list of Appointment books/
+     *
+     */
     public static void formatSearchedAppointment(PrintWriter pw, AppointmentBook BOOK)
     {
         TextDumper printer = new TextDumper();
@@ -119,32 +183,11 @@ public class Messages
         }
     }
 
-    public static void formatSearchedAppointmentCommandLine(PrintWriter pw, AppointmentBook BOOK)
-    {
-        PrettyPrint printer = new PrettyPrint(null, null);
-        printer.ServletPrinter(pw, BOOK);
-    }
-
-    public static void formatDictionaryEntries(PrintWriter pw, Map<String, String> dictionary) {
-        pw.println(Messages.formatBOOKSCount(dictionary.size()));
-
-        for (Map.Entry<String, String> entry : dictionary.entrySet()) {
-            pw.println(Messages.formatDictionaryEntry(entry.getKey(), entry.getValue()));
-        }
-    }
-
-    public static Map<String, String> parseDictionary(String content) {
-        Map<String, String> map = new HashMap<>();
-
-        String[] lines = content.split("\n");
-        for (int i = 1; i < lines.length; i++) {
-            String line = lines[i];
-            Map.Entry<String, String> entry = parseDictionaryEntry(line);
-            map.put(entry.getKey(), entry.getValue());
-        }
-        return map;
-    }
-
+    /**
+     * method to format appointment book
+     * @param content response content.
+     *
+     */
     public static AppointmentBook parseAppointmentBook(String content) {
         AppointmentBook book = new AppointmentBook();
 
@@ -172,6 +215,10 @@ public class Messages
         return book;
     }
 
+    /**
+     * method to print all appointment books if no param is entered in http request.
+     * @param content response content.
+     */
     public static List<AppointmentBook> parseALLappointmentBooks(String content) {
         List<AppointmentBook> bookList = new ArrayList<>();
         AppointmentBook book = new AppointmentBook();
