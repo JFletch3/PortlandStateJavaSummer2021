@@ -76,6 +76,65 @@ class MessagesTest {
     assertThat(parsed, notNullValue());
     assertThat(parsed.size(), equalTo(1));
     assertThat(parsed.get(0).getOwnerName(), equalTo(owner));
-
   }
+
+  @Test
+  void TestDefineAppointments() {
+    String owner = "owner";
+    String desc = "descrption";
+    String startdate = "1/1/2021";
+    String end = "1/1/2021 2:00 PM";
+
+    AppointmentBook newbook = new AppointmentBook();
+    Appointment newapp = new Appointment();
+    newbook.setOwnerName(owner);
+    newapp.setDescription(desc);
+    newapp.setStartDate("1/1/2021");
+    newapp.setStartTime("1:00 PM");
+    newapp.setEndDate("1/1/2021");
+    newapp.setEndTime("2:00 PM");
+    newbook.addAppointment(newapp);
+    assertThat(Messages.defineAppointmentAs(newbook, newapp), containsString("Created Appointment: Owner:"));
+  }
+
+  @Test
+  void testFormatBOOKSCount() {
+    assertThat(Messages.formatBOOKSCount(0), containsString("Appointment Book on server contains"));
+  }
+
+  @Test
+  void testFormatDictionaryEntry() {
+    assertThat(Messages.formatDictionaryEntry("Word", "A word"), containsString("  Word : A word" ));
+  }
+
+  @Test
+  void testMissingRequiredParam() {
+    assertThat(Messages.missingRequiredParameter("Owner"), containsString("The required parameter" ));
+  }
+
+  @Test
+  void testDefineAppointment() {
+    String owner = "owner";
+    String desc = "descrption";
+    String startdate = "1/1/2021  2:00 PM";
+    String end = "1/1/2021 2:00 PM";
+
+    AppointmentBook newbook = new AppointmentBook();
+    Appointment newapp = new Appointment();
+    newbook.setOwnerName(owner);
+    newapp.setDescription(desc);
+    newapp.setStartDate("1/1/2021");
+    newapp.setStartTime("1:00 PM");
+    newapp.setEndDate("1/1/2021");
+    newapp.setEndTime("2:00 PM");
+    newbook.addAppointment(newapp);
+    assertThat(Messages.definedAppointment(owner, desc, startdate, end), containsString("Created Appointment: Owner:" ));
+  }
+
+  @Test
+  void testallDictionaryEntriesDeleted() {
+    assertThat(Messages.allDictionaryEntriesDeleted(), containsString("All dictionary entries have been deleted" ));
+  }
+
+
 }
