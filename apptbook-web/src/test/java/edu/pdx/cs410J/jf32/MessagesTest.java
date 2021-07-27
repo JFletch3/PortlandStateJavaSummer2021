@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -51,4 +52,30 @@ class MessagesTest {
     assertThat(parsed.getValue(), equalTo(null));
   }
 
+  @Test
+  void canParseAppointmentBook() {
+    String appointment = "app_book_owner=joe\n\n--NEW APPOINTMENT--\n\n" +
+                        "app_desc=test\n\napp_start_date=7/1/2021\n\napp_start_time=1:00 PM\n\n" +
+                        "app_end_date=7/1/2021\n\napp_end_time=2:00 PM";
+   String owner = "joe";
+
+    AppointmentBook parsed = Messages.parseAppointmentBook(appointment);
+    assertThat(parsed, notNullValue());
+    assertThat(parsed.getOwnerName(), equalTo(owner));
+
+  }
+
+  @Test
+  void canParseAllBooks() {
+    String appointment = "app_book_owner=joe\n\n--NEW APPOINTMENT--\n\n" +
+            "app_desc=test\n\napp_start_date=7/1/2021\n\napp_start_time=1:00 PM\n\n" +
+            "app_end_date=7/1/2021\n\napp_end_time=2:00 PM";
+    String owner = "joe";
+
+    List<AppointmentBook> parsed = Messages.parseALLappointmentBooks(appointment);
+    assertThat(parsed, notNullValue());
+    assertThat(parsed.size(), equalTo(1));
+    assertThat(parsed.get(0).getOwnerName(), equalTo(owner));
+
+  }
 }

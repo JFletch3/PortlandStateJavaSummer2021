@@ -7,6 +7,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ class AppointmentBookRestClientIT {
   }
 
   @Test
-  void test2DefineOneWord() throws IOException {
+  void testSearchForBookByOwnerOnly() throws IOException {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
     String owner = "owner";
     String desc = "descrption";
@@ -59,11 +60,31 @@ class AppointmentBookRestClientIT {
   }
 
   @Test
-  void test4MissingRequiredParameterReturnsPreconditionFailed() throws IOException {
+  void testSearchingForBook() throws IOException {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
-  //  HttpRequestHelper.Response response = client.postToMyURL(Map.of());
- //   assertThat(response.getContent(), containsString(Messages.missingRequiredParameter("word")));
-  //  assertThat(response.getCode(), equalTo(HttpURLConnection.HTTP_PRECON_FAILED));
+    String owner = "owner";
+    String desc = "descrption";
+    String start = "1/1/2021 1:00 PM";
+    String end = "1/1/2021 2:00 PM";
+    List<String> args = new ArrayList<>();
+
+    AppointmentBook newbook = new AppointmentBook();
+    Appointment newapp = new Appointment();
+    newbook.setOwnerName(owner);
+    newapp.setDescription(desc);
+    newapp.setStartDate("1/1/2021");
+    newapp.setStartTime("1:00 PM");
+    newapp.setEndDate("1/1/2021");
+    newapp.setEndTime("2:00 PM");
+    newbook.addAppointment(newapp);
+    client.addAppointmentEntry(newapp, owner);
+
+    args.add(owner);
+    args.add(start);
+    args.add(end);
+
+    AppointmentBook book = client.getSearchedAppointmentBook(args);
+    assertThat(book.getOwnerName(), equalTo(owner));
   }
 
 }
