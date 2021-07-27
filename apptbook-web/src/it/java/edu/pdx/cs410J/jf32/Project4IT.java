@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
@@ -43,6 +44,17 @@ class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
 //        String out = result.getTextWrittenToStandardOut();
 //        assertThat(out, out, containsString(Messages.formatBOOKSCount(0)));
+    }
+
+    @Test
+    void DoesNotThrowWithInput (){
+        assertDoesNotThrow(() -> {
+            String [] args = {"-host", "localhost","-port", "8080", "Owner",
+                    "Description", "1/1/2021", "1:00", "am",
+                    "1/1/2021", "1:05", "am"};
+
+            MainMethodResult result = invokeMain(Project4.class, args);
+        });
     }
 
 //    @Test
