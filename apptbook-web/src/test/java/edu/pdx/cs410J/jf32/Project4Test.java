@@ -67,5 +67,5 @@ public class Project4Test extends InvokeMainTestCase
         assertEquals(newApp.getClass(), Project4.makeAppointmentBook(args).getClass());
         assertEquals(newApp.getOwnerName(), Project4.makeAppointmentBook(args).getOwnerName());
     }
-    
+
 }
