@@ -46,16 +46,16 @@ class Project4IT extends InvokeMainTestCase {
 //        assertThat(out, out, containsString(Messages.formatBOOKSCount(0)));
     }
 
-//    @Test
-//    void DoesNotThrowWithInput (){
-//        assertDoesNotThrow(() -> {
-//            String [] args = {"-host", "localhost","-port", "8080", "Owner",
-//                    "Description", "1/1/2021", "1:00", "am",
-//                    "1/1/2021", "1:05", "am"};
-//
-//            MainMethodResult result = invokeMain(Project4.class, args);
-//        });
-//    }
+    @Test
+    void DoesNotThrowWithInput (){
+        assertDoesNotThrow(() -> {
+            String [] args = {"-host", "localhost","-port", "8080", "Owner",
+                    "Description", "1/1/2021", "1:00", "am",
+                    "1/1/2021", "1:05", "am"};
+
+            MainMethodResult result = invokeMain(Project4.class, args);
+        });
+    }
 
 //    @Test
 //    void test3NoDefinitionsThrowsAppointmentBookRestException() {
