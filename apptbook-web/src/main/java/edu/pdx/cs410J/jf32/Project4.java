@@ -130,7 +130,7 @@ public class Project4 {
 
 
         client.addAppointmentEntry(newApt, CLArguments.get(0));
-
+        message = Messages.definedAppointment(newBook.getOwnerName(), newApt.getDescription(), newApt.getBeginTimeString(), newApt.getEndTimeString());
         System.out.println(message);
         System.exit(0);
     }

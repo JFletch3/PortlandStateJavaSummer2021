@@ -42,9 +42,9 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
   /**
    * Returns all dictionary entries from the server
    */
-  public Map<String, String> getAllDictionaryEntries() throws IOException {
+  public List<AppointmentBook> getAllDictionaryEntries() throws IOException {
     Response response = get(this.url, Map.of());
-    return Messages.parseDictionary(response.getContent());
+    return Messages.parseALLappointmentBooks(response.getContent());
   }
 
   /**

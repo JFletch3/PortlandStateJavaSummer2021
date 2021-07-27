@@ -7,6 +7,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -27,27 +28,34 @@ class AppointmentBookRestClientIT {
   }
 
   @Test
-  void test0RemoveAllDictionaryEntries() throws IOException {
-    AppointmentBookRestClient client = newAppointmentBookRestClient();
-//    client.removeAllDictionaryEntries();
-  }
-
-  @Test
   void test1EmptyServerContainsNoDictionaryEntries() throws IOException {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
-    Map<String, String> dictionary = client.getAllDictionaryEntries();
-    assertThat(dictionary.size(), equalTo(0));
+    List<AppointmentBook> books = client.getAllDictionaryEntries();
+    assertThat(books.size(), equalTo(0));
   }
 
   @Test
   void test2DefineOneWord() throws IOException {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
-//    String testWord = "TEST WORD";
-//    String testDefinition = "TEST DEFINITION";
-//    client.addDictionaryEntry(testWord, testDefinition);
-//
-//    String definition = client.getDefinition(testWord);
-//    assertThat(definition, equalTo(testDefinition));
+    String owner = "owner";
+    String desc = "descrption";
+    String start = "1/1/2021 1:00 PM";
+    String end = "1/1/2021 2:00 PM";
+
+
+    AppointmentBook newbook = new AppointmentBook();
+    Appointment newapp = new Appointment();
+    newbook.setOwnerName(owner);
+    newapp.setDescription(desc);
+    newapp.setStartDate("1/1/2021");
+    newapp.setStartTime("1:00 PM");
+    newapp.setEndDate("1/1/2021");
+    newapp.setEndTime("2:00 PM");
+    newbook.addAppointment(newapp);
+    client.addAppointmentEntry(newapp, owner);
+
+    AppointmentBook book = client.getSearchedAppointmentBookOwnerOnly(owner);
+    assertThat(book.getOwnerName(), equalTo(owner));
   }
 
   @Test
