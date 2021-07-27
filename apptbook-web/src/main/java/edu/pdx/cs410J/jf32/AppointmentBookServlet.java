@@ -211,7 +211,7 @@ public class AppointmentBookServlet extends HttpServlet
      *
      * The text of the error message is created by {@link Messages#missingRequiredParameter(String)}
      */
-    private void missingRequiredParameter( HttpServletResponse response, String parameterName ) throws IOException
+    public void missingRequiredParameter( HttpServletResponse response, String parameterName ) throws IOException
     {
         String message = Messages.missingRequiredParameter(parameterName);
         response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
@@ -223,7 +223,7 @@ public class AppointmentBookServlet extends HttpServlet
      * The text of the message is formatted with
      * {@link Messages#formatDictionaryEntry(String, String)}
      */
-    private void writeAllAppointments(HttpServletResponse response, String owner, String start, String end ) throws IOException, ParseException
+    public void writeAllAppointments(HttpServletResponse response, String owner, String start, String end ) throws IOException, ParseException
     {
         PrintWriter pw = response.getWriter();
 
@@ -253,7 +253,7 @@ public class AppointmentBookServlet extends HttpServlet
      * The text of the message is formatted with
      * {@link Messages#formatDictionaryEntry(String, String)}
      */
-    private void writeAllAppointmentsForOwner(HttpServletResponse response, String owner) throws IOException, ParseException
+    public void writeAllAppointmentsForOwner(HttpServletResponse response, String owner) throws IOException, ParseException
     {
         PrintWriter pw = response.getWriter();
 
@@ -283,7 +283,7 @@ public class AppointmentBookServlet extends HttpServlet
      * The text of the message is formatted with
      * {@link Messages#formatDictionaryEntry(String, String)}
      */
-    private void ReadAllAppointments(HttpServletResponse response) throws IOException, ParseException
+    public void ReadAllAppointments(HttpServletResponse response) throws IOException, ParseException
     {
         PrintWriter pw = response.getWriter();
 
