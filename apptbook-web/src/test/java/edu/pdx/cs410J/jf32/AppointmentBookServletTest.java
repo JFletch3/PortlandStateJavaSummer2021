@@ -209,44 +209,4 @@ public class AppointmentBookServletTest {
         assertThat(servlet.checkDateFormat(response, start), equalTo(true));
     }
 
-//    @Test
-//    void getSearchedAppointmentBook() throws ServletException, IOException {
-//        AppointmentBookServlet servlet = new AppointmentBookServlet();
-//        AppointmentBook newBook = new AppointmentBook();
-//        Appointment newAppointment = new Appointment();
-//        String owner = "joe";
-//        String description = "TEST Description";
-//        String startDate  = "8/10/2021";
-//        String startTime  = "10:00 PM";
-//        String endDate = "8/10/2021";
-//        String endTime = "10:00 PM";
-//
-//        newBook.setOwnerName(owner);
-//        newAppointment.setDescription(description);
-//        newAppointment.setStartDate(startDate);
-//        newAppointment.setStartTime(startTime);
-//        newAppointment.setEndDate(endDate);
-//        newAppointment.setEndTime(endTime);
-//
-//        HttpServletRequest request = mock(HttpServletRequest.class);
-//        when(request.getParameter("owner")).thenReturn(owner);
-//        when(request.getParameter("description")).thenReturn(description);
-//        when(request.getParameter("start")).thenReturn(startDate + " " + startTime);
-//        when(request.getParameter("end")).thenReturn(endDate + " " + endTime);
-//        HttpServletResponse response = mock(HttpServletResponse.class);
-//
-//        // Use a StringWriter to gather the text from multiple calls to println()
-//        StringWriter stringWriter = new StringWriter();
-//        PrintWriter pw = new PrintWriter(stringWriter, true);
-//        when(response.getWriter()).thenReturn(pw);
-//        servlet.doPost(request, response);
-//
-//
-//        // Use an ArgumentCaptor when you want to make multiple assertions against the value passed to the mock
-//        ArgumentCaptor<Integer> statusCode = ArgumentCaptor.forClass(Integer.class);
-//        verify(response).setStatus(statusCode.capture());
-//        assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_OK));
-//        assertThat(servlet.getSearchedAppointments(owner, startDate + " " + startTime, endDate + " " + endTime), equalTo(owner));
-//    }
-
 }

@@ -389,7 +389,7 @@ public class Project4 {
      * @param date
      *      The date passed in from the commandline arguments.
      */
-    public static void checkDateFormat(String date) throws IOException
+    public static boolean checkDateFormat(String date) throws IOException
     {
         DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         dFormat.setLenient(false);
@@ -397,6 +397,7 @@ public class Project4 {
         try
         {
             Date retDate = dFormat.parse(date);
+            return true;
         }
         catch (ParseException e)
         {
@@ -405,6 +406,7 @@ public class Project4 {
                     "and date should be a real date.");
             System.exit(0);
         }
+        return false;
 
     }
 

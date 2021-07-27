@@ -92,7 +92,7 @@ public class PrettyPrint implements AppointmentBookDumper<AppointmentBook>
      * @param book
      *      File directory passed in from command line.
      */
-    public void stdDump(AppointmentBook book) throws IOException
+    public boolean stdDump(AppointmentBook book) throws IOException
     {
             Collection<Appointment> appointments;
             appointments = book.getAppointments();
@@ -112,6 +112,8 @@ public class PrettyPrint implements AppointmentBookDumper<AppointmentBook>
                 System.out.println("|---------------------------------------------------\n");
 
             }
+
+            return true;
     }
 
     /**
@@ -124,37 +126,37 @@ public class PrettyPrint implements AppointmentBookDumper<AppointmentBook>
     @Override
     public void dump(AppointmentBook book) throws IOException
     {
-        try
-        {
-            if (writer == null)
-            {
-                writer = new FileWriter(fileDir);
-            }
-            File prettyPrintFile = new File(fileDir);
-            prettyPrintFile.createNewFile();
-            Collection<Appointment> appointments;
-            appointments = book.getAppointments();
-            writer.write("|===================================================\n");
-            writer.write("| Appointment Book Owner:  " + book.getOwnerName() + "\n");
-            writer.write("| Number of Appointments:  " + book.getAppointments().size() + "\n");
-            writer.write("|===================================================\n");
-
-            for (Appointment ap : appointments)
-            {
-                long TimeDifference = ap.getEndTime().getTime() - ap.getBeginTime().getTime();
-                TimeDifference = (TimeDifference / (1000 * 60));
-                writer.write("| Appointment = " + ap.getDescription() + "\n");
-                writer.write("| Start Time  = " + ap.getBeginTime()  + "\n");
-                writer.write("| End Time    = " + ap.getEndTime() + "\n");
-                writer.write("| Duration    = " + TimeDifference + " Minutes\n");
-                writer.write("|---------------------------------------------------\n");
-
-            }
-            writer.close();
-        }
-        catch (IOException e)
-        {
-            System.out.println(e.getMessage());
-        }
+//        try
+//        {
+//            if (writer == null)
+//            {
+//                writer = new FileWriter(fileDir);
+//            }
+//            File prettyPrintFile = new File(fileDir);
+//            prettyPrintFile.createNewFile();
+//            Collection<Appointment> appointments;
+//            appointments = book.getAppointments();
+//            writer.write("|===================================================\n");
+//            writer.write("| Appointment Book Owner:  " + book.getOwnerName() + "\n");
+//            writer.write("| Number of Appointments:  " + book.getAppointments().size() + "\n");
+//            writer.write("|===================================================\n");
+//
+//            for (Appointment ap : appointments)
+//            {
+//                long TimeDifference = ap.getEndTime().getTime() - ap.getBeginTime().getTime();
+//                TimeDifference = (TimeDifference / (1000 * 60));
+//                writer.write("| Appointment = " + ap.getDescription() + "\n");
+//                writer.write("| Start Time  = " + ap.getBeginTime()  + "\n");
+//                writer.write("| End Time    = " + ap.getEndTime() + "\n");
+//                writer.write("| Duration    = " + TimeDifference + " Minutes\n");
+//                writer.write("|---------------------------------------------------\n");
+//
+//            }
+//            writer.close();
+//        }
+//        catch (IOException e)
+//        {
+//            System.out.println(e.getMessage());
+//        }
     }
 }

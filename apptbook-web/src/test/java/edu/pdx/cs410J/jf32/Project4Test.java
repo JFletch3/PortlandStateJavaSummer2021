@@ -1,8 +1,14 @@
 package edu.pdx.cs410J.jf32;
 import edu.pdx.cs410J.InvokeMainTestCase;
+import org.apache.tools.ant.types.selectors.modifiedselector.EqualComparator;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Project4Test extends InvokeMainTestCase
@@ -66,6 +72,53 @@ public class Project4Test extends InvokeMainTestCase
         newApp.setOwnerName(args.get(0));
         assertEquals(newApp.getClass(), Project4.makeAppointmentBook(args).getClass());
         assertEquals(newApp.getOwnerName(), Project4.makeAppointmentBook(args).getOwnerName());
+    }
+
+    @Test
+    void TestBadDateFormat() throws IOException
+    {
+        AppointmentBook newApp = new AppointmentBook();
+        List<String> args = new ArrayList<String>();
+        args.add("Joe");
+        newApp.setOwnerName(args.get(0));
+
+        assertEquals(Project4.checkDateFormat("1/1/2021 1:00 PM"), true);
+    }
+
+    @Test
+    void testArgumentslicer() throws IOException
+    {
+        AppointmentBook newApp = new AppointmentBook();
+        String [] args = {"-host", "localhost","-port", "8080", "Owner",
+                "Description", "1/1/2021", "1:00", "am",
+                "1/1/2021", "1:05", "am"};
+
+        List<String> slicedArgs = new ArrayList<>();
+        slicedArgs.add("Owner");
+        slicedArgs.add("Description");
+        slicedArgs.add("1/1/2021");
+        slicedArgs.add("1:00");
+        slicedArgs.add("am");
+        slicedArgs.add("1/1/2021");
+        slicedArgs.add("1:05");
+        slicedArgs.add("am");
+
+        assertEquals(Project4.argumentSlicer(args), slicedArgs);
+    }
+
+    @Test
+    void testSEarchinfo() throws IOException
+    {
+        AppointmentBook newApp = new AppointmentBook();
+        String [] args = {"-host", "localhost","-port", "8080", "-search", "Owner", "1/1/2021", "1:00", "am",
+                "1/1/2021", "1:05", "am"};
+
+        List<String> slicedArgs = new ArrayList<>();
+        slicedArgs.add("Owner");
+        slicedArgs.add("1/1/2021 1:00 am");
+        slicedArgs.add("1/1/2021 1:05 am");
+
+        assertEquals(Project4.getSearchInfo(args, "Owner"), slicedArgs);
     }
 
 }
