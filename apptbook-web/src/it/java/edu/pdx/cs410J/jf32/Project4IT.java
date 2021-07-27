@@ -25,12 +25,6 @@ class Project4IT extends InvokeMainTestCase {
     private static final String HOSTNAME = "localhost";
     private static final String PORT = System.getProperty("http.port", "8080");
 
-//    @Test
-//    void test0RemoveAllMappings() throws IOException {
-//      AppointmentBookRestClient client = new AppointmentBookRestClient(HOSTNAME, Integer.parseInt(PORT));
-//      client.removeAllDictionaryEntries();
-//    }
-
     @Test
     void test1NoCommandLineArguments() {
         MainMethodResult result = invokeMain( Project4.class );
@@ -56,6 +50,15 @@ class Project4IT extends InvokeMainTestCase {
             MainMethodResult result = invokeMain(Project4.class, args);
         });
     }
+
+    @Test
+    void testHelpMesage() {
+        MainMethodResult result = invokeMain( Project4.class, "-README" );
+        assertThat(result.getExitCode(), equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), containsString("usage: java Project4 host port"));
+    }
+
+
 
 //    @Test
 //    void test3NoDefinitionsThrowsAppointmentBookRestException() {
