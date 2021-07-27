@@ -28,12 +28,12 @@ class AppointmentBookRestClientIT {
     return new AppointmentBookRestClient(HOSTNAME, port);
   }
 
-  @Test
-  void test1EmptyServerContainsNoDictionaryEntries() throws IOException {
-    AppointmentBookRestClient client = newAppointmentBookRestClient();
-    List<AppointmentBook> books = client.getAllDictionaryEntries();
-    assertThat(books.size(), equalTo(0));
-  }
+//  @Test
+//  void test1EmptyServerContainsNoDictionaryEntries() throws IOException {
+//    AppointmentBookRestClient client = newAppointmentBookRestClient();
+//    List<AppointmentBook> books = client.getAllDictionaryEntries();
+//    assertThat(books.size(), equalTo(0));
+//  }
 
   @Test
   void testSearchForBookByOwnerOnly() throws IOException {
