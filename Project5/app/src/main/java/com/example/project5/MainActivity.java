@@ -1,10 +1,10 @@
 package com.example.project5;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,10 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.security.acl.Owner;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -27,19 +29,35 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         createMainSpinner();
+    }
 
+    
+    /** Called when the user taps the Send button */
+    public void changeForm(View view)
+    {
 
+        Spinner mySpinner = (Spinner) findViewById(R.id.spinner1);
+        String spinnerOption = mySpinner.getSelectedItem().toString();
+
+        switch (spinnerOption)
+        {
+            case "Create an Appointment Book":
+                Intent intent = new Intent(this, create_appointment_activity.class);
+                startActivity(intent);
+                break;
+            case "Create an Appointment":
+                System.out.println("Switch checked 2");
+                //Show new appointment boxes
+                break;
+            case "Search Appointments":
+                System.out.println("Switch checked 3");
+                // Show the search boxes
+                break;
+            default:
+        }
 
 
     }
-
-    /** Called when the user taps the Send button */
-//    public void sendMessage(View view)
-//    {
-//        TextView textView = findViewById(R.id.editTextTextPersonName);
-//        textView.setText("test");
-//        System.out.println("did my button work?");
-//    }
 
     public void createMainSpinner()
     {
@@ -57,22 +75,7 @@ public class MainActivity extends AppCompatActivity
                 String SpinnerSelection = parent.getItemAtPosition(position).toString();
                 Toast.makeText(parent.getContext(), "Selected: " + SpinnerSelection, Toast.LENGTH_LONG).show();
 
-                switch (SpinnerSelection)
-                {
-                    case "Create an Appointment Book":
-                        System.out.println("Switch checked 1");
-                        // Show create new appointment book boxes
-                        break;
-                    case "Create an Appointment":
-                        System.out.println("Switch checked 2");
-                        //Show new appointment boxes
-                        break;
-                    case "Search Appointments":
-                        System.out.println("Switch checked 3");
-                        // Show the search boxes
-                        break;
-                    default:
-                }
+
 
             }
             @Override
