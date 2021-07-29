@@ -55,31 +55,31 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
     @Override
     public void dump(AppointmentBook book) throws IOException
     {
-        try
-        {
-            if (ApptBookFile == null)
-            {
-                ApptBookFile = new FileWriter(FileDir);
-            }
-            Collection<Appointment> appointments;
-            appointments = book.getAppointments();
-            ApptBookFile.write("app_book_owner=" + book.getOwnerName() + "\n");
-
-            for (Appointment ap : appointments)
-            {
-                ApptBookFile.write("--NEW APPOINTMENT--\n");
-                ApptBookFile.write("app_desc=" + ap.getDescription() + "\n");
-                ApptBookFile.write("app_start_date=" + ap.getThisStartDate() +"\n");
-                ApptBookFile.write("app_start_time=" + ap.getThisStartTime() +"\n");
-                ApptBookFile.write("app_end_date=" + ap.getThisEndDate() + "\n");
-                ApptBookFile.write("app_end_time=" + ap.getThisEndTime() + "\n");
-            }
-            ApptBookFile.close();
-        }
-        catch (IOException e)
-        {
-            System.out.println(e.getMessage());
-        }
+//        try
+//        {
+//            if (ApptBookFile == null)
+//            {
+//                ApptBookFile = new FileWriter(FileDir);
+//            }
+//            Collection<Appointment> appointments;
+//            appointments = book.getAppointments();
+//            ApptBookFile.write("app_book_owner=" + book.getOwnerName() + "\n");
+//
+//            for (Appointment ap : appointments)
+//            {
+//                ApptBookFile.write("--NEW APPOINTMENT--\n");
+//                ApptBookFile.write("app_desc=" + ap.getDescription() + "\n");
+//                ApptBookFile.write("app_start_date=" + ap.getThisStartDate() +"\n");
+//                ApptBookFile.write("app_start_time=" + ap.getThisStartTime() +"\n");
+//                ApptBookFile.write("app_end_date=" + ap.getThisEndDate() + "\n");
+//                ApptBookFile.write("app_end_time=" + ap.getThisEndTime() + "\n");
+//            }
+//            ApptBookFile.close();
+//        }
+//        catch (IOException e)
+//        {
+//            System.out.println(e.getMessage());
+//        }
     }
 
     /**
@@ -89,7 +89,7 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
      * @param book
      *      File directory passed in from command line.
      */
-    public void serverDump(PrintWriter pw, AppointmentBook book) throws IOException
+    public boolean serverDump(PrintWriter pw, AppointmentBook book) throws IOException
     {
 
         pw.println("app_book_owner=" + book.getOwnerName() + "\n");
@@ -103,6 +103,8 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
             pw.println("app_end_date=" + ap.getThisEndDate() + "\n");
             pw.println("app_end_time=" + ap.getThisEndTime() + "\n");
         }
+
+        return true;
     }
 
 }
