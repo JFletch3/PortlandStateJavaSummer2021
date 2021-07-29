@@ -100,6 +100,17 @@ public class Project4 {
                 {
                     AppointmentBook searchBook = client.getSearchedAppointmentBookOwnerOnly(CLArguments.get(0));
                     PrettyPrint print = new PrettyPrint(null, null);
+
+                    try
+                    {
+                        searchBook.getOwnerName();
+                    }
+                    catch(UnsupportedOperationException e)
+                    {
+                        System.err.println("No Appointment Book found for owner: " + CLArguments.get(0));
+                        System.exit(0);
+                    }
+
                     Collections.sort(searchBook.getAppointments());
                     print.stdDump(searchBook);
                     System.exit(0);

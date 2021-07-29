@@ -6,4 +6,9 @@
     <string name="jabs_welcome">Welcome to JABS</string>
     <string name="option_select">Select an Option</string>
     <string name="readme">README</string>
+    <string name="submit">Submit</string>
+    <string name="create_a_new_appointment_book">Create a new Appointment Book</string>
+    <string name="appointment_book_owner">Appointment Book Owner</string>
+    <string name="name">Name</string>
+    <string name="button">Button</string>
 </resources>

@@ -92,6 +92,7 @@ public class AppointmentBookServlet extends HttpServlet
             }
             catch (ParseException e)
             {
+                System.err.println("Owner does not exists. ");
                 System.out.println(e.getMessage());
             }
         }
@@ -256,14 +257,14 @@ public class AppointmentBookServlet extends HttpServlet
     public void writeAllAppointmentsForOwner(HttpServletResponse response, String owner) throws IOException, ParseException
     {
         PrintWriter pw = response.getWriter();
-
+        int ownerExists = 0;
         if (owner != null)
         {
             for (AppointmentBook book : BOOKS)
             {
                 if (owner.equalsIgnoreCase(book.getOwnerName()))
                 {
-                   // AppointmentBook tempBook = getBookByOwner(book);
+                    ownerExists = 1;
                     Messages.formatSearchedAppointment(pw, book);
                 }
             }

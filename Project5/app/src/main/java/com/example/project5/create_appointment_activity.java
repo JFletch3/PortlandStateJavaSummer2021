@@ -17,11 +17,16 @@ public class create_appointment_activity extends AppCompatActivity
     }
 
 
-    public void CreateNewAppointmentBook()
+    public void CreateNewAppointmentBook(View view)
     {
         AppointmentBook newBook = new AppointmentBook();
         EditText OwnerTxt =  (EditText) findViewById(R.id.AppointmentBookOwner);
         String owner = (String) OwnerTxt.getText().toString();
         System.out.println(owner);
+    }
+
+    public confirmBookDoesNotExists(String Owner)
+    {
+        //Check to see if the file with the owners name is in the directory.   
     }
 }

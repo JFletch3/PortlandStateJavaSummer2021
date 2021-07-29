@@ -194,8 +194,6 @@ public class Messages
         String[] lines = content.split("\n\n");
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i];
-          //  Map.Entry<String, String> entry = parseDictionaryEntry(line);
-          //  book.setOwnerName(line.substring(line.lastIndexOf("=")+1));
 
             if (line.contains("app_book"))
             {
