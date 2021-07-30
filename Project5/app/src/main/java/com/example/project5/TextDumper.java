@@ -2,6 +2,7 @@ package com.example.project5;
 
 import edu.pdx.cs410J.AppointmentBookDumper;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -45,6 +46,31 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
         this.ApptBookFile = write;
     }
 
+
+    /**
+     * This Method writes the information of an Appointment Book
+     * to a file determined from the directory passed in at the
+     * command line.
+     * @param book
+     *      File directory passed in from command line.
+     */
+    public void dumpWithOwnerOnly(AppointmentBook book, File file) throws IOException
+    {
+        try
+        {
+            if (ApptBookFile == null)
+            {
+                ApptBookFile = new FileWriter(file);
+            }
+            ApptBookFile.write("app_book_owner=" + book.getOwnerName() + "\n");
+            ApptBookFile.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
     /**
      * This Method writes the information of an Appointment Book
      * to a file determined from the directory passed in at the
@@ -55,56 +81,31 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
     @Override
     public void dump(AppointmentBook book) throws IOException
     {
-//        try
-//        {
-//            if (ApptBookFile == null)
-//            {
-//                ApptBookFile = new FileWriter(FileDir);
-//            }
-//            Collection<Appointment> appointments;
-//            appointments = book.getAppointments();
-//            ApptBookFile.write("app_book_owner=" + book.getOwnerName() + "\n");
-//
-//            for (Appointment ap : appointments)
-//            {
-//                ApptBookFile.write("--NEW APPOINTMENT--\n");
-//                ApptBookFile.write("app_desc=" + ap.getDescription() + "\n");
-//                ApptBookFile.write("app_start_date=" + ap.getThisStartDate() +"\n");
-//                ApptBookFile.write("app_start_time=" + ap.getThisStartTime() +"\n");
-//                ApptBookFile.write("app_end_date=" + ap.getThisEndDate() + "\n");
-//                ApptBookFile.write("app_end_time=" + ap.getThisEndTime() + "\n");
-//            }
-//            ApptBookFile.close();
-//        }
-//        catch (IOException e)
-//        {
-//            System.out.println(e.getMessage());
-//        }
-    }
-
-    /**
-     * This Method writes the information of an Appointment Book
-     * to a file determined from the directory passed in at the
-     * command line.
-     * @param book
-     *      File directory passed in from command line.
-     */
-    public boolean serverDump(PrintWriter pw, AppointmentBook book) throws IOException
-    {
-
-        pw.println("app_book_owner=" + book.getOwnerName() + "\n");
-
-        for (Appointment ap : book.getAppointments())
+        try
         {
-            pw.println("--NEW APPOINTMENT--\n");
-            pw.println("app_desc=" + ap.getDescription() + "\n");
-            pw.println("app_start_date=" + ap.getThisStartDate() +"\n");
-            pw.println("app_start_time=" + ap.getThisStartTime() +"\n");
-            pw.println("app_end_date=" + ap.getThisEndDate() + "\n");
-            pw.println("app_end_time=" + ap.getThisEndTime() + "\n");
-        }
+            if (ApptBookFile == null)
+            {
+                ApptBookFile = new FileWriter(FileDir);
+            }
+            Collection<Appointment> appointments;
+            appointments = book.getAppointments();
+            ApptBookFile.write("app_book_owner=" + book.getOwnerName() + "\n");
 
-        return true;
+            for (Appointment ap : appointments)
+            {
+                ApptBookFile.write("--NEW APPOINTMENT--\n");
+                ApptBookFile.write("app_desc=" + ap.getDescription() + "\n");
+                ApptBookFile.write("app_start_date=" + ap.getThisStartDate() +"\n");
+                ApptBookFile.write("app_start_time=" + ap.getThisStartTime() +"\n");
+                ApptBookFile.write("app_end_date=" + ap.getThisEndDate() + "\n");
+                ApptBookFile.write("app_end_time=" + ap.getThisEndTime() + "\n");
+            }
+            ApptBookFile.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

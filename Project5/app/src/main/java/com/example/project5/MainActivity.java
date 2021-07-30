@@ -38,11 +38,11 @@ public class MainActivity extends AppCompatActivity
 
         Spinner mySpinner = (Spinner) findViewById(R.id.spinner1);
         String spinnerOption = mySpinner.getSelectedItem().toString();
-
+        Intent intent;
         switch (spinnerOption)
         {
             case "Create an Appointment Book":
-                Intent intent = new Intent(this, create_appointment_activity.class);
+                intent = new Intent(this, create_appointment_activity.class);
                 startActivity(intent);
                 break;
             case "Create an Appointment":
@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity
                 //Show new appointment boxes
                 break;
             case "Search Appointments":
-                System.out.println("Switch checked 3");
-                // Show the search boxes
+                intent = new Intent(this, search_activity.class);
+                startActivity(intent);
                 break;
             default:
         }
