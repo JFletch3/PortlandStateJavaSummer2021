@@ -41,6 +41,7 @@ public class create_appointment_activity extends AppCompatActivity
             File file = new File(this.getFilesDir(), owner);
             TextDumper textdumper = new TextDumper();
             textdumper.setFileDir(owner);
+            System.out.println(file.getAbsolutePath());
 
             try
             {

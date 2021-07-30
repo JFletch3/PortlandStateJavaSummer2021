@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Project5</string>
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
@@ -9,7 +9,6 @@
     <string name="submit">Submit</string>
     <string name="create_a_new_appointment_book">Create a new Appointment Book</string>
     <string name="appointment_book_owner">Appointment Book Owner</string>
-    <string name="name">Name</string>
     <string name="button">Button</string>
     <string name="title_activity_search">search_activity</string>
     <!-- Strings used for fragments for navigation -->
@@ -20,4 +19,6 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="search">Search</string>
+    <string name="name">Name</string>
 </resources>

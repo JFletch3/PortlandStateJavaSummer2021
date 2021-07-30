@@ -8,7 +8,11 @@ import android.widget.EditText;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class search_activity extends AppCompatActivity
 {
@@ -17,25 +21,39 @@ public class search_activity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_serach);
+        setContentView(R.layout.activity_search);
     }
 
 
     public void searchAppointmentBooks(View view)
     {
-        String ownerName = (EditText) findViewById(R.id.searchOwnerName).toString();
-        EditText searchDataText =  (EditText) findViewById(R.id.searchInfo);
-        BufferedReader reader = new FileReader(ownerName);
         String line;
-
-        while (line = reader.readLine())
+        String ownerName = findViewById(R.id.searchOwnerName).toString();
+        File file = new File (ownerName);
+        EditText searchDataText =  (EditText) findViewById(R.id.searchInfo);
+        BufferedReader reader = null;
+        List<String> FileInfo = new ArrayList<String>();
+        System.out.println("Owner name: " + ownerName);
+        try
         {
-
+            reader = new BufferedReader(new FileReader(file));
+            while ((line = reader.readLine()) != null)
+            {
+                FileInfo.add(line);
+            }
+        } catch (FileNotFoundException e)
+        {
+            System.out.println("This exception was thrown.");
+            e.printStackTrace();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
         }
 
-
-        searchDataText.setText();
+        for (int i = 0; i < FileInfo.size(); i++)
+        {
+            searchDataText.setText(FileInfo.get(i));
+        }
     }
-
 
 }
