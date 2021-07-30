@@ -27,8 +27,7 @@ public class Project4 {
         String hostName = null;
         String portString = null;
         String searchString = null;
-        String word = null;
-        String definition = null;
+        int searchOption = 0;
         int printOption = 0;
         List<String> CLArguments = null;
         List<String> searchDetails = null;
@@ -56,7 +55,8 @@ public class Project4 {
         checkCLArgCount(args);
         hostName        = getArgumentValue(args, "-HOST");
         portString      = getArgumentValue(args, "-PORT");
-        searchString    = getArgumentValue(args, "-SEARCH");
+       // searchString    = getArgumentValue(args, "-SEARCH");
+        searchOption    = checkforSearchOption(args);
         printOption     = checkForPrintOption(args); //TODO write code to do something with this
         CLArguments     = argumentSlicer(args);
         //-----------------------------------------------------------
@@ -76,14 +76,25 @@ public class Project4 {
         String message = "";
 
         //If Search is entered I want to search, print and end.
-        if (!searchString.equals(""))
+
+        if (searchOption == 1)
         {
             try
             {
-                searchDetails = getSearchInfo(args, searchString);
-                AppointmentBook searchBook = client.getSearchedAppointmentBook(searchDetails);
+                AppointmentBook searchBook = client.getSearchedAppointmentBook(CLArguments);
+                try
+                {
+                    searchBook.getOwnerName();
+                }
+                catch(UnsupportedOperationException e)
+                {
+                    System.err.println("No Appointment Book found for owner: " + CLArguments.get(0));
+                    System.exit(0);
+                }
+
                 Collections.sort(searchBook.getAppointments());
-                SearchAndPrettyPrint(searchBook, searchDetails.get(1), searchDetails.get(2));
+                SearchAndPrettyPrint(searchBook, CLArguments.get(1) + " " + CLArguments.get(2) + " " + CLArguments.get(3) ,
+                                                CLArguments.get(4) + " " + CLArguments.get(5) + " " + CLArguments.get(6));
                 System.exit(0);
             } catch (IOException | ParseException e)
             {
@@ -92,7 +103,35 @@ public class Project4 {
             }
         }
 
-        if (searchString.equals("") && printOption == 0)
+
+//        if (!searchString.equals(""))
+//        {
+//            try
+//            {
+//                searchDetails = getSearchInfo(args, searchString);
+//                AppointmentBook searchBook = client.getSearchedAppointmentBook(searchDetails);
+//
+//                try
+//                {
+//                    searchBook.getOwnerName();
+//                }
+//                catch(UnsupportedOperationException e)
+//                {
+//                    System.err.println("No Appointment Book found for owner: " + CLArguments.get(0));
+//                    System.exit(0);
+//                }
+//
+//                Collections.sort(searchBook.getAppointments());
+//                SearchAndPrettyPrint(searchBook, searchDetails.get(1), searchDetails.get(2));
+//                System.exit(0);
+//            } catch (IOException | ParseException e)
+//            {
+//                System.err.println("Invalid Host or Port. Please check argument inputs.");
+//                System.exit(0);
+//            }
+//        }
+
+        if (searchOption == 0 && printOption == 0)
         {
             if (CLArguments.size() == 1)
             {
@@ -300,6 +339,26 @@ public class Project4 {
     }
 
     /**
+     * Method to check the if the -print option was entered in the arguments
+     * @param args
+     *      String array of the command line arguments
+     * @return 1/0
+     *          1 = -PRINT is set properly.
+     *          0 = -PRINT is not set.
+     */
+    public static int checkforSearchOption(String [] args)
+    {
+        for (String ap : args)
+        {
+            if (ap.toUpperCase().contains("-SEARCH"))
+            {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    /**
      * Method to get the search information.
      * @param args
      *      String array of the command line arguments
@@ -365,7 +424,7 @@ public class Project4 {
             }
             else if (arg.toUpperCase().contains("-SEARCH"))
             {
-                searchOp = 2;
+                searchOp = 1;
             }
             else if (arg.toUpperCase().contains("-HOST"))
             {

@@ -56,8 +56,8 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
   public AppointmentBook getSearchedAppointmentBook(List<String> SearchCriteria) throws IOException
   {
     Response response = get(this.url, Map.of("owner", SearchCriteria.get(0),
-                                              "start", SearchCriteria.get(1),
-                                              "end", SearchCriteria.get(2)));
+                                              "start", SearchCriteria.get(1) + " " + SearchCriteria.get(2) + " " + SearchCriteria.get(3),
+                                              "end", SearchCriteria.get(4) + " " + SearchCriteria.get(5) + " " + SearchCriteria.get(6)));
     return Messages.parseAppointmentBook(response.getContent());
   }
 

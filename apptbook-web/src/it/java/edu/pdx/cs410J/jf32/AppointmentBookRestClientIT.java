@@ -64,8 +64,12 @@ class AppointmentBookRestClientIT {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
     String owner = "owner";
     String desc = "descrption";
-    String start = "1/1/2021 1:00 PM";
-    String end = "1/1/2021 2:00 PM";
+    String start = "1/1/2021";
+    String startTime = "1:00";
+    String startampm = "PM";
+    String end = "1/1/2021";
+    String endTime = "2:00";
+    String endampm = "PM";
     List<String> args = new ArrayList<>();
 
     AppointmentBook newbook = new AppointmentBook();
@@ -81,7 +85,11 @@ class AppointmentBookRestClientIT {
 
     args.add(owner);
     args.add(start);
+    args.add(startTime);
+    args.add(startampm);
     args.add(end);
+    args.add(endTime);
+    args.add(endampm);
 
     AppointmentBook book = client.getSearchedAppointmentBook(args);
     assertThat(book.getOwnerName(), equalTo(owner));
