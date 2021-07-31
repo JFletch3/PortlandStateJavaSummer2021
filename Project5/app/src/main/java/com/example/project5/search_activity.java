@@ -56,8 +56,6 @@ public class search_activity extends AppCompatActivity
         {
             searchDataText.setText(FileInfo.get(i));
             searchDataText.append(System.getProperty("line.separator"));
-            searchDataText.append(FileInfo.get(i));
-
         }
     }
 
