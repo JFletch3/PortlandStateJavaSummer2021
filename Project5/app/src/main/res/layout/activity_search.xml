@@ -6,6 +6,32 @@
         android:layout_height="match_parent"
         tools:context=".search_activity">
 
+    <TextView
+            android:text="Start Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView7"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/appointmentStartTime"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="108dp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginStart="135dp"
+            app:layout_constraintStart_toEndOf="@+id/textView5" />
+
+    <TextView
+            android:text="End Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView8"
+            app:layout_constraintStart_toEndOf="@+id/textView6"
+            android:layout_marginLeft="140dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/SearchStartTime"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/SearchEndTime" />
+
     <EditText
             android:layout_width="403dp"
             android:layout_height="250dp"
@@ -26,18 +52,19 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/searchOwnerName"
+            android:id="@+id/createAppOwnerName"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             app:layout_constraintTop_toBottomOf="@+id/textView4"
-            android:hint="Onwer Name" />
+            android:hint="Onwer Name"
+            android:textSize="14sp" />
 
     <Button
             android:text="@string/search"
-            android:layout_width="96dp"
-            android:layout_height="56dp"
+            android:layout_width="264dp"
+            android:layout_height="45dp"
             android:id="@+id/searchButton"
             tools:ignore="UsingOnClickInXml"
             android:onClick="searchAppointmentBooks"
@@ -66,7 +93,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/searchOwnerName" />
+            app:layout_constraintTop_toBottomOf="@+id/createAppOwnerName" />
 
     <TextView
             android:text="End Date"
@@ -122,8 +149,8 @@
             android:layout_marginRight="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.509"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="148dp" />
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
             android:layout_width="156dp"

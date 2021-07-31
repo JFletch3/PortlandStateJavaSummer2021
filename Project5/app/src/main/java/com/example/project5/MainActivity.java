@@ -2,7 +2,6 @@ package com.example.project5;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,12 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.security.acl.Owner;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -42,11 +38,12 @@ public class MainActivity extends AppCompatActivity
         switch (spinnerOption)
         {
             case "Create an Appointment Book":
-                intent = new Intent(this, create_appointment_activity.class);
+                intent = new Intent(this, create_appointment_book_activity.class);
                 startActivity(intent);
                 break;
             case "Create an Appointment":
-                System.out.println("Switch checked 2");
+                intent = new Intent(this, create_appointment_activity.class);
+                startActivity(intent);
                 //Show new appointment boxes
                 break;
             case "Search Appointments":

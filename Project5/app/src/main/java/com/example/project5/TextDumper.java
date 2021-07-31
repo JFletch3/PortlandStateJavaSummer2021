@@ -79,13 +79,13 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
      *      File directory passed in from command line.
      */
     @Override
-    public void dump(AppointmentBook book) throws IOException
+    public void dump(AppointmentBook book, File file) throws IOException
     {
         try
         {
             if (ApptBookFile == null)
             {
-                ApptBookFile = new FileWriter(FileDir);
+                ApptBookFile = new FileWriter(file);
             }
             Collection<Appointment> appointments;
             appointments = book.getAppointments();

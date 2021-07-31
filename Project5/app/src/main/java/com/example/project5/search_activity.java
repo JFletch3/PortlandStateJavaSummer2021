@@ -28,7 +28,7 @@ public class search_activity extends AppCompatActivity
     public void searchAppointmentBooks(View view)
     {
         String line;
-        EditText ownerNameTXT = (EditText)  findViewById(R.id.searchOwnerName);
+        EditText ownerNameTXT = (EditText)  findViewById(R.id.createAppOwnerName);
         String ownerName = (String) ownerNameTXT.getText().toString();
         File file = new File (this.getFilesDir(), ownerName);
 
