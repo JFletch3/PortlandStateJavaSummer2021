@@ -7,11 +7,9 @@
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="Welcome To JABS"
-            android:debuggable="true"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/Theme.Project5"
-            tools:ignore="HardcodedDebugMode">
+            android:theme="@style/Theme.Project5">
         <activity android:name=".search_activity"/>
         <activity android:name=".create_appointment_activity" />
         <activity android:name=".MainActivity">

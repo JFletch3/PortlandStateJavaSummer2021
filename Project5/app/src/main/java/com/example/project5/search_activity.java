@@ -28,8 +28,10 @@ public class search_activity extends AppCompatActivity
     public void searchAppointmentBooks(View view)
     {
         String line;
-        String ownerName = findViewById(R.id.searchOwnerName).toString();
-        File file = new File (ownerName);
+        EditText ownerNameTXT = (EditText)  findViewById(R.id.searchOwnerName);
+        String ownerName = (String) ownerNameTXT.getText().toString();
+        File file = new File (this.getFilesDir(), ownerName);
+
         EditText searchDataText =  (EditText) findViewById(R.id.searchInfo);
         BufferedReader reader = null;
         List<String> FileInfo = new ArrayList<String>();
@@ -53,6 +55,9 @@ public class search_activity extends AppCompatActivity
         for (int i = 0; i < FileInfo.size(); i++)
         {
             searchDataText.setText(FileInfo.get(i));
+            searchDataText.append(System.getProperty("line.separator"));
+            searchDataText.append(FileInfo.get(i));
+
         }
     }
 
