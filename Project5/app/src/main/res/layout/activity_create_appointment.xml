@@ -7,12 +7,26 @@
         tools:context=".create_appointment_activity">
 
     <EditText
+            android:layout_width="156dp"
+            android:layout_height="34dp"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/appointmentStartDate"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView15"
+            android:hint="mm/dd/yyyy"
+            android:textSize="12sp" />
+
+    <EditText
             android:layout_width="120dp"
             android:layout_height="34dp"
             android:inputType="time"
             android:ems="10"
             android:id="@+id/appointmentEndTime"
-            android:hint="End Time"
+            android:hint="hh:mm"
             android:textSize="12sp"
             android:layout_marginEnd="84dp"
             android:layout_marginRight="84dp"
@@ -20,9 +34,86 @@
             app:layout_constraintStart_toEndOf="@+id/appointmentEndDate"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            app:layout_constraintHorizontal_bias="1.0"
-            android:layout_marginTop="16dp"
+            app:layout_constraintHorizontal_bias="0.789"
+            android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    <TextView
+            android:text="End Date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView16"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/appointmentStartDate" />
+
+    <EditText
+            android:layout_width="156dp"
+            android:layout_height="34dp"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/appointmentEndDate"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView16"
+            android:hint="mm/dd/yyyy"
+            android:textSize="12sp" />
+
+    <TextView
+            android:text="End Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView18"
+            android:layout_marginLeft="144dp"
+            android:layout_marginStart="144dp"
+            app:layout_constraintStart_toEndOf="@+id/textView16"
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView16" />
+
+    <Switch
+            android:text="AM"
+            android:layout_width="65dp"
+            android:layout_height="34dp"
+            android:id="@+id/AMPMswitch"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/appointmentStartTime"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/appointmentStartTime"
+            app:layout_constraintHorizontal_bias="0.384" />
+
+    <TextView
+            android:text="Start Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView17"
+            android:layout_marginLeft="140dp"
+            android:layout_marginStart="140dp"
+            app:layout_constraintStart_toEndOf="@+id/textView15"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/AppointmentDescription" />
+
+    <Switch
+            android:text="AM"
+            android:layout_width="65dp"
+            android:layout_height="34dp"
+            android:id="@+id/AMPMswitch2"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/appointmentStartTime"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintHorizontal_bias="0.307"
+            app:layout_constraintBaseline_toBaselineOf="@+id/appointmentEndTime" />
 
     <EditText
             android:layout_width="120dp"
@@ -30,7 +121,7 @@
             android:inputType="time"
             android:ems="10"
             android:id="@+id/appointmentStartTime"
-            android:hint="Start Time"
+            android:hint="hh:mm"
             android:textSize="12sp"
             android:layout_marginEnd="28dp"
             android:layout_marginRight="28dp"
@@ -39,7 +130,7 @@
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toEndOf="@+id/appointmentStartDate"
             app:layout_constraintHorizontal_bias="0.253"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
     <TextView
@@ -51,40 +142,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/appointmentOwnerName" />
-
-    <TextView
-            android:text="Start Time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView17"
-            android:layout_marginLeft="132dp"
-            android:layout_marginStart="132dp"
-            app:layout_constraintStart_toEndOf="@+id/textView15"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="188dp" />
-
-    <TextView
-            android:text="End Time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView18"
-            android:layout_marginLeft="136dp"
-            android:layout_marginStart="136dp"
-            app:layout_constraintStart_toEndOf="@+id/textView16"
-            android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView16" />
-
-    <TextView
-            android:text="End Date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView16"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/appointmentStartDate" />
+            app:layout_constraintTop_toBottomOf="@+id/AppointmentDescription" />
 
     <TextView
             android:text="@string/appointment_book_owner"
@@ -96,6 +154,17 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="44dp"
             app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <TextView
+            android:text="Description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView20"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/appointmentOwnerName" />
 
     <EditText
             android:layout_width="wrap_content"
@@ -110,6 +179,24 @@
             android:hint="Onwer Name"
             app:layout_constraintTop_toBottomOf="@+id/textView12"
             android:textSize="14sp" />
+
+    <EditText
+            android:layout_width="382dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/AppointmentDescription"
+            android:hint="Description"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.333"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp" />
 
     <TextView
             android:text="Create an Appointment"
@@ -136,63 +223,7 @@
             app:layout_constraintTop_toBottomOf="@+id/appointmentEndDate"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="16dp"
-            app:layout_constraintVertical_bias="0.243" />
-
-    <Switch
-            android:text="AM"
-            android:layout_width="65dp"
-            android:layout_height="34dp"
-            android:id="@+id/AMPMswitch"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/appointmentStartTime"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/appointmentStartTime" />
-
-    <Switch
-            android:text="AM"
-            android:layout_width="65dp"
-            android:layout_height="34dp"
-            android:id="@+id/AMPMswitch2"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/appointmentStartTime"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            app:layout_constraintHorizontal_bias="0.461"
-            app:layout_constraintBaseline_toBaselineOf="@+id/appointmentEndTime" />
-
-    <EditText
-            android:layout_width="156dp"
-            android:layout_height="34dp"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/appointmentStartDate"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView15"
-            android:hint="Start Date"
-            android:textSize="12sp" />
-
-    <EditText
-            android:layout_width="156dp"
-            android:layout_height="34dp"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/appointmentEndDate"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView16"
-            android:hint="End Date"
-            android:textSize="12sp" />
+            app:layout_constraintVertical_bias="0.243"
+            android:onClick="CreateNewAppointment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

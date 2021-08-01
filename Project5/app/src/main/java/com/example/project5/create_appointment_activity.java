@@ -2,6 +2,8 @@ package com.example.project5;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -13,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.acl.Owner;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,37 +31,9 @@ public class create_appointment_activity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_appointment);
-
-
-        Switch sw1 = findViewById(R.id.AMPMswitch);
-        sw1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                {
-                    sw1.setText("PM");
-                }else
-                {
-                    sw1.setText("AM");
-                }
-            }
-        });
-        Switch sw2 = findViewById(R.id.AMPMswitch2);
-        sw2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                {
-                    sw2.setText("PM");
-                }else
-                {
-                    sw2.setText("AM");
-                }
-            }
-        });
+        setOnClickListenerForAMPMSwitch();
 
     }
-
-
-
 
     public void CreateNewAppointment(View view)
     {
@@ -70,56 +45,36 @@ public class create_appointment_activity extends AppCompatActivity
         //
         // If file exists, open it and then write new information to the file.
 
-        EditText ownerNameTXT = findViewById(R.id.createAppOwnerName);
-        String ownerName = ownerNameTXT.getText().toString();
+        EditText ownerNameTXT =(EditText) findViewById(R.id.appointmentOwnerName);
+        String ownerName = (String) ownerNameTXT.getText().toString();
         File file = new File (this.getFilesDir(), ownerName);
+        AppointmentBook book = null;
 
         if (!file.exists())
         {
-            //create new appointmentbook i guess.
-            // show popup indicating new appointbook created.
-
-
+            book = new AppointmentBook();
+            showPOPupMessage(newAppointmentBookMessage(ownerName));
         }
         else
         {
-
-            AppointmentBook book = getExistingAppointmentBook(ownerName);
-
-            TextDumper textdumper = new TextDumper();
-            textdumper.setFileDir(ownerName);
-            System.out.println(file.getAbsolutePath());
-
-            EditText appStartD = findViewById(R.id.appointmentStartDate);
-            String appStartDate = appStartD.getText().toString();
-
-            EditText appStartT = findViewById(R.id.appointmentStartTime);
-            String appStartTime = appStartT.getText().toString();
-
-            EditText appEndD = findViewById(R.id.appointmentEndDate);
-            String appEndDate = appEndD.getText().toString();
-
-            EditText appEndT = findViewById(R.id.appointmentEndTime);
-            String appEndTime = appEndT.getText().toString();
-
-//            try
-//            {
-//                checkDateFormat(appStartDate);
-//            } catch (IOException e)
-//            {
-//                e.printStackTrace();
-//            }
-
-
-//            try
-//            {
-//                textdumper.dumpWithOwnerOnly(newBook, file);
-//            } catch (IOException e)
-//            {
-//                e.printStackTrace();
-//            }
-
+            book = getExistingAppointmentBook(ownerName);
         }
+
+        Appointment newAppointment = buildNewAppointment();
+        TextDumper textdumper = new TextDumper();
+        textdumper.setFileDir(ownerName);
+        book.addAppointment(newAppointment);
+
+        try
+        {
+            textdumper.newAppointmentFileDump(book, file);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        showPOPupMessage(newAppointmentMessage());
+        clearFields();
     }
 
     public AppointmentBook getExistingAppointmentBook(String Owner)
@@ -145,7 +100,7 @@ public class create_appointment_activity extends AppCompatActivity
             e.printStackTrace();
         }
         catch (IOException f) {
-            System.out.println("This exception was thrown.");
+            System.out.println("This exception was thrown1234.");
             f.printStackTrace();
         }
 
@@ -170,12 +125,56 @@ public class create_appointment_activity extends AppCompatActivity
         return newAppointmentBook;
     }
 
+    public Appointment buildNewAppointment()
+    {
+        Appointment newApp = new Appointment();
+
+        Switch sw1 = findViewById(R.id.AMPMswitch);
+        Switch sw2 = findViewById(R.id.AMPMswitch2);
+        String sw1SwitchAMPM = getAMPM(sw1);
+        String sw2SwitchAMPM = getAMPM(sw2);
+
+        EditText appDesction = findViewById(R.id.AppointmentDescription);
+        String appDesc = appDesction.getText().toString();
+
+        EditText appStartD = findViewById(R.id.appointmentStartDate);
+        String appStartDate = appStartD.getText().toString();
+
+        EditText appStartT = findViewById(R.id.appointmentStartTime);
+        String appStartTime = appStartT.getText().toString();
+
+        EditText appEndD = findViewById(R.id.appointmentEndDate);
+        String appEndDate = appEndD.getText().toString();
+
+        EditText appEndT = findViewById(R.id.appointmentEndTime);
+        String appEndTime = appEndT.getText().toString();
+
+        try
+        {
+            checkDateFormat(appStartDate + " " + appStartTime + " " + sw1SwitchAMPM);
+            checkDateFormat(appEndDate + " " + appEndTime + " " + sw2SwitchAMPM);
+
+        } catch (IOException e)
+        {
+            exceptionPopupHandling(e, "test");
+        }
+
+        newApp.setDescription(appDesc);
+        newApp.setStartDate(appStartDate);
+        newApp.setStartTime(appStartTime + " " + sw1SwitchAMPM);
+        newApp.setEndDate(appEndDate);
+        newApp.setEndTime(appEndTime + " " + sw2SwitchAMPM);
+
+        return newApp;
+
+    }
+
     /**
      * Method to check the date format to make sure the date is valid.
      * @param date
      *      The date passed in from the commandline arguments.
      */
-    public static boolean checkDateFormat(String date) throws IOException
+    public static void checkDateFormat(String date) throws IOException
     {
         DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         dFormat.setLenient(false);
@@ -183,7 +182,6 @@ public class create_appointment_activity extends AppCompatActivity
         try
         {
             Date retDate = dFormat.parse(date);
-            return true;
         }
         catch (ParseException e)
         {
@@ -192,8 +190,96 @@ public class create_appointment_activity extends AppCompatActivity
                     "and date should be a real date.");
             System.exit(0);
         }
-        return false;
 
+    }
+
+    public void setOnClickListenerForAMPMSwitch()
+    {
+        Switch sw1 = findViewById(R.id.AMPMswitch);
+        sw1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                {
+                    sw1.setText("PM");
+                }else
+                {
+                    sw1.setText("AM");
+                }
+            }
+        });
+        Switch sw2 = findViewById(R.id.AMPMswitch2);
+        sw2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                {
+                    sw2.setText("PM");
+                }else
+                {
+                    sw2.setText("AM");
+                }
+            }
+        });
+    }
+
+    public String getAMPM(Switch sw)
+    {
+        if (sw.isChecked())
+        {
+            return "PM";
+        }
+
+        return "AM";
+    }
+
+    public void exceptionPopupHandling(Exception e, String message)
+    {
+        System.out.println("An exception was thrown: " + message);
+    }
+
+    public void showPOPupMessage(String message)
+    {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        dialog.setMessage(message);
+        dialog.setNegativeButton("OK",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}});
+
+        AlertDialog alert = dialog.create();
+        alert.show();
+    }
+
+    public String newAppointmentBookMessage(String Owner)
+    {
+        return "Appointment Book for " + Owner + " did not exists. New Appointment Book Created.";
+    }
+
+    public String newAppointmentMessage()
+    {
+        return "New Appointment Created.";
+    }
+
+    public void clearFields()
+    {
+        Switch sw1 = findViewById(R.id.AMPMswitch);
+        Switch sw2 = findViewById(R.id.AMPMswitch2);
+        sw1.setChecked(false);
+        sw2.setChecked(false);
+
+        EditText appDesction = findViewById(R.id.AppointmentDescription);
+        appDesction.setText("");
+
+        EditText appStartD = findViewById(R.id.appointmentStartDate);
+        appStartD.setText("");
+
+        EditText appStartT = findViewById(R.id.appointmentStartTime);
+        appStartT.setText("");
+
+        EditText appEndD = findViewById(R.id.appointmentEndDate);
+        appEndD.setText("");
+
+        EditText appEndT = findViewById(R.id.appointmentEndTime);
+        appEndT.setText("");
     }
 
 }
