@@ -4,14 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class create_appointment_activity extends AppCompatActivity
@@ -22,7 +28,36 @@ public class create_appointment_activity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_appointment);
+
+
+        Switch sw1 = findViewById(R.id.AMPMswitch);
+        sw1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                {
+                    sw1.setText("PM");
+                }else
+                {
+                    sw1.setText("AM");
+                }
+            }
+        });
+        Switch sw2 = findViewById(R.id.AMPMswitch2);
+        sw2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                {
+                    sw2.setText("PM");
+                }else
+                {
+                    sw2.setText("AM");
+                }
+            }
+        });
+
     }
+
+
 
 
     public void CreateNewAppointment(View view)
@@ -37,28 +72,44 @@ public class create_appointment_activity extends AppCompatActivity
 
         EditText ownerNameTXT = findViewById(R.id.createAppOwnerName);
         String ownerName = ownerNameTXT.getText().toString();
-
         File file = new File (this.getFilesDir(), ownerName);
 
         if (!file.exists())
         {
-            //create new appointmentbook i guess
+            //create new appointmentbook i guess.
             // show popup indicating new appointbook created.
 
 
         }
         else
         {
-            // Capture appointment information,
-            // check date / time for validity
-            // Create appointment and add it to the book.
-            //Create new appointment book into system and write to it.
 
             AppointmentBook book = getExistingAppointmentBook(ownerName);
 
             TextDumper textdumper = new TextDumper();
             textdumper.setFileDir(ownerName);
             System.out.println(file.getAbsolutePath());
+
+            EditText appStartD = findViewById(R.id.appointmentStartDate);
+            String appStartDate = appStartD.getText().toString();
+
+            EditText appStartT = findViewById(R.id.appointmentStartTime);
+            String appStartTime = appStartT.getText().toString();
+
+            EditText appEndD = findViewById(R.id.appointmentEndDate);
+            String appEndDate = appEndD.getText().toString();
+
+            EditText appEndT = findViewById(R.id.appointmentEndTime);
+            String appEndTime = appEndT.getText().toString();
+
+//            try
+//            {
+//                checkDateFormat(appStartDate);
+//            } catch (IOException e)
+//            {
+//                e.printStackTrace();
+//            }
+
 
 //            try
 //            {
@@ -69,8 +120,6 @@ public class create_appointment_activity extends AppCompatActivity
 //            }
 
         }
-
-
     }
 
     public AppointmentBook getExistingAppointmentBook(String Owner)
@@ -91,10 +140,13 @@ public class create_appointment_activity extends AppCompatActivity
             }
 
         }
-        catch (FileNotFoundException e | IOException e)
-        {
+        catch (FileNotFoundException e) {
             System.out.println("This exception was thrown.");
             e.printStackTrace();
+        }
+        catch (IOException f) {
+            System.out.println("This exception was thrown.");
+            f.printStackTrace();
         }
 
         for (int i = 0; i < FileInfo.size(); i++)
@@ -116,6 +168,32 @@ public class create_appointment_activity extends AppCompatActivity
         }
 
         return newAppointmentBook;
+    }
+
+    /**
+     * Method to check the date format to make sure the date is valid.
+     * @param date
+     *      The date passed in from the commandline arguments.
+     */
+    public static boolean checkDateFormat(String date) throws IOException
+    {
+        DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        dFormat.setLenient(false);
+
+        try
+        {
+            Date retDate = dFormat.parse(date);
+            return true;
+        }
+        catch (ParseException e)
+        {
+
+            System.err.println("Date format and/or Date is not valid: " + date + " --- Format Should be mm/dd/yyyy" +
+                    "and date should be a real date.");
+            System.exit(0);
+        }
+        return false;
+
     }
 
 }
