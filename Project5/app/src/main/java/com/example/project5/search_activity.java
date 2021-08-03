@@ -43,6 +43,7 @@ public class search_activity extends AppCompatActivity
         Switch sw2 = findViewById(R.id.AMPMSearchSwitch2);
         String sw1SwitchAMPM = getAMPM(sw1);
         String sw2SwitchAMPM = getAMPM(sw2);
+        AppointmentBook searchedBook = null;
 
         List<String> searchedInfo = new ArrayList<String>();
        // ScrollView searchDataText =  (ScrollView) findViewById(R.id.searchInfo);
@@ -60,10 +61,19 @@ public class search_activity extends AppCompatActivity
         String start = appStartDate + " " + appStartTime +" " + sw1SwitchAMPM;
         String end = appEndDate + " " + appEndTime +" " + sw2SwitchAMPM;
 
-        AppointmentBook searchedBook = getSearchedBook(ownerName, start, end);
+        if ((appStartDate.equals("") || appStartDate.equals(null))
+                && (appStartDate.equals("") || appStartDate.equals(null))
+        && !ownerName.equals(""))
+        {
+            searchedBook = getBookByOwner(ownerName);
+        }
+        else
+        {
+            searchedBook = getSearchedBook(ownerName, start, end);
+        }
+
 
         searchedInfo = print.getPrettyPrintedArray(searchedBook);
-
 
         Intent intent = new Intent(this, appointment_book_view_activity.class);
         intent.putExtra("book", searchedBook);
@@ -112,6 +122,22 @@ public class search_activity extends AppCompatActivity
         }
 
         return "AM";
+    }
+
+    public AppointmentBook getBookByOwner(String Owner)
+    {
+        AppointmentBook newAppointmentBook;
+        AppointmentBook returnBook = new AppointmentBook();
+        Appointment newAppointment = new Appointment();
+
+        returnBook.setOwnerName(Owner);
+        newAppointmentBook = getAppointmentBook(Owner);
+
+        for (Appointment ap : newAppointmentBook.getAppointments())
+        {
+            returnBook.addAppointment(ap);
+        }
+        return returnBook;
     }
 
     public AppointmentBook getSearchedBook(String Owner, String start, String end)
