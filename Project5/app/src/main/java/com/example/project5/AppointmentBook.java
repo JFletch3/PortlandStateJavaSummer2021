@@ -1,11 +1,13 @@
 package com.example.project5;
 import edu.pdx.cs410J.AbstractAppointmentBook;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class is represents a <code>AppointmentBook</code>.
  */
-public class AppointmentBook extends AbstractAppointmentBook<Appointment>
+public class AppointmentBook extends AbstractAppointmentBook<Appointment> implements Serializable
 {
     /**
      * Appointment Book Owner name

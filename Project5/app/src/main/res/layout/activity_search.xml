@@ -6,47 +6,38 @@
         android:layout_height="match_parent"
         tools:context=".search_activity">
 
-    <TextView
-            android:text="Start Time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView7"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/appointmentStartTime"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="108dp"
-            android:layout_marginLeft="135dp"
-            android:layout_marginStart="135dp"
-            app:layout_constraintStart_toEndOf="@+id/textView5" />
-
-    <TextView
-            android:text="End Time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView8"
-            app:layout_constraintStart_toEndOf="@+id/textView6"
-            android:layout_marginLeft="140dp"
-            android:layout_marginStart="140dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/SearchStartTime"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/SearchEndTime" />
-
-    <EditText
-            android:layout_width="403dp"
-            android:layout_height="250dp"
-            android:inputType="textMultiLine"
-            android:gravity="start|top"
-            android:ems="10"
-            android:id="@+id/searchInfo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="16dp"
+    <Switch
+            android:text="@string/am"
+            android:layout_width="65dp"
+            android:layout_height="34dp"
+            android:id="@+id/AMPMSearchSwitch1"
+            android:textSize="12sp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/SearchStartTime"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/searchButton"
-            app:layout_constraintVertical_bias="1.0"
-            android:focusable="false"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="140dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <Switch
+            android:text="@string/am"
+            android:layout_width="65dp"
+            android:layout_height="34dp"
+            android:id="@+id/AMPMSearchSwitch2"
+            android:textSize="12sp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/SearchEndTime"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBaseline_toBaselineOf="@+id/SearchEndTime"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <EditText
             android:layout_width="wrap_content"
@@ -59,7 +50,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             app:layout_constraintTop_toBottomOf="@+id/textView4"
-            android:hint="Onwer Name"
+            android:hint="@string/owner_name"
             android:textSize="14sp" />
 
     <Button
@@ -71,8 +62,9 @@
             android:onClick="searchAppointmentBooks"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/SearchEndTime" />
+            android:layout_marginTop="40dp"
+            app:layout_constraintTop_toBottomOf="@+id/SearchEndTime"
+            app:layout_constraintHorizontal_bias="0.496" />
 
     <TextView
             android:text="@string/appointment_book_owner"
@@ -86,7 +78,7 @@
             android:layout_marginStart="16dp" />
 
     <TextView
-            android:text="Start Date"
+            android:text="@string/start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView5"
@@ -97,7 +89,7 @@
             app:layout_constraintTop_toBottomOf="@+id/createAppOwnerName" />
 
     <TextView
-            android:text="End Date"
+            android:text="@string/end_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView6"
@@ -118,7 +110,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/textView5"
-            android:hint="Start Date"
+            android:hint="@string/mm_dd_yyyy"
             android:textSize="12sp" />
 
     <EditText
@@ -132,34 +124,16 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/textView6"
-            android:hint="End Date"
+            android:hint="@string/mm_dd_yyyy"
             android:textSize="12sp" />
 
     <EditText
-            android:layout_width="156dp"
-            android:layout_height="34dp"
-            android:inputType="time"
-            android:ems="10"
-            android:id="@+id/SearchStartTime"
-            android:hint="Start Time"
-            android:textSize="12sp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/SearchStartDate"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.509"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-    <EditText
-            android:layout_width="156dp"
+            android:layout_width="120dp"
             android:layout_height="34dp"
             android:inputType="time"
             android:ems="10"
             android:id="@+id/SearchEndTime"
-            android:hint="End Time"
+            android:hint="@string/hh_mm"
             android:textSize="12sp"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
@@ -167,8 +141,52 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.509"
-            android:layout_marginTop="52dp"
-            app:layout_constraintTop_toBottomOf="@+id/SearchStartTime" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBaseline_toBaselineOf="@+id/SearchEndDate" />
+
+    <TextView
+            android:text="@string/end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView8"
+            app:layout_constraintStart_toEndOf="@+id/textView6"
+            android:layout_marginLeft="116dp"
+            android:layout_marginStart="116dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/SearchStartTime"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/SearchEndTime"
+            app:layout_constraintVertical_bias="0.75" />
+
+    <TextView
+            android:text="@string/start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView7"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="108dp"
+            android:layout_marginLeft="108dp"
+            android:layout_marginStart="108dp"
+            app:layout_constraintStart_toEndOf="@+id/textView5" />
+
+    <EditText
+            android:layout_width="120dp"
+            android:layout_height="34dp"
+            android:inputType="time"
+            android:ems="10"
+            android:id="@+id/SearchStartTime"
+            android:hint="@string/hh_mm"
+            android:textSize="12sp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/SearchStartDate"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

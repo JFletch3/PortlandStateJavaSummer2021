@@ -37,13 +37,6 @@ public class create_appointment_activity extends AppCompatActivity
 
     public void CreateNewAppointment(View view)
     {
-        //Search for appointment book
-        // if it does not exists
-        // create a new appointment book
-        // notify user of a new appointment book (popup)
-        // Write all info to the file.
-        //
-        // If file exists, open it and then write new information to the file.
 
         EditText ownerNameTXT =(EditText) findViewById(R.id.appointmentOwnerName);
         String ownerName = (String) ownerNameTXT.getText().toString();
