@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -46,6 +47,7 @@ public class create_appointment_activity extends AppCompatActivity
         if (!file.exists())
         {
             book = new AppointmentBook();
+            book.setOwnerName(ownerName);
             showPOPupMessage(newAppointmentBookMessage(ownerName));
         }
         else
@@ -63,10 +65,13 @@ public class create_appointment_activity extends AppCompatActivity
             textdumper.newAppointmentFileDump(book, file);
         } catch (IOException e)
         {
-            e.printStackTrace();
+            showPOPupMessage(exceptionPopupHandling(e));
         }
 
-        showPOPupMessage(newAppointmentMessage());
+        //showPOPupMessage(newAppointmentMessage(newAppointment));
+
+        Toast.makeText(this, newAppointmentMessage(newAppointment), Toast.LENGTH_SHORT).show();
+
         clearFields();
     }
 
@@ -89,12 +94,10 @@ public class create_appointment_activity extends AppCompatActivity
 
         }
         catch (FileNotFoundException e) {
-            System.out.println("This exception was thrown.");
-            e.printStackTrace();
+            showPOPupMessage(exceptionPopupHandling(e));
         }
         catch (IOException f) {
-            System.out.println("This exception was thrown1234.");
-            f.printStackTrace();
+            showPOPupMessage(exceptionPopupHandling(f));
         }
 
         for (int i = 0; i < FileInfo.size(); i++)
@@ -149,7 +152,7 @@ public class create_appointment_activity extends AppCompatActivity
 
         } catch (IOException e)
         {
-            exceptionPopupHandling(e, "test");
+            showPOPupMessage(exceptionPopupHandling(e));
         }
 
         newApp.setDescription(appDesc);
@@ -167,7 +170,7 @@ public class create_appointment_activity extends AppCompatActivity
      * @param date
      *      The date passed in from the commandline arguments.
      */
-    public static void checkDateFormat(String date) throws IOException
+    public void checkDateFormat(String date) throws IOException
     {
         DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         dFormat.setLenient(false);
@@ -178,12 +181,10 @@ public class create_appointment_activity extends AppCompatActivity
         }
         catch (ParseException e)
         {
-
-            System.err.println("Date format and/or Date is not valid: " + date + " --- Format Should be mm/dd/yyyy" +
-                    "and date should be a real date.");
-            System.exit(0);
+            String errMessage = "Date format and/or Date is not valid: " + date + " --- Format Should be mm/dd/yyyy" +
+                    "and date should be a real date.";
+            showPOPupMessage(errMessage);
         }
-
     }
 
     public void setOnClickListenerForAMPMSwitch()
@@ -224,9 +225,9 @@ public class create_appointment_activity extends AppCompatActivity
         return "AM";
     }
 
-    public void exceptionPopupHandling(Exception e, String message)
+    public String exceptionPopupHandling(Exception e)
     {
-        System.out.println("An exception was thrown: " + message);
+        return "An exception was thrown: " + e.getMessage();
     }
 
     public void showPOPupMessage(String message)
@@ -244,12 +245,12 @@ public class create_appointment_activity extends AppCompatActivity
 
     public String newAppointmentBookMessage(String Owner)
     {
-        return "Appointment Book for " + Owner + " did not exists. New Appointment Book Created.";
+        return "Appointment Book for " + Owner + " did not exists. A New Appointment Book was Created.";
     }
 
-    public String newAppointmentMessage()
+    public String newAppointmentMessage(Appointment app)
     {
-        return "New Appointment Created.";
+        return "New Appointment: " + app.toString();
     }
 
     public void clearFields()

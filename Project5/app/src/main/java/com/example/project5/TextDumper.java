@@ -56,19 +56,12 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
      */
     public void dumpWithOwnerOnly(AppointmentBook book, File file) throws IOException
     {
-        try
+        if (ApptBookFile == null)
         {
-            if (ApptBookFile == null)
-            {
-                ApptBookFile = new FileWriter(file);
-            }
-            ApptBookFile.write("app_book_owner=" + book.getOwnerName() + "\n");
-            ApptBookFile.close();
+            ApptBookFile = new FileWriter(file);
         }
-        catch (IOException e)
-        {
-            System.out.println(e.getMessage());
-        }
+        ApptBookFile.write("app_book_owner=" + book.getOwnerName() + "\n");
+        ApptBookFile.close();
     }
 
     /**

@@ -2,6 +2,8 @@ package com.example.project5;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,8 +48,6 @@ public class search_activity extends AppCompatActivity
         String sw2SwitchAMPM = getAMPM(sw2);
         AppointmentBook searchedBook = null;
 
-        List<String> searchedInfo = new ArrayList<String>();
-       // ScrollView searchDataText =  (ScrollView) findViewById(R.id.searchInfo);
         EditText ownerNameTXT   = findViewById(R.id.createAppOwnerName);
         String ownerName        = ownerNameTXT.getText().toString();
         EditText appStartD      = findViewById(R.id.SearchStartDate);
@@ -61,10 +62,9 @@ public class search_activity extends AppCompatActivity
         String start = appStartDate + " " + appStartTime +" " + sw1SwitchAMPM;
         String end = appEndDate + " " + appEndTime +" " + sw2SwitchAMPM;
 
-        if ((appStartDate.equals("") || appStartDate.equals(null))
-                && (appStartDate.equals("") || appStartDate.equals(null))
-        && !ownerName.equals(""))
+        if (!checkTextValuesForDatesAndtimes())
         {
+            Toast.makeText(this, "Some fields are missing - Searching for Book Owner only.", Toast.LENGTH_LONG).show();
             searchedBook = getBookByOwner(ownerName);
         }
         else
@@ -72,18 +72,75 @@ public class search_activity extends AppCompatActivity
             searchedBook = getSearchedBook(ownerName, start, end);
         }
 
-
-        searchedInfo = print.getPrettyPrintedArray(searchedBook);
-
         Intent intent = new Intent(this, appointment_book_view_activity.class);
         intent.putExtra("book", searchedBook);
         startActivity(intent);
 
-//        for (int i = 0; i < searchedInfo.size(); i++)
-//        {
-//            searchDataText.(searchedInfo.get(i));
-//            searchDataText.append(System.getProperty("line.separator"));
-//        }
+    }
+
+    public boolean checkTextValuesForDatesAndtimes()
+    {
+        boolean ret = true;
+        EditText ownerNameTXT   = findViewById(R.id.createAppOwnerName);
+        String ownerName        = ownerNameTXT.getText().toString();
+        EditText appStartD      = findViewById(R.id.SearchStartDate);
+        String appStartDate     = appStartD.getText().toString();
+        EditText appStartT      = findViewById(R.id.SearchStartTime);
+        String appStartTime     = appStartT.getText().toString();
+        EditText appEndD        = findViewById(R.id.SearchEndDate);
+        String appEndDate       = appEndD.getText().toString();
+        EditText appEndT        = findViewById(R.id.SearchEndTime);
+        String appEndTime       = appEndT.getText().toString();
+
+        if (ownerName.length() == 0  ||
+            appStartDate.length() == 0 ||
+            appStartTime.length() == 0 ||
+            appEndDate.length() == 0 ||
+            appEndTime.length() == 0)
+        {
+            ret = false;
+        }
+
+        return ret;
+
+    }
+
+    /**
+     * Method to check the date format to make sure the date is valid.
+     * @param date
+     *      The date passed in from the commandline arguments.
+     */
+    public Date checkDateFormat(String date)
+    {
+        DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        dFormat.setLenient(false);
+
+        try
+        {
+            Date retDate = dFormat.parse(date);
+            return retDate;
+        }
+        catch (ParseException e)
+        {
+            String errMessage = "Date format and/or Date is not valid: " + date + " --- Format Should be mm/dd/yyyy" +
+                    "and date should be a real date.";
+            showPOPupMessage(errMessage);
+        }
+
+        return null;
+    }
+
+    public void showPOPupMessage(String message)
+    {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        dialog.setMessage(message);
+        dialog.setNegativeButton("OK",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}});
+
+        AlertDialog alert = dialog.create();
+        alert.show();
     }
 
     public void setOnClickListenerForAMPMSwitch()
@@ -133,6 +190,8 @@ public class search_activity extends AppCompatActivity
         returnBook.setOwnerName(Owner);
         newAppointmentBook = getAppointmentBook(Owner);
 
+
+
         for (Appointment ap : newAppointmentBook.getAppointments())
         {
             returnBook.addAppointment(ap);
@@ -149,14 +208,9 @@ public class search_activity extends AppCompatActivity
         dFormat.setLenient(false);
         Date searchStart = null;
         Date searchEnd = null;
-        try
-        {
-            searchStart = dFormat.parse(start);
-            searchEnd = dFormat.parse(end);
-        } catch (ParseException e)
-        {
-            e.printStackTrace();
-        }
+
+        searchStart = checkDateFormat(start);
+        searchEnd = checkDateFormat(end);
 
         returnBook.setOwnerName(Owner);
         newAppointmentBook = getAppointmentBook(Owner);
@@ -165,13 +219,7 @@ public class search_activity extends AppCompatActivity
         {
             String appointmentStart = ap.getThisStartDate() + " " + ap.getThisStartTime();
             Date appointmentStartDate = null;
-            try
-            {
-                appointmentStartDate = dFormat.parse(appointmentStart);
-            } catch (ParseException e)
-            {
-                e.printStackTrace();
-            }
+            appointmentStartDate = checkDateFormat(appointmentStart);
 
             if (appointmentStartDate.getTime() >= searchStart.getTime() && appointmentStartDate.getTime() <= searchEnd.getTime())
             {
