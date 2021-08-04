@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -28,12 +30,29 @@ import java.util.List;
 
 public class search_activity extends AppCompatActivity
 {
+    EditText ownerNameTXT;
+    EditText appStartD;
+    EditText appStartT;
+    EditText appEndD;
+    EditText appEndT;
+    Switch sw1;
+    Switch sw2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        ownerNameTXT   = findViewById(R.id.createAppOwnerName);
+        appStartD      = findViewById(R.id.SearchStartDate);
+        appStartT      = findViewById(R.id.SearchStartTime);
+        appEndD        = findViewById(R.id.SearchEndDate);
+        appEndT        = findViewById(R.id.SearchEndTime);
+        sw1 = findViewById(R.id.AMPMSearchSwitch1);
+        sw2 = findViewById(R.id.AMPMSearchSwitch2);
+
+        //setDateTextViewOnFocusChangeListener();
+
         setOnClickListenerForAMPMSwitch();
     }
 
@@ -42,23 +61,14 @@ public class search_activity extends AppCompatActivity
     {
 
         PrettyPrint print = new PrettyPrint(null, null);
-        Switch sw1 = findViewById(R.id.AMPMSearchSwitch1);
-        Switch sw2 = findViewById(R.id.AMPMSearchSwitch2);
         String sw1SwitchAMPM = getAMPM(sw1);
         String sw2SwitchAMPM = getAMPM(sw2);
         AppointmentBook searchedBook = null;
-
-        EditText ownerNameTXT   = findViewById(R.id.createAppOwnerName);
         String ownerName        = ownerNameTXT.getText().toString();
-        EditText appStartD      = findViewById(R.id.SearchStartDate);
         String appStartDate     = appStartD.getText().toString();
-        EditText appStartT      = findViewById(R.id.SearchStartTime);
         String appStartTime     = appStartT.getText().toString();
-        EditText appEndD        = findViewById(R.id.SearchEndDate);
         String appEndDate       = appEndD.getText().toString();
-        EditText appEndT        = findViewById(R.id.SearchEndTime);
         String appEndTime       = appEndT.getText().toString();
-
         String start = appStartDate + " " + appStartTime +" " + sw1SwitchAMPM;
         String end = appEndDate + " " + appEndTime +" " + sw2SwitchAMPM;
 
@@ -72,24 +82,26 @@ public class search_activity extends AppCompatActivity
             searchedBook = getSearchedBook(ownerName, start, end);
         }
 
-        Intent intent = new Intent(this, appointment_book_view_activity.class);
-        intent.putExtra("book", searchedBook);
-        startActivity(intent);
+        if (searchedBook.getAppointments().size() > 0)
+        {
+            Intent intent = new Intent(this, appointment_book_view_activity.class);
+            intent.putExtra("book", searchedBook);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(this, "No Appointments found.", Toast.LENGTH_LONG).show();
+        }
 
     }
 
     public boolean checkTextValuesForDatesAndtimes()
     {
         boolean ret = true;
-        EditText ownerNameTXT   = findViewById(R.id.createAppOwnerName);
         String ownerName        = ownerNameTXT.getText().toString();
-        EditText appStartD      = findViewById(R.id.SearchStartDate);
         String appStartDate     = appStartD.getText().toString();
-        EditText appStartT      = findViewById(R.id.SearchStartTime);
         String appStartTime     = appStartT.getText().toString();
-        EditText appEndD        = findViewById(R.id.SearchEndDate);
         String appEndDate       = appEndD.getText().toString();
-        EditText appEndT        = findViewById(R.id.SearchEndTime);
         String appEndTime       = appEndT.getText().toString();
 
         if (ownerName.length() == 0  ||
@@ -142,6 +154,73 @@ public class search_activity extends AppCompatActivity
         AlertDialog alert = dialog.create();
         alert.show();
     }
+
+//    public void setDateTextViewOnFocusChangeListener()
+//    {
+//        EditText appStartD   = findViewById(R.id.SearchStartDate);
+//        appStartD.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (!hasFocus) {
+//
+//
+//                    String textLength  = appStartD.getText().toString();
+//                    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+//                    dFormat.setLenient(false);
+//
+//                    if (textLength.length() > 0)
+//                    {
+//                        try
+//                        {
+//                            Date retDate = dFormat.parse(textLength);
+//
+//                        }
+//                        catch (ParseException e)
+//                        {
+//                            appStartD.setTextColor(Color.rgb(255,0,0));
+//                            Toast.makeText(search_activity.this, "Please check Date Format.", Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                }
+//                else
+//                {
+//                    appStartD.setTextColor(Color.rgb(0,0,0));
+//                }
+//            }
+//        });
+//
+//        EditText appEndD      = findViewById(R.id.SearchEndDate);
+//        appEndD.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (!hasFocus) {
+//
+//                    appEndD.setTextColor(Color.rgb(0,0,0));
+//                    String textLength  = appEndD.getText().toString();
+//                    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+//                    dFormat.setLenient(false);
+//
+//                    if (textLength.length() > 0)
+//                    {
+//                        try
+//                        {
+//                            Date retDate = dFormat.parse(textLength);
+//
+//                        }
+//                        catch (ParseException e)
+//                        {
+//                            appEndD.setTextColor(Color.rgb(255,0,0));
+//                            Toast.makeText(search_activity.this, "Please check Date Format.", Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                }
+//            }
+//        });
+//    }
+
+
 
     public void setOnClickListenerForAMPMSwitch()
     {
