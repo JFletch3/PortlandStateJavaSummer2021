@@ -65,7 +65,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.description.setText( appointments.get(position).getDescription());
         holder.start.setText( appointments.get(position).getBeginTimeString());
         holder.end.setText( appointments.get(position).getEndTimeString());
-        holder.duration.setText("Duration goes here dumbo"); //TODO get t he duration calculation completed. 
+        long TimeDifference = appointments.get(position).getEndTime().getTime() - appointments.get(position).getBeginTime().getTime();
+        TimeDifference = (TimeDifference / (1000 * 60));
+        holder.duration.setText(String.valueOf(TimeDifference) + " Minutes");
 
     }
 
