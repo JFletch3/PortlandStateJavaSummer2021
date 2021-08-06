@@ -10,7 +10,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.Project5">
-        <activity android:name=".appointment_book_view_activity"></activity>
+        <activity android:name=".help_message_activity"></activity>
+        <activity android:name=".appointment_book_view_activity" />
         <activity android:name=".create_appointment_activity" />
         <activity android:name=".search_activity" />
         <activity android:name=".create_appointment_book_activity" />

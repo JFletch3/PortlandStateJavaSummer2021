@@ -95,46 +95,48 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.help:
-                showHelp();
+                intent = new Intent(this, help_message_activity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void showHelp()
-    {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        //AlertDialog alert = new AlertDialog(this);
-        dialog.setMessage(readmeMessage());
-
-//        new DialogInterface.OnClickListener()
-//        {
-//            public void onClick(DialogInterface dialog,  int which)
-//            {
-//                Toast.makeText(getApplicationContext(),"Yes is clicked",Toast.LENGTH_LONG).show();
+//    private void showHelp()
+//    {
+//        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+//        //AlertDialog alert = new AlertDialog(this);
+//        dialog.setMessage(readmeMessage());
+//
+////        new DialogInterface.OnClickListener()
+////        {
+////            public void onClick(DialogInterface dialog,  int which)
+////            {
+////                Toast.makeText(getApplicationContext(),"Yes is clicked",Toast.LENGTH_LONG).show();
+////            }
+////        };
+//        dialog.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//              //Toast.makeText(getApplicationContext(),"cancel is clicked",Toast.LENGTH_LONG);
 //            }
-//        };
-        dialog.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-              //Toast.makeText(getApplicationContext(),"cancel is clicked",Toast.LENGTH_LONG);
-            }
-        });
-        AlertDialog alert = dialog.create();
-        alert.show();
-    }
-
-    private String readmeMessage()
-    {
-        return "Welcome to JABS (Joes Appointment Books)." +
-                "JABS allows the user to create a new Appointment book, " +
-                "create new Appointments, and search for Appointments.\n\n" +
-                "You should select one of the following options:\n" +
-                "-Create new Appointment Book\n" +
-                "-Create new Appointment\n" +
-                "-Search for an Appointment";
-    }
+//        });
+//        AlertDialog alert = dialog.create();
+//        alert.show();
+//    }
+//
+//    private String readmeMessage()
+//    {
+//        return "Welcome to JABS (Joes Appointment Books)." +
+//                "JABS allows the user to create a new Appointment book, " +
+//                "create new Appointments, and search for Appointments.\n\n" +
+//                "You should select one of the following options:\n" +
+//                "-Create new Appointment Book\n" +
+//                "-Create new Appointment\n" +
+//                "-Search for an Appointment";
+//    }
 }
