@@ -27,11 +27,9 @@ public class MainActivity extends AppCompatActivity
         createMainSpinner();
     }
 
-    
     /** Called when the user taps the Send button */
     public void changeForm(View view)
     {
-
         Spinner mySpinner = (Spinner) findViewById(R.id.spinner1);
         String spinnerOption = mySpinner.getSelectedItem().toString();
         Intent intent;
@@ -52,8 +50,6 @@ public class MainActivity extends AppCompatActivity
                 break;
             default:
         }
-
-
     }
 
     public void createMainSpinner()
@@ -70,10 +66,7 @@ public class MainActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
                 String SpinnerSelection = parent.getItemAtPosition(position).toString();
-                Toast.makeText(parent.getContext(), "Selected: " + SpinnerSelection, Toast.LENGTH_LONG).show();
-
-
-
+               // Toast.makeText(parent.getContext(), "Selected: " + SpinnerSelection, Toast.LENGTH_LONG).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}});

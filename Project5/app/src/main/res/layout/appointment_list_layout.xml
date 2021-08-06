@@ -67,7 +67,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="#2979FF"
+            android:background="#651FFF"
             android:textColor="@color/white" />
 
     <TextView

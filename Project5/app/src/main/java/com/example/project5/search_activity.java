@@ -72,6 +72,12 @@ public class search_activity extends AppCompatActivity
         String start = appStartDate + " " + appStartTime +" " + sw1SwitchAMPM;
         String end = appEndDate + " " + appEndTime +" " + sw2SwitchAMPM;
 
+        if (ownerName.length() == 0)
+        {
+            Toast.makeText(this, "Please enter an Owner name.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (!checkTextValuesForDatesAndtimes())
         {
             Toast.makeText(this, "Some fields are missing - Searching for Book Owner only.", Toast.LENGTH_LONG).show();
@@ -79,7 +85,12 @@ public class search_activity extends AppCompatActivity
         }
         else
         {
+
             searchedBook = getSearchedBook(ownerName, start, end);
+            if (searchedBook == null)
+            {
+                return;
+            }
         }
 
         if (searchedBook.getAppointments().size() > 0)
@@ -155,72 +166,6 @@ public class search_activity extends AppCompatActivity
         alert.show();
     }
 
-//    public void setDateTextViewOnFocusChangeListener()
-//    {
-//        EditText appStartD   = findViewById(R.id.SearchStartDate);
-//        appStartD.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (!hasFocus) {
-//
-//
-//                    String textLength  = appStartD.getText().toString();
-//                    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm");
-//                    dFormat.setLenient(false);
-//
-//                    if (textLength.length() > 0)
-//                    {
-//                        try
-//                        {
-//                            Date retDate = dFormat.parse(textLength);
-//
-//                        }
-//                        catch (ParseException e)
-//                        {
-//                            appStartD.setTextColor(Color.rgb(255,0,0));
-//                            Toast.makeText(search_activity.this, "Please check Date Format.", Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                }
-//                else
-//                {
-//                    appStartD.setTextColor(Color.rgb(0,0,0));
-//                }
-//            }
-//        });
-//
-//        EditText appEndD      = findViewById(R.id.SearchEndDate);
-//        appEndD.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (!hasFocus) {
-//
-//                    appEndD.setTextColor(Color.rgb(0,0,0));
-//                    String textLength  = appEndD.getText().toString();
-//                    DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm");
-//                    dFormat.setLenient(false);
-//
-//                    if (textLength.length() > 0)
-//                    {
-//                        try
-//                        {
-//                            Date retDate = dFormat.parse(textLength);
-//
-//                        }
-//                        catch (ParseException e)
-//                        {
-//                            appEndD.setTextColor(Color.rgb(255,0,0));
-//                            Toast.makeText(search_activity.this, "Please check Date Format.", Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                }
-//            }
-//        });
-//    }
-
-
 
     public void setOnClickListenerForAMPMSwitch()
     {
@@ -290,6 +235,11 @@ public class search_activity extends AppCompatActivity
 
         searchStart = checkDateFormat(start);
         searchEnd = checkDateFormat(end);
+
+        if (searchStart == null || searchEnd == null)
+        {
+            return null;
+        }
 
         returnBook.setOwnerName(Owner);
         newAppointmentBook = getAppointmentBook(Owner);

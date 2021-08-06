@@ -56,6 +56,10 @@ public class create_appointment_activity extends AppCompatActivity
         }
 
         Appointment newAppointment = buildNewAppointment();
+        if (newAppointment == null)
+        {
+            return;
+        }
         TextDumper textdumper = new TextDumper();
         textdumper.setFileDir(ownerName);
         book.addAppointment(newAppointment);
@@ -147,8 +151,11 @@ public class create_appointment_activity extends AppCompatActivity
 
         try
         {
-            checkDateFormat(appStartDate + " " + appStartTime + " " + sw1SwitchAMPM);
-            checkDateFormat(appEndDate + " " + appEndTime + " " + sw2SwitchAMPM);
+            if ( !checkDateFormat(appStartDate + " " + appStartTime + " " + sw1SwitchAMPM) ||
+                !checkDateFormat(appEndDate + " " + appEndTime + " " + sw2SwitchAMPM))
+            {
+                return null;
+            }
 
         } catch (IOException e)
         {
@@ -162,7 +169,6 @@ public class create_appointment_activity extends AppCompatActivity
         newApp.setEndTime(appEndTime + " " + sw2SwitchAMPM);
 
         return newApp;
-
     }
 
     /**
@@ -170,7 +176,7 @@ public class create_appointment_activity extends AppCompatActivity
      * @param date
      *      The date passed in from the commandline arguments.
      */
-    public void checkDateFormat(String date) throws IOException
+    public boolean checkDateFormat(String date) throws IOException
     {
         DateFormat dFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         dFormat.setLenient(false);
@@ -184,7 +190,9 @@ public class create_appointment_activity extends AppCompatActivity
             String errMessage = "Date format and/or Date is not valid: " + date + " --- Format Should be mm/dd/yyyy" +
                     "and date should be a real date.";
             showPOPupMessage(errMessage);
+            return false;
         }
+        return true;
     }
 
     public void setOnClickListenerForAMPMSwitch()
@@ -275,5 +283,17 @@ public class create_appointment_activity extends AppCompatActivity
         EditText appEndT = findViewById(R.id.appointmentEndTime);
         appEndT.setText("");
     }
+
+//    public boolean checkTimeEnteredIsCorrect(String time)
+//    {
+//        String[] stringarray = time.split(":");
+//
+//        if (stringarray[0] > 0 && stringarray[0] < 13 && stringarray[1] > 0 && stringarray[1] < 60)
+//        {
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
 }
