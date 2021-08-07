@@ -25,6 +25,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -60,7 +61,6 @@ public class search_activity extends AppCompatActivity
     public void searchAppointmentBooks(View view)
     {
 
-        PrettyPrint print = new PrettyPrint(null, null);
         String sw1SwitchAMPM = getAMPM(sw1);
         String sw2SwitchAMPM = getAMPM(sw2);
         AppointmentBook searchedBook = null;
@@ -95,6 +95,7 @@ public class search_activity extends AppCompatActivity
 
         if (searchedBook.getAppointments().size() > 0)
         {
+            Collections.sort(searchedBook.getAppointments());
             Intent intent = new Intent(this, appointment_book_view_activity.class);
             intent.putExtra("book", searchedBook);
             startActivity(intent);
